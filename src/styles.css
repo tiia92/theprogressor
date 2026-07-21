@@ -62,8 +62,8 @@
   --popover: oklch(0.99 0.008 85);
   --popover-foreground: var(--ink);
 
-  --primary: oklch(0.55 0.19 30);           /* ember / terracotta */
-  --primary-foreground: oklch(0.98 0.01 85);
+  --primary: oklch(0.68 0.17 60);           /* orange */
+  --primary-foreground: oklch(0.2 0.05 60);
 
   --secondary: oklch(0.92 0.02 80);
   --secondary-foreground: var(--ink);
@@ -71,7 +71,7 @@
   --muted: oklch(0.94 0.015 85);
   --muted-foreground: oklch(0.45 0.02 260);
 
-  --accent: oklch(0.9 0.03 80);
+  --accent: oklch(0.9 0.05 70);
   --accent-foreground: var(--ink);
 
   --destructive: oklch(0.55 0.22 27);
@@ -79,17 +79,17 @@
 
   --border: oklch(0.87 0.02 85);
   --input: oklch(0.87 0.02 85);
-  --ring: oklch(0.55 0.19 30);
+  --ring: oklch(0.68 0.17 60);
 
-  --brand: oklch(0.55 0.19 30);
-  --brand-foreground: oklch(0.98 0.01 85);
-  --progressive: oklch(0.42 0.15 25);
+  --brand: oklch(0.68 0.17 60);
+  --brand-foreground: oklch(0.2 0.05 60);
+  --progressive: oklch(0.55 0.16 55);
 
   /* Content type labels */
   --label-news: oklch(0.45 0.15 250);        /* factual blue */
   --label-analysis: oklch(0.5 0.15 300);     /* interpretive violet */
   --label-explainer: oklch(0.5 0.13 160);    /* evergreen green */
-  --label-opinion: oklch(0.55 0.19 30);      /* opinion ember */
+  --label-opinion: oklch(0.62 0.17 60);      /* opinion orange */
   --label-brief: oklch(0.35 0.05 260);       /* ink slate */
 }
 
