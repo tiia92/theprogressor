@@ -9,38 +9,122 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KindKindRouteImport } from './routes/kind.$kind'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KindKindRoute = KindKindRouteImport.update({
+  id: '/kind/$kind',
+  path: '/kind/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHooksGenerateEditionRoute =
+  ApiPublicHooksGenerateEditionRouteImport.update({
+    id: '/api/public/hooks/generate-edition',
+    path: '/api/public/hooks/generate-edition',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/kind/$kind': typeof KindKindRoute
+  '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/kind/$kind': typeof KindKindRoute
+  '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/kind/$kind': typeof KindKindRoute
+  '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/sitemap.xml'
+    | '/article/$slug'
+    | '/kind/$kind'
+    | '/api/public/hooks/generate-edition'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/sitemap.xml'
+    | '/article/$slug'
+    | '/kind/$kind'
+    | '/api/public/hooks/generate-edition'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/sitemap.xml'
+    | '/article/$slug'
+    | '/kind/$kind'
+    | '/api/public/hooks/generate-edition'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ArticleSlugRoute: typeof ArticleSlugRoute
+  KindKindRoute: typeof KindKindRoute
+  ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +132,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kind/$kind': {
+      id: '/kind/$kind'
+      path: '/kind/$kind'
+      fullPath: '/kind/$kind'
+      preLoaderRoute: typeof KindKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-edition': {
+      id: '/api/public/hooks/generate-edition'
+      path: '/api/public/hooks/generate-edition'
+      fullPath: '/api/public/hooks/generate-edition'
+      preLoaderRoute: typeof ApiPublicHooksGenerateEditionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ArticleSlugRoute: ArticleSlugRoute,
+  KindKindRoute: KindKindRoute,
+  ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
