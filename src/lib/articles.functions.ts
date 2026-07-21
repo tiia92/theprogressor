@@ -1,0 +1,100 @@
+import { createServerFn } from "@tanstack/react-start";
+import { createClient } from "@supabase/supabase-js";
+import { z } from "zod";
+import type { Database } from "@/integrations/supabase/types";
+
+function serverPublicClient() {
+  const url = process.env.SUPABASE_URL!;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
+  return createClient<Database>(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false, storage: undefined },
+    global: {
+      fetch: (input, init) => {
+        const h = new Headers(init?.headers);
+        if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) {
+          h.delete("Authorization");
+        }
+        h.set("apikey", key);
+        return fetch(input, { ...init, headers: h });
+      },
+    },
+  });
+}
+
+export const listArticles = createServerFn({ method: "GET" })
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        type: z.string().optional(),
+        category: z.string().optional(),
+        kind: z.enum(["news", "analysis", "explainer", "opinion"]).optional(),
+        limit: z.number().int().min(1).max(100).default(30),
+      })
+      .parse(data ?? {}),
+  )
+  .handler(async ({ data }) => {
+    const supabase = serverPublicClient();
+    let q = supabase
+      .from("articles")
+      .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, published_at")
+      .order("published_at", { ascending: false })
+      .limit(data.limit);
+
+    if (data.type) q = q.eq("article_type", data.type);
+    if (data.category) q = q.eq("category", data.category);
+
+    // "kind" is a client-side grouping — translate to a set of article_types.
+    if (data.kind) {
+      const map: Record<string, string[]> = {
+        news: ["daily_brief", "morning_headlines", "evening_recap", "news", "timeline"],
+        analysis: ["analysis", "weekly_roundup"],
+        explainer: ["deep_dive", "explainer"],
+        opinion: ["opinion"],
+      };
+      q = q.in("article_type", map[data.kind]);
+    }
+
+    const { data: rows, error } = await q;
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
+export const getArticleBySlug = createServerFn({ method: "GET" })
+  .inputValidator((data: unknown) => z.object({ slug: z.string().min(1) }).parse(data))
+  .handler(async ({ data }) => {
+    const supabase = serverPublicClient();
+    const { data: row, error } = await supabase
+      .from("articles")
+      .select("*")
+      .eq("slug", data.slug)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    return row;
+  });
+
+export const getHomepage = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = serverPublicClient();
+  const { data: rows, error } = await supabase
+    .from("articles")
+    .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, published_at")
+    .order("published_at", { ascending: false })
+    .limit(40);
+  if (error) throw new Error(error.message);
+  const all = rows ?? [];
+  const brief = all.find((a) => a.article_type === "daily_brief") ?? null;
+  const headlines = all.find((a) => a.article_type === "morning_headlines") ?? null;
+  const deepDives = all.filter((a) => a.article_type === "deep_dive").slice(0, 4);
+  const latest = all.filter((a) => a.id !== brief?.id && a.id !== headlines?.id).slice(0, 12);
+  return { brief, headlines, deepDives, latest, totalCount: all.length };
+});
+
+/**
+ * Kick off a fresh generation run. Unauthenticated in v1 — anyone with the
+ * URL can trigger the editor. Fine for a public demo; wrap with auth before
+ * production. Runs may take 15-40s depending on the model.
+ */
+export const triggerEditionGeneration = createServerFn({ method: "POST" }).handler(async () => {
+  const { generateTodaysEdition } = await import("@/lib/generate-edition.server");
+  const result = await generateTodaysEdition();
+  return result;
+});
