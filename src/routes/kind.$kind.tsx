@@ -43,7 +43,7 @@ export const Route = createFileRoute("/kind/$kind")({
 });
 
 function KindPage() {
-  const { kind } = Route.useParams();
+  const { kind } = Route.useParams() as { kind: Kind };
   const { data } = useSuspenseQuery(kindQuery(kind));
 
   return (
