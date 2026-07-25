@@ -348,7 +348,19 @@ Explain what this story actually means, who benefits, who is harmed, and what to
     existing,
   );
 
-  const rows: Array<Record<string, unknown>> = [
+  interface ArticleRow {
+    slug: string;
+    title: string;
+    dek: string;
+    body: string;
+    article_type: string;
+    category: string;
+    tags: string[];
+    sources: { title: string; url: string }[];
+    hero_gradient: string;
+    featured: boolean;
+  }
+  const rows: ArticleRow[] = [
     {
       slug: briefingSlug,
       title: briefing.title,
