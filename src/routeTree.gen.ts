@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -41,6 +42,12 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksGenerateExplainersRoute =
+  ApiPublicHooksGenerateExplainersRouteImport.update({
+    id: '/api/public/hooks/generate-explainers',
+    path: '/api/public/hooks/generate-explainers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksGenerateEditionRoute =
   ApiPublicHooksGenerateEditionRouteImport.update({
     id: '/api/public/hooks/generate-edition',
@@ -55,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
+  '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -63,6 +71,7 @@ export interface FileRoutesByTo {
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
+  '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -72,6 +81,7 @@ export interface FileRoutesById {
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
+  '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -82,6 +92,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/kind/$kind'
     | '/api/public/hooks/generate-edition'
+    | '/api/public/hooks/generate-explainers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -90,6 +101,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/kind/$kind'
     | '/api/public/hooks/generate-edition'
+    | '/api/public/hooks/generate-explainers'
   id:
     | '__root__'
     | '/'
@@ -98,6 +110,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/kind/$kind'
     | '/api/public/hooks/generate-edition'
+    | '/api/public/hooks/generate-explainers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -107,6 +120,7 @@ export interface RootRouteChildren {
   ArticleSlugRoute: typeof ArticleSlugRoute
   KindKindRoute: typeof KindKindRoute
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
+  ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -146,6 +160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-explainers': {
+      id: '/api/public/hooks/generate-explainers'
+      path: '/api/public/hooks/generate-explainers'
+      fullPath: '/api/public/hooks/generate-explainers'
+      preLoaderRoute: typeof ApiPublicHooksGenerateExplainersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/generate-edition': {
       id: '/api/public/hooks/generate-edition'
       path: '/api/public/hooks/generate-edition'
@@ -163,7 +184,18 @@ const rootRouteChildren: RootRouteChildren = {
   ArticleSlugRoute: ArticleSlugRoute,
   KindKindRoute: KindKindRoute,
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
+  ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
