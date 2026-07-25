@@ -1,3 +1,4 @@
+import { normalizeTagsToTopics } from "@/lib/content-types";
 // Server-only: generates the daily Opinion pair —
 //   1) A "Voices Today" briefing that aggregates real opinion/editorial
 //      pieces pulled from NewsAPI as a linked listicle.
@@ -321,7 +322,7 @@ Make a clear progressive argument about what this story means and what should ha
       body: briefingToMarkdown(briefing),
       article_type: "opinion",
       category: briefingCategory,
-      tags: briefing.tags ?? [],
+      tags: normalizeTagsToTopics(briefing.tags ?? []),
       sources: briefing.items.map((it) => ({
         title: `${it.outlet}: ${it.headline}`,
         url: it.url,
@@ -336,7 +337,7 @@ Make a clear progressive argument about what this story means and what should ha
       body: column.body,
       article_type: "opinion",
       category: columnCategory,
-      tags: column.tags ?? [],
+      tags: normalizeTagsToTopics(column.tags ?? []),
       sources: [{ title: `${anchor.source}: ${anchor.title}`, url: anchor.url }],
       hero_gradient: columnHero,
       featured: false,

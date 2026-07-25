@@ -1,3 +1,4 @@
+import { normalizeTagsToTopics } from "@/lib/content-types";
 // Server-only: talks to Lovable AI Gateway and inserts today's edition into the DB.
 // Do NOT import this from client/route code. Load inside handlers via dynamic import.
 
@@ -223,7 +224,7 @@ Use only the sources listed in the wire above; include their real URLs in the so
         body: a.body,
         article_type: a.type,
         category: a.category || "politics",
-        tags: a.tags ?? [],
+        tags: normalizeTagsToTopics(a.tags ?? []),
         sources: a.sources ?? [],
         hero_gradient: a.hero_gradient || "sunrise",
         featured: !!a.featured,

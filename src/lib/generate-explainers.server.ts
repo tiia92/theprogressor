@@ -1,3 +1,4 @@
+import { normalizeTagsToTopics } from "@/lib/content-types";
 // Server-only: generates one explainer article per NewsAPI wire item.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
@@ -184,7 +185,7 @@ export async function generateExplainersFromWire(limit = 15) {
         body: g.body,
         article_type: "explainer",
         category,
-        tags: g.tags ?? [],
+        tags: normalizeTagsToTopics(g.tags ?? []),
         sources: [{ title: `${item.source}: ${item.title}`, url: item.url }],
         hero_gradient: hero,
         featured: false,
