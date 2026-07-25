@@ -1,3 +1,4 @@
+import { normalizeTagsToTopics } from "@/lib/content-types";
 // Server-only: generates the daily Analysis package —
 //   1) An "Analysis Briefing" listicle of real analysis/explanatory pieces
 //      pulled from NewsAPI (major U.S. outlets known for analysis desks).
@@ -368,7 +369,7 @@ Explain what this story actually means, who benefits, who is harmed, and what to
       body: briefingToMarkdown(briefing),
       article_type: "analysis",
       category: briefingCategory,
-      tags: briefing.tags ?? [],
+      tags: normalizeTagsToTopics(briefing.tags ?? []),
       sources: briefing.items.map((it) => ({
         title: `${it.outlet}: ${it.headline}`,
         url: it.url,
@@ -392,7 +393,7 @@ Explain what this story actually means, who benefits, who is harmed, and what to
       body: a.body,
       article_type: "analysis",
       category: cat,
-      tags: a.tags ?? [],
+      tags: normalizeTagsToTopics(a.tags ?? []),
       sources: [{ title: `${a.anchor.source}: ${a.anchor.title}`, url: a.anchor.url }],
       hero_gradient: hero,
       featured: false,
