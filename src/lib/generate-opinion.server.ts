@@ -266,7 +266,7 @@ ${wire
         (w) => w.url === it.url || w.title === it.headline,
       );
       return match
-        ? { ...it, url: match.url, outlet: match.source, headline: match.headline ?? it.headline }
+        ? { ...it, url: match.url, outlet: match.source, headline: match.title ?? it.headline }
         : it;
     })
     .filter((it) => wire.some((w) => w.url === it.url));
