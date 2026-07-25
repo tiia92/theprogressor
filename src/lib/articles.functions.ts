@@ -104,3 +104,9 @@ export const triggerOpinionGeneration = createServerFn({ method: "POST" }).handl
   const result = await generateOpinionEdition();
   return result;
 });
+
+export const triggerAnalysisGeneration = createServerFn({ method: "POST" }).handler(async () => {
+  const { generateAnalysisEdition } = await import("@/lib/generate-analysis.server");
+  const result = await generateAnalysisEdition();
+  return result;
+});
