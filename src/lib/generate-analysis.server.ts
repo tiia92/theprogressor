@@ -402,5 +402,5 @@ Explain what this story actually means, who benefits, who is harmed, and what to
   const { error } = await supabaseAdmin.from("articles").insert(rows);
   if (error) throw new Error(`DB insert failed: ${error.message}`);
 
-  return { inserted: rows.length, slugs: rows.map((r) => r.slug as string) };
+  return { inserted: rows.length, slugs: rows.map((r) => r.slug) };
 }
