@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
 
@@ -42,6 +43,12 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksGenerateOpinionRoute =
+  ApiPublicHooksGenerateOpinionRouteImport.update({
+    id: '/api/public/hooks/generate-opinion',
+    path: '/api/public/hooks/generate-opinion',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksGenerateExplainersRoute =
   ApiPublicHooksGenerateExplainersRouteImport.update({
     id: '/api/public/hooks/generate-explainers',
@@ -63,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/kind/$kind': typeof KindKindRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -72,6 +80,7 @@ export interface FileRoutesByTo {
   '/kind/$kind': typeof KindKindRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -82,6 +91,7 @@ export interface FileRoutesById {
   '/kind/$kind': typeof KindKindRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -93,6 +103,7 @@ export interface FileRouteTypes {
     | '/kind/$kind'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-opinion'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -102,6 +113,7 @@ export interface FileRouteTypes {
     | '/kind/$kind'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-opinion'
   id:
     | '__root__'
     | '/'
@@ -111,6 +123,7 @@ export interface FileRouteTypes {
     | '/kind/$kind'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-opinion'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -121,6 +134,7 @@ export interface RootRouteChildren {
   KindKindRoute: typeof KindKindRoute
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
+  ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -160,6 +174,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-opinion': {
+      id: '/api/public/hooks/generate-opinion'
+      path: '/api/public/hooks/generate-opinion'
+      fullPath: '/api/public/hooks/generate-opinion'
+      preLoaderRoute: typeof ApiPublicHooksGenerateOpinionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/generate-explainers': {
       id: '/api/public/hooks/generate-explainers'
       path: '/api/public/hooks/generate-explainers'
@@ -185,6 +206,7 @@ const rootRouteChildren: RootRouteChildren = {
   KindKindRoute: KindKindRoute,
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
+  ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

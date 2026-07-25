@@ -98,3 +98,9 @@ export const triggerEditionGeneration = createServerFn({ method: "POST" }).handl
   const result = await generateTodaysEdition();
   return result;
 });
+
+export const triggerOpinionGeneration = createServerFn({ method: "POST" }).handler(async () => {
+  const { generateOpinionEdition } = await import("@/lib/generate-opinion.server");
+  const result = await generateOpinionEdition();
+  return result;
+});
