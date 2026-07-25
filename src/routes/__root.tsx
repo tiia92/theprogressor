@@ -140,6 +140,7 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "analysis" }} className="hover:text-foreground [&.active]:text-foreground">Analysis</Link>
           <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-foreground [&.active]:text-foreground">Explainers</Link>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-foreground [&.active]:text-foreground">Opinion</Link>
+          <Link to="/topics" className="hover:text-foreground [&.active]:text-foreground">Topics</Link>
           <Link to="/about" className="hover:text-foreground [&.active]:text-foreground">About</Link>
         </nav>
       </div>
@@ -154,6 +155,8 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "explainer" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Explainers</Link>
           <span>·</span>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Opinion</Link>
+          <span>·</span>
+          <Link to="/topics" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Topics</Link>
           <span>·</span>
           <Link to="/about" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">About</Link>
         </div>

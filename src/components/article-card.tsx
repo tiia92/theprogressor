@@ -91,6 +91,7 @@ export function ArticleCard({ article, size = "medium" }: Props) {
             {article.title}
           </h2>
           <p className="mt-3 text-base text-muted-foreground md:text-lg">{article.dek}</p>
+          <div className="mt-4"><TopicChips tags={article.tags} max={4} /></div>
         </div>
       </Link>
     );
@@ -132,6 +133,7 @@ export function ArticleCard({ article, size = "medium" }: Props) {
           {article.title}
         </h3>
         <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{article.dek}</p>
+        <div className="mt-3"><TopicChips tags={article.tags} max={3} /></div>
         <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
           {fmtDate(article.published_at)}
         </p>
