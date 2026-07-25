@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ArticleType, ContentKind } from "@/lib/content-types";
-import { KIND_LABEL, TYPE_LABEL, TYPE_TO_KIND, heroGradientClass } from "@/lib/content-types";
+import { KIND_LABEL, TYPE_LABEL, TYPE_TO_KIND, TOPIC_LABEL, heroGradientClass } from "@/lib/content-types";
 
 interface Props {
   article: {
@@ -9,10 +9,31 @@ interface Props {
     dek: string;
     article_type: string;
     category: string;
+    tags?: string[] | null;
     hero_gradient: string;
     published_at: string;
   };
   size?: "featured" | "medium" | "compact";
+}
+
+function TopicChips({ tags, max = 3 }: { tags?: string[] | null; max?: number }) {
+  const shown = (tags ?? []).filter((t) => TOPIC_LABEL[t]).slice(0, max);
+  if (shown.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {shown.map((t) => (
+        <Link
+          key={t}
+          to="/topic/$topic"
+          params={{ topic: t }}
+          onClick={(e) => e.stopPropagation()}
+          className="rounded-full border border-border bg-background/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+        >
+          {TOPIC_LABEL[t]}
+        </Link>
+      ))}
+    </div>
+  );
 }
 
 const KIND_CLASS: Record<ContentKind, string> = {
