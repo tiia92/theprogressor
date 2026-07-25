@@ -59,6 +59,27 @@ export const listArticles = createServerFn({ method: "GET" })
     return rows ?? [];
   });
 
+export const listArticlesByTopic = createServerFn({ method: "GET" })
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        topic: z.string().min(1),
+        limit: z.number().int().min(1).max(100).default(60),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data }) => {
+    const supabase = serverPublicClient();
+    const { data: rows, error } = await supabase
+      .from("articles")
+      .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, published_at")
+      .contains("tags", [data.topic])
+      .order("published_at", { ascending: false })
+      .limit(data.limit);
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
 export const getArticleBySlug = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) => z.object({ slug: z.string().min(1) }).parse(data))
   .handler(async ({ data }) => {
@@ -108,5 +129,11 @@ export const triggerOpinionGeneration = createServerFn({ method: "POST" }).handl
 export const triggerAnalysisGeneration = createServerFn({ method: "POST" }).handler(async () => {
   const { generateAnalysisEdition } = await import("@/lib/generate-analysis.server");
   const result = await generateAnalysisEdition();
+  return result;
+});
+
+export const triggerTopicBackfill = createServerFn({ method: "POST" }).handler(async () => {
+  const { backfillArticleTopics } = await import("@/lib/tag-articles.server");
+  const result = await backfillArticleTopics();
   return result;
 });

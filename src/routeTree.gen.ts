@@ -9,16 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TopicsRouteImport } from './routes/topics'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TopicTopicRouteImport } from './routes/topic.$topic'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
 import { Route as ApiPublicHooksGenerateAnalysisRouteImport } from './routes/api/public/hooks/generate-analysis'
+import { Route as ApiPublicHooksBackfillTopicsRouteImport } from './routes/api/public/hooks/backfill-topics'
 
+const TopicsRoute = TopicsRouteImport.update({
+  id: '/topics',
+  path: '/topics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -32,6 +40,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopicTopicRoute = TopicTopicRouteImport.update({
+  id: '/topic/$topic',
+  path: '/topic/$topic',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KindKindRoute = KindKindRouteImport.update({
@@ -68,13 +81,22 @@ const ApiPublicHooksGenerateAnalysisRoute =
     path: '/api/public/hooks/generate-analysis',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksBackfillTopicsRoute =
+  ApiPublicHooksBackfillTopicsRouteImport.update({
+    id: '/api/public/hooks/backfill-topics',
+    path: '/api/public/hooks/backfill-topics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/topics': typeof TopicsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
+  '/topic/$topic': typeof TopicTopicRoute
+  '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
@@ -84,8 +106,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/topics': typeof TopicsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
+  '/topic/$topic': typeof TopicTopicRoute
+  '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
@@ -96,8 +121,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/topics': typeof TopicsRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
+  '/topic/$topic': typeof TopicTopicRoute
+  '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
@@ -109,8 +137,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/sitemap.xml'
+    | '/topics'
     | '/article/$slug'
     | '/kind/$kind'
+    | '/topic/$topic'
+    | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
@@ -120,8 +151,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/sitemap.xml'
+    | '/topics'
     | '/article/$slug'
     | '/kind/$kind'
+    | '/topic/$topic'
+    | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
@@ -131,8 +165,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/sitemap.xml'
+    | '/topics'
     | '/article/$slug'
     | '/kind/$kind'
+    | '/topic/$topic'
+    | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
@@ -143,8 +180,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TopicsRoute: typeof TopicsRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   KindKindRoute: typeof KindKindRoute
+  TopicTopicRoute: typeof TopicTopicRoute
+  ApiPublicHooksBackfillTopicsRoute: typeof ApiPublicHooksBackfillTopicsRoute
   ApiPublicHooksGenerateAnalysisRoute: typeof ApiPublicHooksGenerateAnalysisRoute
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
@@ -153,6 +193,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/topics': {
+      id: '/topics'
+      path: '/topics'
+      fullPath: '/topics'
+      preLoaderRoute: typeof TopicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -172,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/topic/$topic': {
+      id: '/topic/$topic'
+      path: '/topic/$topic'
+      fullPath: '/topic/$topic'
+      preLoaderRoute: typeof TopicTopicRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kind/$kind': {
@@ -216,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateAnalysisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/backfill-topics': {
+      id: '/api/public/hooks/backfill-topics'
+      path: '/api/public/hooks/backfill-topics'
+      fullPath: '/api/public/hooks/backfill-topics'
+      preLoaderRoute: typeof ApiPublicHooksBackfillTopicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -223,8 +284,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TopicsRoute: TopicsRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   KindKindRoute: KindKindRoute,
+  TopicTopicRoute: TopicTopicRoute,
+  ApiPublicHooksBackfillTopicsRoute: ApiPublicHooksBackfillTopicsRoute,
   ApiPublicHooksGenerateAnalysisRoute: ApiPublicHooksGenerateAnalysisRoute,
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
