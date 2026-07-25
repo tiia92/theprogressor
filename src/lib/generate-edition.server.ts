@@ -130,15 +130,78 @@ function ensureUniqueSlug(base: string, existing: Set<string>) {
   return slug;
 }
 
+interface WireItem {
+  title: string;
+  description?: string;
+  source: string;
+  url: string;
+  publishedAt: string;
+}
+
+async function fetchWire(): Promise<WireItem[]> {
+  const key = process.env.NEWS_API_KEY;
+  if (!key) return [];
+  // NewsAPI.org — top U.S. political headlines from the last 24h
+  const url = new URL("https://newsapi.org/v2/top-headlines");
+  url.searchParams.set("country", "us");
+  url.searchParams.set("category", "general");
+  url.searchParams.set("pageSize", "30");
+  try {
+    const resp = await fetch(url.toString(), {
+      headers: { "X-Api-Key": key },
+    });
+    if (!resp.ok) {
+      console.error("[newsapi]", resp.status, await resp.text());
+      return [];
+    }
+    const data = (await resp.json()) as {
+      articles?: {
+        title?: string;
+        description?: string;
+        url?: string;
+        publishedAt?: string;
+        source?: { name?: string };
+      }[];
+    };
+    return (data.articles ?? [])
+      .filter((a) => a.title && a.url)
+      .map((a) => ({
+        title: a.title!,
+        description: a.description ?? "",
+        source: a.source?.name ?? "Unknown",
+        url: a.url!,
+        publishedAt: a.publishedAt ?? "",
+      }));
+  } catch (e) {
+    console.error("[newsapi] fetch failed", e);
+    return [];
+  }
+}
+
 export async function generateTodaysEdition() {
   const date = todayISO();
+  const wire = await fetchWire();
 
-  const userPrompt = `Generate today's edition for ${date}. Produce exactly three articles in this order:
-1) A daily_brief on the single most important U.S. political story or thread you know is ongoing.
-2) A morning_headlines briefing with 5-7 items across politics, labor, climate, healthcare, courts, immigration, civil rights, elections, and economy.
-3) A deep_dive explainer on a policy area that helps readers understand a bigger picture — voting rights, healthcare access, labor organizing, housing, immigration, climate policy, civil rights, a Supreme Court case, federal legislation, or an election cycle. Pick a topic that is currently relevant and where readers benefit from context.
+  const wireBlock = wire.length
+    ? `Here are real headlines from the U.S. news wire in the last 24 hours (${date}). Ground every article in these items. Cite the outlet names and URLs shown here — do not invent sources.\n\n${wire
+        .map(
+          (w, i) =>
+            `[${i + 1}] ${w.title}\n    Source: ${w.source} — ${w.url}\n    ${w.description ?? ""}`,
+        )
+        .join("\n\n")}`
+    : `No live wire is available for ${date}. Write general explainers and be careful not to assert specific current events you cannot verify.`;
 
-Ground your writing in real, ongoing U.S. political stories, policy fights, and institutions you know about. Do not invent officials, bills, or court cases. If uncertain about a specific detail, keep the framing general. Mark the daily_brief as featured=true.`;
+  const userPrompt = `Today is ${date}.
+
+${wireBlock}
+
+Produce exactly three articles in this order:
+1) A daily_brief on the single most important U.S. political story from the wire above.
+2) A morning_headlines briefing with 5-7 items drawn from the wire above, covering a mix of politics, labor, climate, healthcare, courts, immigration, civil rights, elections, and economy where represented.
+3) A deep_dive explainer on a policy area that helps readers understand the bigger picture behind one of the wire stories.
+
+Use only the sources listed in the wire above; include their real URLs in the sources array. Mark the daily_brief as featured=true.`;
+
 
   const edition = await callGateway(userPrompt);
 
