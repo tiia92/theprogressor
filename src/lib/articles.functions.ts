@@ -80,13 +80,16 @@ export const listArticlesByTopic = createServerFn({ method: "GET" })
     return rows ?? [];
   });
 
+export const ARTICLE_COLUMNS =
+  "id, slug, title, dek, body, article_type, category, tags, sources, hero_gradient, featured, views, upvotes, published_at";
+
 export const getArticleBySlug = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) => z.object({ slug: z.string().min(1) }).parse(data))
   .handler(async ({ data }) => {
     const supabase = serverPublicClient();
     const { data: row, error } = await supabase
       .from("articles")
-      .select("*")
+      .select(ARTICLE_COLUMNS)
       .eq("slug", data.slug)
       .maybeSingle();
     if (error) throw new Error(error.message);
