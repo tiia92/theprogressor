@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_reactions: {
+        Row: {
+          article_id: string
+          created_at: string
+          id: string
+          user_id: string
+          value: number
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+          value: number
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_reactions_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       articles: {
         Row: {
           article_type: string
@@ -21,14 +53,17 @@ export type Database = {
           category: string
           created_at: string
           dek: string
+          downvotes: number
           featured: boolean
           hero_gradient: string
           id: string
           published_at: string
+          search_vector: unknown
           slug: string
           sources: Json
           tags: string[]
           title: string
+          upvotes: number
           views: number
         }
         Insert: {
@@ -37,14 +72,17 @@ export type Database = {
           category?: string
           created_at?: string
           dek: string
+          downvotes?: number
           featured?: boolean
           hero_gradient?: string
           id?: string
           published_at?: string
+          search_vector?: unknown
           slug: string
           sources?: Json
           tags?: string[]
           title: string
+          upvotes?: number
           views?: number
         }
         Update: {
@@ -53,17 +91,109 @@ export type Database = {
           category?: string
           created_at?: string
           dek?: string
+          downvotes?: number
           featured?: boolean
           hero_gradient?: string
           id?: string
           published_at?: string
+          search_vector?: unknown
           slug?: string
           sources?: Json
           tags?: string[]
           title?: string
+          upvotes?: number
           views?: number
         }
         Relationships: []
+      }
+      followed_keywords: {
+        Row: {
+          created_at: string
+          id: string
+          keyword: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          keyword: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          keyword?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      followed_topics: {
+        Row: {
+          created_at: string
+          id: string
+          topic_slug: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          topic_slug: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          topic_slug?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      saved_articles: {
+        Row: {
+          article_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_articles_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
