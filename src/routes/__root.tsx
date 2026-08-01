@@ -12,6 +12,10 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
+import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 function NotFoundComponent() {
   return (
@@ -122,6 +126,41 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function AccountNav() {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  async function signOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  }
+
+  if (loading) return <span className="w-16" />;
+  if (!user) {
+    return (
+      <Link
+        to="/auth"
+        className="rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground hover:bg-accent"
+      >
+        Sign in
+      </Link>
+    );
+  }
+  return (
+    <div className="flex items-center gap-3 text-sm">
+      <Link to="/dashboard" className="font-medium text-foreground hover:text-primary">
+        Dashboard
+      </Link>
+      <button onClick={signOut} className="text-muted-foreground hover:text-foreground">
+        Sign out
+      </button>
+    </div>
+  );
+}
+
 function SiteHeader() {
   return (
     <header className="border-b border-border bg-background">
@@ -143,6 +182,17 @@ function SiteHeader() {
           <Link to="/topics" className="hover:text-foreground [&.active]:text-foreground">Topics</Link>
           <Link to="/about" className="hover:text-foreground [&.active]:text-foreground">About</Link>
         </nav>
+        <div className="flex items-center gap-3">
+          <Link
+            to="/search"
+            search={{ q: "" }}
+            aria-label="Search"
+            className="text-sm text-muted-foreground hover:text-foreground"
+          >
+            Search
+          </Link>
+          <AccountNav />
+        </div>
       </div>
       <div className="border-t border-border/60 bg-muted/40">
         <div className="mx-auto flex max-w-6xl items-center gap-3 overflow-x-auto px-4 py-2 text-xs text-muted-foreground md:hidden">
@@ -159,6 +209,8 @@ function SiteHeader() {
           <Link to="/topics" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Topics</Link>
           <span>·</span>
           <Link to="/about" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">About</Link>
+          <span>·</span>
+          <Link to="/search" search={{ q: "" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Search</Link>
         </div>
       </div>
     </header>
@@ -188,10 +240,25 @@ function SiteFooter() {
   );
 }
 
+function AuthSync() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      router.invalidate();
+      if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+    });
+    return () => data.subscription.unsubscribe();
+  }, [router, queryClient]);
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthSync />
       <div className="flex min-h-screen flex-col">
         <SiteHeader />
         <main className="flex-1">
