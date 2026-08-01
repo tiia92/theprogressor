@@ -36,7 +36,7 @@ export const listArticles = createServerFn({ method: "GET" })
     const supabase = serverPublicClient();
     let q = supabase
       .from("articles")
-      .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, published_at")
+      .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
       .order("published_at", { ascending: false })
       .limit(data.limit);
 
@@ -72,7 +72,7 @@ export const listArticlesByTopic = createServerFn({ method: "GET" })
     const supabase = serverPublicClient();
     const { data: rows, error } = await supabase
       .from("articles")
-      .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, published_at")
+      .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
       .contains("tags", [data.topic])
       .order("published_at", { ascending: false })
       .limit(data.limit);
@@ -100,7 +100,7 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async () =>
   const supabase = serverPublicClient();
   const { data: rows, error } = await supabase
     .from("articles")
-    .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, published_at")
+    .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
     .order("published_at", { ascending: false })
     .limit(40);
   if (error) throw new Error(error.message);
@@ -140,3 +140,21 @@ export const triggerTopicBackfill = createServerFn({ method: "POST" }).handler(a
   const result = await backfillArticleTopics();
   return result;
 });
+
+export const searchArticles = createServerFn({ method: "GET" })
+  .inputValidator((data: unknown) =>
+    z.object({ q: z.string().default(""), limit: z.number().int().min(1).max(50).default(30) }).parse(data ?? {}),
+  )
+  .handler(async ({ data }) => {
+    const q = data.q.trim();
+    if (q.length < 2) return [];
+    const supabase = serverPublicClient();
+    const { data: rows, error } = await supabase
+      .from("articles")
+      .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
+      .textSearch("search_vector", q, { type: "websearch", config: "english" })
+      .order("published_at", { ascending: false })
+      .limit(data.limit);
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
