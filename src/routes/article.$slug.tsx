@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getArticleBySlug } from "@/lib/articles.functions";
 import { ArticleBody } from "@/components/article-body";
+import { ArticleActions } from "@/components/article-actions";
 import { KindBadge, TypeLabel } from "@/components/article-card";
 import { heroGradientClass, TYPE_TO_KIND, type ArticleType } from "@/lib/content-types";
 
@@ -48,6 +49,14 @@ export const Route = createFileRoute("/article/$slug")({
   ),
 });
 
+const MONTHS_LONG = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+// Deterministic (UTC, fixed locale) so SSR and client markup match.
+function fmtArticleDate(iso: string) {
+  const d = new Date(iso);
+  return `${MONTHS_LONG[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
+
 function ArticlePage() {
   const { data: article } = useSuspenseQuery(articleQuery(Route.useParams().slug));
   if (!article) return null;
@@ -63,11 +72,7 @@ function ArticlePage() {
           <KindBadge type={article.article_type} />
           <TypeLabel type={article.article_type} />
           <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-            {new Date(article.published_at).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
+            {fmtArticleDate(article.published_at)}
           </span>
         </div>
 
@@ -96,6 +101,15 @@ function ArticlePage() {
                 : "This is evergreen background, kept up to date over time."}
           </div>
         )}
+
+        <div className="mb-8">
+          <ArticleActions
+            articleId={article.id}
+            slug={article.slug}
+            title={article.title}
+            upvotes={article.upvotes}
+          />
+        </div>
 
         <ArticleBody>{article.body}</ArticleBody>
 
