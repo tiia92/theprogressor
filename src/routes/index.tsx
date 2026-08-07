@@ -9,6 +9,17 @@ const homepageQuery = queryOptions({
   queryFn: () => getHomepage(),
 });
 
+const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+function formatTodayUTC() {
+  const d = new Date();
+  return `${DAYS[d.getUTCDay()]}, ${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
+}
+
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(homepageQuery),
   component: Home,
@@ -29,11 +40,7 @@ function Home() {
             Today's edition
           </p>
           <h1 className="mt-1 font-serif text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            {new Date().toLocaleDateString("en-US", {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-            })}
+            {formatTodayUTC()}
           </h1>
         </div>
         <GenerateEditionButton variant="compact" />
