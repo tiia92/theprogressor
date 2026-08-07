@@ -29,11 +29,7 @@ function Home() {
             Today's edition
           </p>
           <h1 className="mt-1 font-serif text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            {new Date().toLocaleDateString("en-US", {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-            })}
+            {formatTodayUTC()}
           </h1>
         </div>
         <GenerateEditionButton variant="compact" />
