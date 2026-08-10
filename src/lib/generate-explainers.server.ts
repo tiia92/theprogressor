@@ -63,7 +63,7 @@ async function fetchWire(limit: number): Promise<WireItem[]> {
   url.searchParams.set("country", "us");
   url.searchParams.set("category", "general");
   url.searchParams.set("pageSize", String(Math.min(limit * 2, 50)));
-  const resp = await fetch(url.toString(), { headers: { "X-Api-Key": key } });
+  const resp = await fetch(url.toString(), { headers: { "X-Api-Key": key, "User-Agent": "TheProgressor/1.0 (+https://lovable.app)" } });
   if (!resp.ok) throw new Error(`NewsAPI ${resp.status}: ${await resp.text()}`);
   const data = (await resp.json()) as {
     articles?: {

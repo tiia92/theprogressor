@@ -83,7 +83,7 @@ async function fetchOpinionWire(limit: number): Promise<WireItem[]> {
     .toISOString()
     .slice(0, 10);
   url.searchParams.set("from", since);
-  const resp = await fetch(url.toString(), { headers: { "X-Api-Key": key } });
+  const resp = await fetch(url.toString(), { headers: { "X-Api-Key": key, "User-Agent": "TheProgressor/1.0 (+https://lovable.app)" } });
   if (!resp.ok) throw new Error(`NewsAPI ${resp.status}: ${await resp.text()}`);
   const data = (await resp.json()) as {
     articles?: {
