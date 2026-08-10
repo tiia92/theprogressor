@@ -165,14 +165,19 @@ function SiteHeader() {
   return (
     <header className="border-b border-border bg-background">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link to="/" className="flex items-baseline gap-2">
-          <span className="font-serif text-2xl font-bold tracking-tight text-foreground">
+        <Link to="/" className="flex items-center gap-4">
+          <span
+            className="font-serif text-3xl font-bold leading-none tracking-[-0.02em] text-foreground"
+            style={{ fontVariationSettings: "'opsz' 72" }}
+          >
             The Progressor
           </span>
-          <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:inline">
-            Progressive daily, explained
+          <span className="hidden h-7 w-px bg-border sm:block" />
+          <span className="mt-0.5 hidden text-[10px] font-semibold uppercase leading-none tracking-[0.18em] text-primary sm:inline">
+            Progressive Daily, Explained
           </span>
         </Link>
+
         <nav className="hidden items-center gap-5 text-sm font-medium text-muted-foreground md:flex">
           <Link to="/" className="hover:text-foreground [&.active]:text-foreground">Today</Link>
           <Link to="/kind/$kind" params={{ kind: "news" }} className="hover:text-foreground [&.active]:text-foreground">News</Link>
