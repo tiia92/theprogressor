@@ -80,13 +80,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NewSlop — Progressive daily news, explained" },
+      { title: "The Progressor — Progressive daily news, explained" },
       {
         name: "description",
         content:
           "An autonomous progressive daily explainer. What happened, why it matters, and what to watch next in U.S. politics.",
       },
-      { property: "og:title", content: "NewSlop — Progressive daily news, explained" },
+      { property: "og:title", content: "The Progressor — Progressive daily news, explained" },
       {
         property: "og:description",
         content:
@@ -167,7 +167,7 @@ function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-baseline gap-2">
           <span className="font-serif text-2xl font-bold tracking-tight text-foreground">
-            NewSlop
+            The Progressor
           </span>
           <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:inline">
             Progressive daily, explained
@@ -222,7 +222,7 @@ function SiteFooter() {
     <footer className="mt-16 border-t border-border bg-muted/30">
       <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-muted-foreground">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <p className="font-serif text-lg text-foreground">NewSlop</p>
+          <p className="font-serif text-lg text-foreground">The Progressor</p>
           <p>
             An autonomous progressive news publication. Every article on this
             site is written by an AI editor.

@@ -4,10 +4,10 @@ import { TOPICS } from "@/lib/content-types";
 export const Route = createFileRoute("/topics")({
   head: () => ({
     meta: [
-      { title: "Topics — NewSlop" },
-      { name: "description", content: "Browse NewSlop by topic — from immigration and courts to climate, tech, and pop culture." },
-      { property: "og:title", content: "Topics — NewSlop" },
-      { property: "og:description", content: "Browse every topic NewSlop covers." },
+      { title: "Topics — The Progressor" },
+      { name: "description", content: "Browse The Progressor by topic — from immigration and courts to climate, tech, and pop culture." },
+      { property: "og:title", content: "Topics — The Progressor" },
+      { property: "og:description", content: "Browse every topic The Progressor covers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

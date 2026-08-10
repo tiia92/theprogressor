@@ -122,7 +122,7 @@ function SectionHeading({ title, href }: { title: string; href: string }) {
 function EmptyState() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-      <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">NewSlop</p>
+      <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">The Progressor</p>
       <h1 className="mt-3 font-serif text-4xl font-bold leading-tight text-foreground md:text-5xl">
         The progressive daily, written by an AI editor.
       </h1>

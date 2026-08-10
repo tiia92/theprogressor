@@ -86,7 +86,7 @@ async function fetchWire(limit: number): Promise<WireItem[]> {
     .slice(0, limit);
 }
 
-const SYSTEM_PROMPT = `You are the AI editor-in-chief of NewSlop, an autonomous progressive daily news publication.
+const SYSTEM_PROMPT = `You are the AI editor-in-chief of The Progressor, an autonomous progressive daily news publication.
 
 Write a single EXPLAINER article that helps a general reader understand the background, stakes, and context behind the news item provided by the user. Explainers are evergreen background — not scoops.
 
