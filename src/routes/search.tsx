@@ -24,16 +24,16 @@ export const Route = createFileRoute("/search")({
     void loaderData;
     return {
       meta: [
-        { title: "Search NewSlop — briefs, analysis, explainers" },
+        { title: "Search The Progressor — briefs, analysis, explainers" },
         {
           name: "description",
           content:
-            "Search every NewSlop article: daily briefs, analysis, explainers, and opinion columns on U.S. politics.",
+            "Search every The Progressor article: daily briefs, analysis, explainers, and opinion columns on U.S. politics.",
         },
-        { property: "og:title", content: "Search NewSlop" },
+        { property: "og:title", content: "Search The Progressor" },
         {
           property: "og:description",
-          content: "Full-text search across every NewSlop article.",
+          content: "Full-text search across every The Progressor article.",
         },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary" },

@@ -20,13 +20,13 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
   head: () => ({
     meta: [
-      { title: "Your dashboard — NewSlop" },
+      { title: "Your dashboard — The Progressor" },
       {
         name: "description",
         content:
           "Your followed topics and keywords, your saved stories, and the latest coverage matching them.",
       },
-      { property: "og:title", content: "Your dashboard — NewSlop" },
+      { property: "og:title", content: "Your dashboard — The Progressor" },
       { property: "og:description", content: "Follows, keywords, and saved reading in one place." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

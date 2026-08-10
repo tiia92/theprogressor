@@ -19,8 +19,8 @@ export const Route = createFileRoute("/topic/$topic")({
   },
   head: ({ loaderData }) => {
     const t = loaderData?.topic;
-    const title = t ? `${t.label} — NewSlop` : "Topic — NewSlop";
-    const desc = t?.description ?? "Browse NewSlop by topic.";
+    const title = t ? `${t.label} — The Progressor` : "Topic — The Progressor";
+    const desc = t?.description ?? "Browse The Progressor by topic.";
     return {
       meta: [
         { title },

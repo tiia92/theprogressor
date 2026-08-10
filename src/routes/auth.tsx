@@ -13,16 +13,16 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
   head: () => ({
     meta: [
-      { title: "Sign in — NewSlop" },
+      { title: "Sign in — The Progressor" },
       {
         name: "description",
         content:
-          "Sign in to NewSlop to follow topics and keywords, save articles for later, and react to coverage.",
+          "Sign in to The Progressor to follow topics and keywords, save articles for later, and react to coverage.",
       },
-      { property: "og:title", content: "Sign in — NewSlop" },
+      { property: "og:title", content: "Sign in — The Progressor" },
       {
         property: "og:description",
-        content: "Follow topics, save stories, and react — your NewSlop reader account.",
+        content: "Follow topics, save stories, and react — your The Progressor reader account.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

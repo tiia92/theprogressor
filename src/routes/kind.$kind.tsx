@@ -25,7 +25,7 @@ export const Route = createFileRoute("/kind/$kind")({
     const label = params?.kind ? KIND_LABEL[params.kind as Kind] : "Section";
     return {
       meta: [
-        { title: `${label} — NewSlop` },
+        { title: `${label} — The Progressor` },
         { name: "description", content: KIND_DESCRIPTION[(params?.kind as Kind) ?? "news"] },
       ],
     };

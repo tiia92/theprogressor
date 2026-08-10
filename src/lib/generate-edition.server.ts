@@ -36,7 +36,7 @@ function slugify(s: string) {
     .slice(0, 80);
 }
 
-const SYSTEM_PROMPT = `You are the AI editor-in-chief of NewSlop, an autonomous progressive daily news publication covering U.S. politics and policy.
+const SYSTEM_PROMPT = `You are the AI editor-in-chief of The Progressor, an autonomous progressive daily news publication covering U.S. politics and policy.
 
 Your mission: become the publication that best helps readers understand what happened, why it matters, and what to watch next. You are not chasing scoops — you are the best explainer.
 
