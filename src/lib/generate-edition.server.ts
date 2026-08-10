@@ -149,7 +149,7 @@ async function fetchWire(): Promise<WireItem[]> {
   url.searchParams.set("pageSize", "30");
   try {
     const resp = await fetch(url.toString(), {
-      headers: { "X-Api-Key": key },
+      headers: { "X-Api-Key": key, "User-Agent": "TheProgressor/1.0 (+https://lovable.app)" },
     });
     if (!resp.ok) {
       console.error("[newsapi]", resp.status, await resp.text());
@@ -220,7 +220,7 @@ Use only the sources listed in the wire above; include their real URLs in the so
       return {
         slug,
         title: a.title,
-        dek: a.dek,
+        dek: a.dek?.trim() || a.title,
         body: a.body,
         article_type: a.type,
         category: a.category || "politics",
