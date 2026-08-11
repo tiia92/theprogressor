@@ -185,7 +185,9 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-foreground [&.active]:text-foreground">Explainers</Link>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-foreground [&.active]:text-foreground">Opinion</Link>
           <Link to="/topics" className="hover:text-foreground [&.active]:text-foreground">Topics</Link>
+          <Link to="/crowdsource" className="hover:text-foreground [&.active]:text-foreground">Crowdsource</Link>
           <Link to="/about" className="hover:text-foreground [&.active]:text-foreground">About</Link>
+
         </nav>
         <div className="flex items-center gap-3">
           <Link
