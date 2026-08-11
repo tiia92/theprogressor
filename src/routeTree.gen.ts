@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TopicsRouteImport } from './routes/topics'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -23,6 +24,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
+import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/api/public/hooks/generate-crowdsource'
 import { Route as ApiPublicHooksGenerateAnalysisRouteImport } from './routes/api/public/hooks/generate-analysis'
 import { Route as ApiPublicHooksBackfillTopicsRouteImport } from './routes/api/public/hooks/backfill-topics'
 
@@ -39,6 +41,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrowdsourceRoute = CrowdsourceRouteImport.update({
+  id: '/crowdsource',
+  path: '/crowdsource',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -98,6 +105,12 @@ const ApiPublicHooksGenerateEditionRoute =
     path: '/api/public/hooks/generate-edition',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksGenerateCrowdsourceRoute =
+  ApiPublicHooksGenerateCrowdsourceRouteImport.update({
+    id: '/api/public/hooks/generate-crowdsource',
+    path: '/api/public/hooks/generate-crowdsource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksGenerateAnalysisRoute =
   ApiPublicHooksGenerateAnalysisRouteImport.update({
     id: '/api/public/hooks/generate-analysis',
@@ -115,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/crowdsource': typeof CrowdsourceRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/topics': typeof TopicsRoute
@@ -124,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
+  '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
@@ -132,6 +147,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/crowdsource': typeof CrowdsourceRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/topics': typeof TopicsRoute
@@ -141,6 +157,7 @@ export interface FileRoutesByTo {
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
+  '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
@@ -151,6 +168,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/crowdsource': typeof CrowdsourceRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/topics': typeof TopicsRoute
@@ -160,6 +178,7 @@ export interface FileRoutesById {
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
+  '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
@@ -170,6 +189,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/crowdsource'
     | '/search'
     | '/sitemap.xml'
     | '/topics'
@@ -179,6 +199,7 @@ export interface FileRouteTypes {
     | '/topic/$topic'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
+    | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
@@ -187,6 +208,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/crowdsource'
     | '/search'
     | '/sitemap.xml'
     | '/topics'
@@ -196,6 +218,7 @@ export interface FileRouteTypes {
     | '/topic/$topic'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
+    | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
@@ -205,6 +228,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/about'
     | '/auth'
+    | '/crowdsource'
     | '/search'
     | '/sitemap.xml'
     | '/topics'
@@ -214,6 +238,7 @@ export interface FileRouteTypes {
     | '/topic/$topic'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
+    | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
@@ -224,6 +249,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  CrowdsourceRoute: typeof CrowdsourceRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TopicsRoute: typeof TopicsRoute
@@ -232,6 +258,7 @@ export interface RootRouteChildren {
   TopicTopicRoute: typeof TopicTopicRoute
   ApiPublicHooksBackfillTopicsRoute: typeof ApiPublicHooksBackfillTopicsRoute
   ApiPublicHooksGenerateAnalysisRoute: typeof ApiPublicHooksGenerateAnalysisRoute
+  ApiPublicHooksGenerateCrowdsourceRoute: typeof ApiPublicHooksGenerateCrowdsourceRoute
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
   ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
@@ -258,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crowdsource': {
+      id: '/crowdsource'
+      path: '/crowdsource'
+      fullPath: '/crowdsource'
+      preLoaderRoute: typeof CrowdsourceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -337,6 +371,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateEditionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-crowdsource': {
+      id: '/api/public/hooks/generate-crowdsource'
+      path: '/api/public/hooks/generate-crowdsource'
+      fullPath: '/api/public/hooks/generate-crowdsource'
+      preLoaderRoute: typeof ApiPublicHooksGenerateCrowdsourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/generate-analysis': {
       id: '/api/public/hooks/generate-analysis'
       path: '/api/public/hooks/generate-analysis'
@@ -370,6 +411,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  CrowdsourceRoute: CrowdsourceRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TopicsRoute: TopicsRoute,
@@ -378,6 +420,8 @@ const rootRouteChildren: RootRouteChildren = {
   TopicTopicRoute: TopicTopicRoute,
   ApiPublicHooksBackfillTopicsRoute: ApiPublicHooksBackfillTopicsRoute,
   ApiPublicHooksGenerateAnalysisRoute: ApiPublicHooksGenerateAnalysisRoute,
+  ApiPublicHooksGenerateCrowdsourceRoute:
+    ApiPublicHooksGenerateCrowdsourceRoute,
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
   ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
@@ -385,13 +429,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

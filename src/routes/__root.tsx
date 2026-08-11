@@ -185,9 +185,11 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-foreground [&.active]:text-foreground">Explainers</Link>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-foreground [&.active]:text-foreground">Opinion</Link>
           <Link to="/topics" className="hover:text-foreground [&.active]:text-foreground">Topics</Link>
+          <Link to="/crowdsource" className="hover:text-foreground [&.active]:text-foreground">Crowdsource</Link>
           <Link to="/about" className="hover:text-foreground [&.active]:text-foreground">About</Link>
+
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="ml-5 flex items-center gap-3">
           <Link
             to="/search"
             search={{ q: "" }}
@@ -213,8 +215,11 @@ function SiteHeader() {
           <span>·</span>
           <Link to="/topics" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Topics</Link>
           <span>·</span>
+          <Link to="/crowdsource" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Crowdsource</Link>
+          <span>·</span>
           <Link to="/about" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">About</Link>
           <span>·</span>
+
           <Link to="/search" search={{ q: "" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Search</Link>
         </div>
       </div>
