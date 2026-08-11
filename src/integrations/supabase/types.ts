@@ -106,6 +106,51 @@ export type Database = {
         }
         Relationships: []
       }
+      crowdsource_pitches: {
+        Row: {
+          created_at: string
+          id: string
+          score: number
+          source_outlet: string | null
+          source_url: string | null
+          status: string
+          summary: string
+          title: string
+          topics: string[]
+          transcript: Json
+          user_id: string | null
+          verdict: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          score?: number
+          source_outlet?: string | null
+          source_url?: string | null
+          status?: string
+          summary: string
+          title: string
+          topics?: string[]
+          transcript?: Json
+          user_id?: string | null
+          verdict?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          score?: number
+          source_outlet?: string | null
+          source_url?: string | null
+          status?: string
+          summary?: string
+          title?: string
+          topics?: string[]
+          transcript?: Json
+          user_id?: string | null
+          verdict?: string | null
+        }
+        Relationships: []
+      }
       followed_keywords: {
         Row: {
           created_at: string
