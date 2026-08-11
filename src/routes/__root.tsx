@@ -189,7 +189,7 @@ function SiteHeader() {
           <Link to="/about" className="hover:text-foreground [&.active]:text-foreground">About</Link>
 
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="ml-5 flex items-center gap-3">
           <Link
             to="/search"
             search={{ q: "" }}
