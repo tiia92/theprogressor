@@ -215,8 +215,11 @@ function SiteHeader() {
           <span>·</span>
           <Link to="/topics" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Topics</Link>
           <span>·</span>
+          <Link to="/crowdsource" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Crowdsource</Link>
+          <span>·</span>
           <Link to="/about" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">About</Link>
           <span>·</span>
+
           <Link to="/search" search={{ q: "" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Search</Link>
         </div>
       </div>
