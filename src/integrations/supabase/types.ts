@@ -56,6 +56,7 @@ export type Database = {
           downvotes: number
           featured: boolean
           hero_gradient: string
+          hero_image_url: string | null
           id: string
           published_at: string
           search_vector: unknown
@@ -75,6 +76,7 @@ export type Database = {
           downvotes?: number
           featured?: boolean
           hero_gradient?: string
+          hero_image_url?: string | null
           id?: string
           published_at?: string
           search_vector?: unknown
@@ -94,6 +96,7 @@ export type Database = {
           downvotes?: number
           featured?: boolean
           hero_gradient?: string
+          hero_image_url?: string | null
           id?: string
           published_at?: string
           search_vector?: unknown
