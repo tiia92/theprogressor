@@ -25,6 +25,7 @@ import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
 import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/api/public/hooks/generate-crowdsource'
+import { Route as ApiPublicHooksGenerateBriefImageRouteImport } from './routes/api/public/hooks/generate-brief-image'
 import { Route as ApiPublicHooksGenerateAnalysisRouteImport } from './routes/api/public/hooks/generate-analysis'
 import { Route as ApiPublicHooksBackfillTopicsRouteImport } from './routes/api/public/hooks/backfill-topics'
 import { Route as ApiPublicArticleImageSlugRouteImport } from './routes/api/public/article-image.$slug'
@@ -112,6 +113,12 @@ const ApiPublicHooksGenerateCrowdsourceRoute =
     path: '/api/public/hooks/generate-crowdsource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksGenerateBriefImageRoute =
+  ApiPublicHooksGenerateBriefImageRouteImport.update({
+    id: '/api/public/hooks/generate-brief-image',
+    path: '/api/public/hooks/generate-brief-image',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksGenerateAnalysisRoute =
   ApiPublicHooksGenerateAnalysisRouteImport.update({
     id: '/api/public/hooks/generate-analysis',
@@ -146,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
+  '/api/public/hooks/generate-brief-image': typeof ApiPublicHooksGenerateBriefImageRoute
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
@@ -166,6 +174,7 @@ export interface FileRoutesByTo {
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
+  '/api/public/hooks/generate-brief-image': typeof ApiPublicHooksGenerateBriefImageRoute
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
@@ -188,6 +197,7 @@ export interface FileRoutesById {
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
+  '/api/public/hooks/generate-brief-image': typeof ApiPublicHooksGenerateBriefImageRoute
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
+    | '/api/public/hooks/generate-brief-image'
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
@@ -230,6 +241,7 @@ export interface FileRouteTypes {
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
+    | '/api/public/hooks/generate-brief-image'
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
@@ -251,6 +263,7 @@ export interface FileRouteTypes {
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
+    | '/api/public/hooks/generate-brief-image'
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
@@ -272,6 +285,7 @@ export interface RootRouteChildren {
   ApiPublicArticleImageSlugRoute: typeof ApiPublicArticleImageSlugRoute
   ApiPublicHooksBackfillTopicsRoute: typeof ApiPublicHooksBackfillTopicsRoute
   ApiPublicHooksGenerateAnalysisRoute: typeof ApiPublicHooksGenerateAnalysisRoute
+  ApiPublicHooksGenerateBriefImageRoute: typeof ApiPublicHooksGenerateBriefImageRoute
   ApiPublicHooksGenerateCrowdsourceRoute: typeof ApiPublicHooksGenerateCrowdsourceRoute
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
@@ -392,6 +406,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateCrowdsourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-brief-image': {
+      id: '/api/public/hooks/generate-brief-image'
+      path: '/api/public/hooks/generate-brief-image'
+      fullPath: '/api/public/hooks/generate-brief-image'
+      preLoaderRoute: typeof ApiPublicHooksGenerateBriefImageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/generate-analysis': {
       id: '/api/public/hooks/generate-analysis'
       path: '/api/public/hooks/generate-analysis'
@@ -442,6 +463,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicArticleImageSlugRoute: ApiPublicArticleImageSlugRoute,
   ApiPublicHooksBackfillTopicsRoute: ApiPublicHooksBackfillTopicsRoute,
   ApiPublicHooksGenerateAnalysisRoute: ApiPublicHooksGenerateAnalysisRoute,
+  ApiPublicHooksGenerateBriefImageRoute: ApiPublicHooksGenerateBriefImageRoute,
   ApiPublicHooksGenerateCrowdsourceRoute:
     ApiPublicHooksGenerateCrowdsourceRoute,
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
