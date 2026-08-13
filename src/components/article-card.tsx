@@ -18,6 +18,8 @@ interface Props {
   size?: "featured" | "medium" | "compact";
   /** Homepage-only: show illustrated artwork instead of the gradient block. */
   withArt?: boolean;
+  /** Section pages: omit the photo/gradient block to avoid empty visual space. */
+  noImage?: boolean;
 }
 
 function HeroArt({
@@ -93,7 +95,7 @@ function fmtDate(iso: string) {
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
-export function ArticleCard({ article, size = "medium", withArt = false }: Props) {
+export function ArticleCard({ article, size = "medium", withArt = false, noImage = false }: Props) {
   if (size === "featured") {
     return (
       <Link
@@ -150,10 +152,12 @@ export function ArticleCard({ article, size = "medium", withArt = false }: Props
       params={{ slug: article.slug }}
       className="group block overflow-hidden rounded-md border border-border bg-card transition-shadow hover:shadow-md"
     >
-      {withArt ? (
-        <HeroArt article={article} ratio="aspect-[16/9]" />
-      ) : (
-        <div className={`aspect-[16/9] w-full ${heroGradientClass(article.hero_gradient)}`} />
+      {!noImage && (
+        withArt ? (
+          <HeroArt article={article} ratio="aspect-[16/9]" />
+        ) : (
+          <div className={`aspect-[16/9] w-full ${heroGradientClass(article.hero_gradient)}`} />
+        )
       )}
       <div className="p-5">
         <div className="mb-2 flex items-center gap-2">

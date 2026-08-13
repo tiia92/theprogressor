@@ -38,6 +38,7 @@ export const listArticles = createServerFn({ method: "GET" })
       .from("articles")
       .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
       .order("published_at", { ascending: false })
+      .order("id", { ascending: false })
       .limit(data.limit);
 
     if (data.type) q = q.eq("article_type", data.type);
@@ -75,6 +76,7 @@ export const listArticlesByTopic = createServerFn({ method: "GET" })
       .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
       .contains("tags", [data.topic])
       .order("published_at", { ascending: false })
+      .order("id", { ascending: false })
       .limit(data.limit);
     if (error) throw new Error(error.message);
     return rows ?? [];
@@ -104,6 +106,7 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async () =>
       "id, slug, title, dek, article_type, category, tags, hero_gradient, hero_image_url, featured, upvotes, published_at",
     )
     .order("published_at", { ascending: false })
+    .order("id", { ascending: false })
     .limit(40);
   if (error) throw new Error(error.message);
   const all = rows ?? [];
@@ -161,6 +164,7 @@ export const searchArticles = createServerFn({ method: "GET" })
       .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
       .textSearch("search_vector", q, { type: "websearch", config: "english" })
       .order("published_at", { ascending: false })
+      .order("id", { ascending: false })
       .limit(data.limit);
     if (error) throw new Error(error.message);
     return rows ?? [];
