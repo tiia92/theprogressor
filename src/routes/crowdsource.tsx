@@ -59,6 +59,8 @@ function CrowdsourcePage() {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [filed, setFiled] = useState(false);
   const [isAdult, setIsAdult] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
