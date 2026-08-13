@@ -18,6 +18,8 @@ interface Props {
   size?: "featured" | "medium" | "compact";
   /** Homepage-only: show illustrated artwork instead of the gradient block. */
   withArt?: boolean;
+  /** Section pages: omit the photo/gradient block to avoid empty visual space. */
+  noImage?: boolean;
 }
 
 function HeroArt({
