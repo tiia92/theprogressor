@@ -51,8 +51,18 @@ function AuthPage() {
         });
         if (error) throw error;
         if (!data.session) {
-          toast.success("Check your email to confirm your account.");
-          return;
+          // Allowlisted addresses skip email confirmation and sign in immediately.
+          const bypass = await confirmAllowlistedEmail({ data: { email } }).catch(() => null);
+          if (bypass?.confirmed) {
+            const { error: signInError } = await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
+            if (signInError) throw signInError;
+          } else {
+            toast.success("Check your email to confirm your account.");
+            return;
+          }
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
