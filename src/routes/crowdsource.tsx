@@ -117,8 +117,9 @@ function CrowdsourcePage() {
             p: "The desk fetches the page itself — headline, byline, date, text — so the outlet and the claim are checked against the real article, not your description of it.",
           },
           {
-            h: "No link? Cite your sources",
-            p: "Not sure where to start? Just say what happened and why it bothers you. The desk asks one plain question at a time — no expertise needed.",
+            h: "Just tell us why it matters",
+            p: "Not sure where to start? Say what happened and why it bothers you. The desk asks one plain question at a time — no expertise needed.",
+
 
           },
 
