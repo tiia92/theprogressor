@@ -147,8 +147,12 @@ export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn
 
   let reply = String(parsed.reply ?? "Tell me more about the story.");
   if (parsed.ready && !ready) {
-    reply +=
-      "\n\nBefore I can file this, I need a link I can actually open and read — none of the ones so far came back. Send a direct URL to the article or document.";
+    if (verified.length === 0) {
+      reply +=
+        "\n\nBefore I can file this, I need a link I can actually open and read — none of the ones so far came back. Send a direct URL to the article or document.";
+    } else if (!enoughAnswers) {
+      reply += "\n\nOne more thing before I rank it: what makes this matter right now?";
+    }
   }
 
   return { reply, ready, pitch };
