@@ -100,7 +100,9 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async () =>
   const supabase = serverPublicClient();
   const { data: rows, error } = await supabase
     .from("articles")
-    .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
+    .select(
+      "id, slug, title, dek, article_type, category, tags, hero_gradient, hero_image_url, featured, upvotes, published_at",
+    )
     .order("published_at", { ascending: false })
     .limit(40);
   if (error) throw new Error(error.message);
@@ -139,6 +141,11 @@ export const triggerTopicBackfill = createServerFn({ method: "POST" }).handler(a
   const { backfillArticleTopics } = await import("@/lib/tag-articles.server");
   const result = await backfillArticleTopics();
   return result;
+});
+
+export const triggerBriefImage = createServerFn({ method: "POST" }).handler(async () => {
+  const { attachTodaysBriefImage } = await import("@/lib/article-image.server");
+  return attachTodaysBriefImage();
 });
 
 export const searchArticles = createServerFn({ method: "GET" })

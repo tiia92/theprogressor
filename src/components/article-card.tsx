@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ArticleType, ContentKind } from "@/lib/content-types";
 import { KIND_LABEL, TYPE_LABEL, TYPE_TO_KIND, TOPIC_LABEL, heroGradientClass } from "@/lib/content-types";
+import { topicArt } from "@/lib/topic-art";
 
 interface Props {
   article: {
@@ -11,9 +12,34 @@ interface Props {
     category: string;
     tags?: string[] | null;
     hero_gradient: string;
+    hero_image_url?: string | null;
     published_at: string;
   };
   size?: "featured" | "medium" | "compact";
+  /** Homepage-only: show illustrated artwork instead of the gradient block. */
+  withArt?: boolean;
+}
+
+function HeroArt({
+  article,
+  ratio,
+  priority,
+}: {
+  article: Props["article"];
+  ratio: string;
+  priority?: boolean;
+}) {
+  const src = article.hero_image_url || topicArt(article.category, article.tags);
+  return (
+    <img
+      src={src}
+      alt=""
+      width={1024}
+      height={576}
+      loading={priority ? "eager" : "lazy"}
+      className={`${ratio} w-full object-cover`}
+    />
+  );
 }
 
 function TopicChips({ tags, max = 3 }: { tags?: string[] | null; max?: number }) {
@@ -67,7 +93,7 @@ function fmtDate(iso: string) {
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
-export function ArticleCard({ article, size = "medium" }: Props) {
+export function ArticleCard({ article, size = "medium", withArt = false }: Props) {
   if (size === "featured") {
     return (
       <Link
@@ -75,7 +101,11 @@ export function ArticleCard({ article, size = "medium" }: Props) {
         params={{ slug: article.slug }}
         className="group block overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg"
       >
-        <div className={`aspect-[16/8] w-full ${heroGradientClass(article.hero_gradient)}`} />
+        {withArt ? (
+          <HeroArt article={article} ratio="aspect-[16/8]" priority />
+        ) : (
+          <div className={`aspect-[16/8] w-full ${heroGradientClass(article.hero_gradient)}`} />
+        )}
         <div className="p-6">
           <div className="mb-3 flex items-center gap-2">
             <KindBadge type={article.article_type} />
@@ -120,7 +150,11 @@ export function ArticleCard({ article, size = "medium" }: Props) {
       params={{ slug: article.slug }}
       className="group block overflow-hidden rounded-md border border-border bg-card transition-shadow hover:shadow-md"
     >
-      <div className={`aspect-[16/9] w-full ${heroGradientClass(article.hero_gradient)}`} />
+      {withArt ? (
+        <HeroArt article={article} ratio="aspect-[16/9]" />
+      ) : (
+        <div className={`aspect-[16/9] w-full ${heroGradientClass(article.hero_gradient)}`} />
+      )}
       <div className="p-5">
         <div className="mb-2 flex items-center gap-2">
           <KindBadge type={article.article_type} />

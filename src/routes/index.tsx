@@ -49,7 +49,7 @@ function Home() {
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
           {data.brief ? (
-            <ArticleCard article={data.brief} size="featured" />
+            <ArticleCard article={data.brief} size="featured" withArt />
           ) : (
             <div className="rounded-lg border border-dashed border-border p-8 text-center text-muted-foreground">
               No daily brief yet today. Hit "Generate today's edition" to publish one.
@@ -61,7 +61,7 @@ function Home() {
               <SectionHeading title="Deep Dives" href="/kind/explainer" />
               <div className="grid gap-6 sm:grid-cols-2">
                 {data.deepDives.map((a) => (
-                  <ArticleCard key={a.id} article={a} />
+                  <ArticleCard key={a.id} article={a} withArt />
                 ))}
               </div>
             </section>

@@ -236,5 +236,12 @@ Use only the sources listed in the wire above; include their real URLs in the so
   const { error } = await supabaseAdmin.from("articles").insert(rows);
   if (error) throw new Error(`DB insert failed: ${error.message}`);
 
+  // Bespoke artwork for the homepage lead only. Never fatal.
+  const lead = rows.find((r) => r.article_type === "daily_brief");
+  if (lead) {
+    const { attachArticleImage } = await import("@/lib/article-image.server");
+    await attachArticleImage(lead.slug).catch(() => null);
+  }
+
   return { inserted: rows.length, slugs: rows.map((r) => r.slug) };
 }

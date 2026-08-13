@@ -27,6 +27,7 @@ import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/
 import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/api/public/hooks/generate-crowdsource'
 import { Route as ApiPublicHooksGenerateAnalysisRouteImport } from './routes/api/public/hooks/generate-analysis'
 import { Route as ApiPublicHooksBackfillTopicsRouteImport } from './routes/api/public/hooks/backfill-topics'
+import { Route as ApiPublicArticleImageSlugRouteImport } from './routes/api/public/article-image.$slug'
 
 const TopicsRoute = TopicsRouteImport.update({
   id: '/topics',
@@ -123,6 +124,12 @@ const ApiPublicHooksBackfillTopicsRoute =
     path: '/api/public/hooks/backfill-topics',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicArticleImageSlugRoute =
+  ApiPublicArticleImageSlugRouteImport.update({
+    id: '/api/public/article-image/$slug',
+    path: '/api/public/article-image/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
+  '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
@@ -155,6 +163,7 @@ export interface FileRoutesByTo {
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
+  '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
@@ -176,6 +185,7 @@ export interface FileRoutesById {
   '/article/$slug': typeof ArticleSlugRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
+  '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/kind/$kind'
     | '/topic/$topic'
+    | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-crowdsource'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/kind/$kind'
     | '/topic/$topic'
+    | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-crowdsource'
@@ -236,6 +248,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/kind/$kind'
     | '/topic/$topic'
+    | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-crowdsource'
@@ -256,6 +269,7 @@ export interface RootRouteChildren {
   ArticleSlugRoute: typeof ArticleSlugRoute
   KindKindRoute: typeof KindKindRoute
   TopicTopicRoute: typeof TopicTopicRoute
+  ApiPublicArticleImageSlugRoute: typeof ApiPublicArticleImageSlugRoute
   ApiPublicHooksBackfillTopicsRoute: typeof ApiPublicHooksBackfillTopicsRoute
   ApiPublicHooksGenerateAnalysisRoute: typeof ApiPublicHooksGenerateAnalysisRoute
   ApiPublicHooksGenerateCrowdsourceRoute: typeof ApiPublicHooksGenerateCrowdsourceRoute
@@ -392,6 +406,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksBackfillTopicsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/article-image/$slug': {
+      id: '/api/public/article-image/$slug'
+      path: '/api/public/article-image/$slug'
+      fullPath: '/api/public/article-image/$slug'
+      preLoaderRoute: typeof ApiPublicArticleImageSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -418,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticleSlugRoute: ArticleSlugRoute,
   KindKindRoute: KindKindRoute,
   TopicTopicRoute: TopicTopicRoute,
+  ApiPublicArticleImageSlugRoute: ApiPublicArticleImageSlugRoute,
   ApiPublicHooksBackfillTopicsRoute: ApiPublicHooksBackfillTopicsRoute,
   ApiPublicHooksGenerateAnalysisRoute: ApiPublicHooksGenerateAnalysisRoute,
   ApiPublicHooksGenerateCrowdsourceRoute:
