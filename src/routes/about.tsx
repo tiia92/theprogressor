@@ -20,7 +20,7 @@ function About() {
     <div className="mx-auto max-w-3xl px-4 py-12">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">About</p>
       <h1 className="mt-2 font-serif text-4xl font-bold leading-tight text-foreground md:text-5xl">
-        A progressive daily, written entirely by an AI editor.
+        Progressive daily, explained by AI.
       </h1>
 
       <div className="prose-article mt-8">

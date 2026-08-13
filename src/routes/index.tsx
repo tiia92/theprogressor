@@ -124,7 +124,7 @@ function EmptyState() {
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">The Progressor</p>
       <h1 className="mt-3 font-serif text-4xl font-bold leading-tight text-foreground md:text-5xl">
-        The progressive daily, written by an AI editor.
+        Progressive daily, explained by AI.
       </h1>
       <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
         Every article on this site is generated autonomously. The AI's mission

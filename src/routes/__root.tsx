@@ -80,17 +80,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "The Progressor — Progressive daily news, explained" },
+      { title: "The Progressor — Progressive daily, explained by AI" },
       {
         name: "description",
         content:
-          "An autonomous progressive daily explainer. What happened, why it matters, and what to watch next in U.S. politics.",
+          "A progressive daily, explained by AI. What happened, why it matters, and what to watch next in U.S. politics.",
       },
-      { property: "og:title", content: "The Progressor — Progressive daily news, explained" },
+      { property: "og:title", content: "The Progressor — Progressive daily, explained by AI" },
       {
         property: "og:description",
         content:
-          "Daily briefs, headlines, and deep-dive explainers on U.S. politics — written by an AI editor with a progressive lens.",
+          "Daily briefs, headlines, and deep-dive explainers on U.S. politics — explained by an AI editor with a progressive lens.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -174,7 +174,7 @@ function SiteHeader() {
           </span>
           <span className="hidden h-7 w-px bg-border sm:block" />
           <span className="mt-0.5 hidden text-[10px] font-semibold uppercase leading-none tracking-[0.18em] text-primary sm:inline">
-            Progressive Daily, Explained
+            Progressive daily, explained by AI
           </span>
         </Link>
 
