@@ -34,11 +34,19 @@ Your standards (hold them firmly, but warmly):
 - The reader must pitch you on the merits: who is affected, what changed, why now, what is at stake, and what a reader would still not understand without our explainer.
 - If a claim looks unverified, misattributed, decontextualized, or single-sourced, name that plainly and ask what would confirm or disconfirm it.
 
+VERIFICATION (non-negotiable): when the reader shares a link, the desk fetches the page itself and gives you a VERIFIED LINK DATA block. Trust only that block — never the reader's description of the link.
+- Judge the outlet from the verified domain, not from what the reader calls it.
+- If the reader's claimed headline, outlet, date, or substance conflicts with the verified page, say so plainly and specifically ("the page at nytimes.com is actually headlined X, from 2019 — that's not what you described"), and do not let the pitch proceed on the reader's version.
+- If a link failed to fetch, is a 404, is paywalled with no readable text, or is a homepage rather than an article, treat the claim as unverified and ask for a working direct link.
+- Never set "ready" true on a story pitch whose link you have not seen verified data for. The pitch's source_url and source_outlet must come from the verified data.
+- If the reader gives no link at all, you cannot verify anything: keep it as a topic pitch and require two or more independent links, which the desk will also fetch and verify.
+
 Your method (this is the point): through ordinary conversation, teach media literacy without ever lecturing about it. Ask the questions a careful editor asks — Who reported this first? Is that outlet doing original reporting or repackaging someone else's? Is that a primary document or a summary of one? Does the headline claim more than the body supports? What's the strongest argument this isn't a big deal? Never call this a lesson. Never mention media literacy, education, or your scoring rubric.
 
 Tone: direct, curious, generous, a little dry. Short paragraphs. One or two questions per turn, not a checklist. Never fabricate sources or facts. Never accept a pitch you would not defend in print.
 
-Score every pitch 0-100 on newsworthiness, source quality, verifiability, and progressive-explainer fit combined. Only set "ready" to true once the pitch has at least one credible named source (or two for a topic pitch) AND a clear articulated stake. Otherwise keep the conversation going.
+Score every pitch 0-100 on newsworthiness, source quality, verifiability, and progressive-explainer fit combined. Only set "ready" to true once the pitch rests on verified links AND has a clear articulated stake. Otherwise keep the conversation going.
+
 
 Return ONLY valid JSON, no prose, no code fences:
 {
@@ -84,26 +92,62 @@ async function callGateway(messages: { role: string; content: string }[]) {
 }
 
 export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn> {
+  const { extractUrls, fetchAllLinkFacts, formatLinkFacts } = await import(
+    "@/lib/link-verify.server"
+  );
+
+  // Every URL the reader has shared in this conversation, fetched by us — not taken on trust.
+  const urls: string[] = [];
+  for (const m of messages) {
+    if (m.role !== "user") continue;
+    for (const u of extractUrls(m.content)) if (!urls.includes(u)) urls.push(u);
+  }
+  const facts = urls.length ? await fetchAllLinkFacts(urls.slice(-4)) : [];
+  const verified = facts.filter((f) => f.ok);
+
+  const context = facts.length
+    ? [{ role: "system", content: formatLinkFacts(facts) }]
+    : [
+        {
+          role: "system",
+          content:
+            "The reader has shared no links yet, so nothing in this conversation is verified. Treat every factual claim as unconfirmed until they provide links the desk can fetch.",
+        },
+      ];
+
   const parsed = (await callGateway([
     { role: "system", content: CHAT_SYSTEM },
     ...messages.slice(-16).map((m) => ({ role: m.role, content: m.content })),
+    ...context,
   ])) as Partial<EditorTurn>;
 
-  const ready = !!parsed.ready && !!parsed.pitch;
+  // Hard gate: a pitch can only be filed on links we successfully fetched ourselves.
+  const ready = !!parsed.ready && !!parsed.pitch && verified.length > 0;
+  const primary =
+    verified.find((f) => (f.finalUrl ?? f.url) === parsed.pitch?.source_url) ?? verified[0];
+
   const pitch = ready
     ? {
         title: String(parsed.pitch!.title ?? "Untitled pitch").slice(0, 200),
         summary: String(parsed.pitch!.summary ?? ""),
-        source_url: parsed.pitch!.source_url || null,
-        source_outlet: parsed.pitch!.source_outlet || null,
+        // Source fields always come from the fetched page, never the reader's claim.
+        source_url: primary?.finalUrl ?? primary?.url ?? null,
+        source_outlet: primary?.siteName ?? primary?.domain ?? null,
         topics: normalizeTagsToTopics(parsed.pitch!.topics ?? []),
         score: Math.max(0, Math.min(100, Number(parsed.pitch!.score ?? 0))),
         verdict: String(parsed.pitch!.verdict ?? ""),
       }
     : null;
 
-  return { reply: String(parsed.reply ?? "Tell me more about the story."), ready, pitch };
+  let reply = String(parsed.reply ?? "Tell me more about the story.");
+  if (parsed.ready && !ready) {
+    reply +=
+      "\n\nBefore I can file this, I need a link I can actually open and read — none of the ones so far came back. Send a direct URL to the article or document.";
+  }
+
+  return { reply, ready, pitch };
 }
+
 
 const EDITION_SYSTEM = `You are the editor of The Progressor's daily Crowdsource edition: the five reader-submitted stories that earned a slot today. Write one article that presents all five.
 
