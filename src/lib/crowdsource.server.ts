@@ -92,26 +92,62 @@ async function callGateway(messages: { role: string; content: string }[]) {
 }
 
 export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn> {
+  const { extractUrls, fetchAllLinkFacts, formatLinkFacts } = await import(
+    "@/lib/link-verify.server"
+  );
+
+  // Every URL the reader has shared in this conversation, fetched by us — not taken on trust.
+  const urls: string[] = [];
+  for (const m of messages) {
+    if (m.role !== "user") continue;
+    for (const u of extractUrls(m.content)) if (!urls.includes(u)) urls.push(u);
+  }
+  const facts = urls.length ? await fetchAllLinkFacts(urls.slice(-4)) : [];
+  const verified = facts.filter((f) => f.ok);
+
+  const context = facts.length
+    ? [{ role: "system", content: formatLinkFacts(facts) }]
+    : [
+        {
+          role: "system",
+          content:
+            "The reader has shared no links yet, so nothing in this conversation is verified. Treat every factual claim as unconfirmed until they provide links the desk can fetch.",
+        },
+      ];
+
   const parsed = (await callGateway([
     { role: "system", content: CHAT_SYSTEM },
     ...messages.slice(-16).map((m) => ({ role: m.role, content: m.content })),
+    ...context,
   ])) as Partial<EditorTurn>;
 
-  const ready = !!parsed.ready && !!parsed.pitch;
+  // Hard gate: a pitch can only be filed on links we successfully fetched ourselves.
+  const ready = !!parsed.ready && !!parsed.pitch && verified.length > 0;
+  const primary =
+    verified.find((f) => (f.finalUrl ?? f.url) === parsed.pitch?.source_url) ?? verified[0];
+
   const pitch = ready
     ? {
         title: String(parsed.pitch!.title ?? "Untitled pitch").slice(0, 200),
         summary: String(parsed.pitch!.summary ?? ""),
-        source_url: parsed.pitch!.source_url || null,
-        source_outlet: parsed.pitch!.source_outlet || null,
+        // Source fields always come from the fetched page, never the reader's claim.
+        source_url: primary?.finalUrl ?? primary?.url ?? null,
+        source_outlet: primary?.siteName ?? primary?.domain ?? null,
         topics: normalizeTagsToTopics(parsed.pitch!.topics ?? []),
         score: Math.max(0, Math.min(100, Number(parsed.pitch!.score ?? 0))),
         verdict: String(parsed.pitch!.verdict ?? ""),
       }
     : null;
 
-  return { reply: String(parsed.reply ?? "Tell me more about the story."), ready, pitch };
+  let reply = String(parsed.reply ?? "Tell me more about the story.");
+  if (parsed.ready && !ready) {
+    reply +=
+      "\n\nBefore I can file this, I need a link I can actually open and read — none of the ones so far came back. Send a direct URL to the article or document.";
+  }
+
+  return { reply, ready, pitch };
 }
+
 
 const EDITION_SYSTEM = `You are the editor of The Progressor's daily Crowdsource edition: the five reader-submitted stories that earned a slot today. Write one article that presents all five.
 
