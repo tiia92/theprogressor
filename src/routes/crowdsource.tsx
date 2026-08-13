@@ -58,6 +58,8 @@ function CrowdsourcePage() {
   const [input, setInput] = useState("");
   const [draft, setDraft] = useState<Draft | null>(null);
   const [filed, setFiled] = useState(false);
+  const [isAdult, setIsAdult] = useState(false);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const queue = useQuery({ queryKey: ["crowdsource-queue"], queryFn: () => listCrowdsourceQueue() });
@@ -116,7 +118,8 @@ function CrowdsourcePage() {
           },
           {
             h: "No link? Cite your sources",
-            p: "Topic pitches are welcome, but the desk will ask for two or more independent, checkable links it can fetch and verify before anything moves forward.",
+            p: "Not sure where to start? Just say what happened and why it bothers you. The desk asks one plain question at a time — no expertise needed.",
+
           },
 
           {
