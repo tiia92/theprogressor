@@ -152,10 +152,12 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
       params={{ slug: article.slug }}
       className="group block overflow-hidden rounded-md border border-border bg-card transition-shadow hover:shadow-md"
     >
-      {withArt ? (
-        <HeroArt article={article} ratio="aspect-[16/9]" />
-      ) : (
-        <div className={`aspect-[16/9] w-full ${heroGradientClass(article.hero_gradient)}`} />
+      {!noImage && (
+        withArt ? (
+          <HeroArt article={article} ratio="aspect-[16/9]" />
+        ) : (
+          <div className={`aspect-[16/9] w-full ${heroGradientClass(article.hero_gradient)}`} />
+        )
       )}
       <div className="p-5">
         <div className="mb-2 flex items-center gap-2">
