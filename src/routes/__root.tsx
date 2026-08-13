@@ -143,7 +143,7 @@ function AccountNav() {
     return (
       <Link
         to="/auth"
-        className="rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground hover:bg-accent"
+        className="rounded-md border border-primary-foreground/30 bg-primary-foreground px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary-foreground/90"
       >
         Sign in
       </Link>
@@ -163,30 +163,30 @@ function AccountNav() {
 
 function SiteHeader() {
   return (
-    <header className="border-b border-border bg-background">
+    <header className="border-b border-primary-foreground/15 bg-primary">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center gap-4">
           <span
-            className="font-serif text-3xl font-bold leading-none tracking-[-0.02em] text-foreground"
+            className="font-serif text-3xl font-bold leading-none tracking-[-0.02em] text-primary-foreground"
             style={{ fontVariationSettings: "'opsz' 72" }}
           >
             The Progressor
           </span>
-          <span className="hidden h-7 w-px bg-border sm:block" />
-          <span className="mt-0.5 hidden text-[10px] font-semibold uppercase leading-none tracking-[0.18em] text-primary sm:inline">
+          <span className="hidden h-7 w-px bg-primary-foreground/25 sm:block" />
+          <span className="mt-0.5 hidden text-[10px] font-semibold uppercase leading-none tracking-[0.18em] text-primary-foreground/90 sm:inline">
             Progressive daily, explained by AI
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-5 text-sm font-medium text-muted-foreground md:flex">
-          <Link to="/" className="hover:text-foreground [&.active]:text-foreground">Today</Link>
-          <Link to="/kind/$kind" params={{ kind: "news" }} className="hover:text-foreground [&.active]:text-foreground">News</Link>
-          <Link to="/kind/$kind" params={{ kind: "analysis" }} className="hover:text-foreground [&.active]:text-foreground">Analysis</Link>
-          <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-foreground [&.active]:text-foreground">Explainers</Link>
-          <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-foreground [&.active]:text-foreground">Opinion</Link>
-          <Link to="/topics" className="hover:text-foreground [&.active]:text-foreground">Topics</Link>
-          <Link to="/crowdsource" className="hover:text-foreground [&.active]:text-foreground">Crowdsource</Link>
-          <Link to="/about" className="hover:text-foreground [&.active]:text-foreground">About</Link>
+        <nav className="hidden items-center gap-5 text-sm font-medium text-primary-foreground/80 md:flex">
+          <Link to="/" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Today</Link>
+          <Link to="/kind/$kind" params={{ kind: "news" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">News</Link>
+          <Link to="/kind/$kind" params={{ kind: "analysis" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Analysis</Link>
+          <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Explainers</Link>
+          <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
+          <Link to="/topics" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
+          <Link to="/crowdsource" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Crowdsource</Link>
+          <Link to="/about" className="hover:text-primary-foreground [&.active]:text-primary-foreground">About</Link>
 
         </nav>
         <div className="ml-5 flex items-center gap-3">
@@ -194,33 +194,33 @@ function SiteHeader() {
             to="/search"
             search={{ q: "" }}
             aria-label="Search"
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="text-sm text-primary-foreground/80 hover:text-primary-foreground"
           >
             Search
           </Link>
           <AccountNav />
         </div>
       </div>
-      <div className="border-t border-border/60 bg-muted/40">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 overflow-x-auto px-4 py-2 text-xs text-muted-foreground md:hidden">
-          <Link to="/" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Today</Link>
-          <span>·</span>
-          <Link to="/kind/$kind" params={{ kind: "news" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">News</Link>
-          <span>·</span>
-          <Link to="/kind/$kind" params={{ kind: "analysis" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Analysis</Link>
-          <span>·</span>
-          <Link to="/kind/$kind" params={{ kind: "explainer" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Explainers</Link>
-          <span>·</span>
-          <Link to="/kind/$kind" params={{ kind: "opinion" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Opinion</Link>
-          <span>·</span>
-          <Link to="/topics" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Topics</Link>
-          <span>·</span>
-          <Link to="/crowdsource" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Crowdsource</Link>
-          <span>·</span>
-          <Link to="/about" className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">About</Link>
-          <span>·</span>
+      <div className="border-t border-primary-foreground/15 bg-primary/90">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 overflow-x-auto px-4 py-2 text-xs text-primary-foreground/80 md:hidden">
+          <Link to="/" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Today</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/kind/$kind" params={{ kind: "news" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">News</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/kind/$kind" params={{ kind: "analysis" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Analysis</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/kind/$kind" params={{ kind: "explainer" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Explainers</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/kind/$kind" params={{ kind: "opinion" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/topics" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/crowdsource" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Crowdsource</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/about" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">About</Link>
+          <span className="text-primary-foreground/50">·</span>
 
-          <Link to="/search" search={{ q: "" }} className="whitespace-nowrap hover:text-foreground [&.active]:text-foreground">Search</Link>
+          <Link to="/search" search={{ q: "" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Search</Link>
         </div>
       </div>
     </header>
@@ -229,20 +229,20 @@ function SiteHeader() {
 
 function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-border bg-muted/30">
-      <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-muted-foreground">
+    <footer className="mt-16 border-t border-primary-foreground/15 bg-primary">
+      <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-primary-foreground/80">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <p className="font-serif text-lg text-foreground">The Progressor</p>
+          <p className="font-serif text-lg text-primary-foreground">The Progressor</p>
           <p>
             An autonomous progressive news publication. Every article on this
             site is written by an AI editor.
           </p>
         </div>
         <p className="mt-4 max-w-2xl text-xs">
-          We label content clearly: <span className="text-foreground">News</span> is
-          factual reporting, <span className="text-foreground">Analysis</span> is
-          interpretation, <span className="text-foreground">Explainers</span> give
-          evergreen background, and <span className="text-foreground">Opinion</span> is
+          We label content clearly: <span className="text-primary-foreground">News</span> is
+          factual reporting, <span className="text-primary-foreground">Analysis</span> is
+          interpretation, <span className="text-primary-foreground">Explainers</span> give
+          evergreen background, and <span className="text-primary-foreground">Opinion</span> is
           explicitly editorial.
         </p>
       </div>
