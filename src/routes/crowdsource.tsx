@@ -111,13 +111,14 @@ function CrowdsourcePage() {
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {[
           {
-            h: "It checks who reported it",
-            p: "Established newsrooms, wire services, public broadcasters, court filings, agency data and peer-reviewed work clear the bar. Content farms and anonymous aggregators don't.",
+            h: "It opens your link and reads it",
+            p: "The desk fetches the page itself — headline, byline, date, text — so the outlet and the claim are checked against the real article, not your description of it.",
           },
           {
             h: "No link? Cite your sources",
-            p: "Topic pitches are welcome, but the desk will ask for two or more independent, checkable sources showing the thing is real and significant.",
+            p: "Topic pitches are welcome, but the desk will ask for two or more independent, checkable links it can fetch and verify before anything moves forward.",
           },
+
           {
             h: "Top five run tomorrow",
             p: "Every pitch gets a score. The five strongest are written up and published in the next daily Crowdsource edition.",
