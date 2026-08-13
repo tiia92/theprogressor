@@ -106,6 +106,7 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async () =>
       "id, slug, title, dek, article_type, category, tags, hero_gradient, hero_image_url, featured, upvotes, published_at",
     )
     .order("published_at", { ascending: false })
+    .order("id", { ascending: false })
     .limit(40);
   if (error) throw new Error(error.message);
   const all = rows ?? [];
