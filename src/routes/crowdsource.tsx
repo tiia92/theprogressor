@@ -3,11 +3,20 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   crowdsourceChat,
   listCrowdsourceQueue,
   submitCrowdsourcePitch,
 } from "@/lib/crowdsource.functions";
 import { useAuth } from "@/hooks/use-auth";
+
 
 export const Route = createFileRoute("/crowdsource")({
   head: () => ({
@@ -93,11 +102,16 @@ function CrowdsourcePage() {
   function send() {
     const text = input.trim();
     if (!text || chat.isPending) return;
+    if (!user) {
+      setShowLogin(true);
+      return;
+    }
     const next = [...messages, { role: "user" as const, content: text }];
     setMessages(next);
     setInput("");
     chat.mutate(next);
   }
+
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
