@@ -125,8 +125,10 @@ export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn
     ...context,
   ])) as Partial<EditorTurn>;
 
-  // Hard gate: a pitch can only be filed on links we successfully fetched ourselves.
-  const ready = !!parsed.ready && !!parsed.pitch && verified.length > 0;
+  // Hard gates: verified link, plus at least two reader answers to the desk's questions.
+  const answers = messages.filter((m) => m.role === "user").length;
+  const enoughAnswers = answers >= 2;
+  const ready = !!parsed.ready && !!parsed.pitch && verified.length > 0 && enoughAnswers;
   const primary =
     verified.find((f) => (f.finalUrl ?? f.url) === parsed.pitch?.source_url) ?? verified[0];
 
