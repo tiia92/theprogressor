@@ -67,7 +67,15 @@ function AuthPage() {
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        if (error) {
+          const unconfirmed = /confirm/i.test(error.message);
+          const bypass = unconfirmed
+            ? await confirmAllowlistedEmail({ data: { email } }).catch(() => null)
+            : null;
+          if (!bypass?.confirmed) throw error;
+          const { error: retryError } = await supabase.auth.signInWithPassword({ email, password });
+          if (retryError) throw retryError;
+        }
       }
       navigate({ to: dest });
     } catch (err) {
