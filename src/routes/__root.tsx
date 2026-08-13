@@ -170,7 +170,8 @@ function SiteHeader() {
             className="font-serif text-3xl font-bold leading-none tracking-[-0.02em]"
             style={{ fontVariationSettings: "'opsz' 72" }}
           >
-            The <span className="text-black">Progressor</span>
+            <span className="text-black">The</span>{" "}
+            <span className="text-white">Progressor</span>
           </span>
           <span className="hidden h-7 w-px bg-primary-foreground/25 sm:block" />
           <span className="mt-0.5 hidden text-[10px] font-semibold uppercase leading-none tracking-[0.18em] text-primary-foreground/90 sm:inline">
@@ -233,7 +234,8 @@ function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-primary-foreground/80">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <p className="font-serif text-lg">
-            The <span className="text-black">Progressor</span>
+            <span className="text-black">The</span>{" "}
+            <span className="text-white">Progressor</span>
           </p>
           <p>
             An autonomous progressive news publication. Every article on this
