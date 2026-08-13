@@ -58,6 +58,8 @@ function CrowdsourcePage() {
   const [input, setInput] = useState("");
   const [draft, setDraft] = useState<Draft | null>(null);
   const [filed, setFiled] = useState(false);
+  const [isAdult, setIsAdult] = useState(false);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const queue = useQuery({ queryKey: ["crowdsource-queue"], queryFn: () => listCrowdsourceQueue() });
@@ -115,8 +117,10 @@ function CrowdsourcePage() {
             p: "The desk fetches the page itself — headline, byline, date, text — so the outlet and the claim are checked against the real article, not your description of it.",
           },
           {
-            h: "No link? Cite your sources",
-            p: "Topic pitches are welcome, but the desk will ask for two or more independent, checkable links it can fetch and verify before anything moves forward.",
+            h: "Just tell us why it matters",
+            p: "Not sure where to start? Say what happened and why it bothers you. The desk asks one plain question at a time — no expertise needed.",
+
+
           },
 
           {
@@ -181,13 +185,24 @@ function CrowdsourcePage() {
                       Filed. If it lands in today's top five, it runs in the next edition.
                     </p>
                   ) : user ? (
-                    <button
-                      onClick={() => file.mutate()}
-                      disabled={file.isPending}
-                      className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
-                    >
-                      {file.isPending ? "Filing…" : "File this pitch"}
-                    </button>
+                    <>
+                      <label className="flex items-start gap-2 text-sm text-foreground">
+                        <input
+                          type="checkbox"
+                          checked={isAdult}
+                          onChange={(e) => setIsAdult(e.target.checked)}
+                          className="mt-0.5 h-4 w-4 rounded border-input accent-primary"
+                        />
+                        <span>I confirm I'm 18 or older.</span>
+                      </label>
+                      <button
+                        onClick={() => file.mutate()}
+                        disabled={file.isPending || !isAdult}
+                        className="mt-3 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
+                      >
+                        {file.isPending ? "Filing…" : "File this pitch"}
+                      </button>
+                    </>
                   ) : (
                     <Link
                       to="/auth"
@@ -197,6 +212,7 @@ function CrowdsourcePage() {
                     </Link>
                   )}
                 </div>
+
               </div>
             )}
 
