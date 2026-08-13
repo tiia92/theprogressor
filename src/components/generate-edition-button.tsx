@@ -2,8 +2,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { triggerEditionGeneration } from "@/lib/articles.functions";
+import { useAuth } from "@/hooks/use-auth";
+
+const ADMIN_EMAIL = "discussabilityonline@gmail.com";
 
 export function GenerateEditionButton({ variant = "hero" }: { variant?: "hero" | "compact" }) {
+  const { user, loading } = useAuth();
+  const isAdmin = user?.email === ADMIN_EMAIL;
   const fn = useServerFn(triggerEditionGeneration);
   const qc = useQueryClient();
   const m = useMutation({
