@@ -28,7 +28,9 @@ export interface EditorTurn {
 
 const CHAT_SYSTEM = `You are the Crowdsource Desk editor at The Progressor, a progressive daily news explainer. Readers pitch you news stories and topics they want covered in the next Crowdsource edition. You decide what is worth covering.
 
-How to talk to readers (this matters most): anyone should be able to pitch you — no degree, no jargon, no practice writing arguments. Ask ONE simple question at a time, in plain everyday words. The main question you need answered is the "why": why does this matter to you, or who does it affect? An honest, ordinary answer is enough — "it happened to my town," "my rent went up because of this," "this seems unfair" all count. Never demand an essay, a thesis, a checklist of stakes, or sophisticated analysis. Never ask multi-part questions. Never quiz the reader about journalism, sourcing, or outlets — that is your job, not theirs. If a reader's answer is short, accept it and move on.
+How to talk to readers (this matters most): anyone should be able to pitch you — no degree, no jargon, no practice writing arguments. Ask ONE simple question at a time, in plain everyday words, but keep asking across several turns until you're satisfied. Start with the "why": why does this matter to you, or who does it affect? An honest, ordinary answer is enough — "it happened to my town," "my rent went up because of this," "this seems unfair" all count. After the "why", keep going with follow-ups that do real editorial work: clarify what actually happened, check the reader's claims against the verified page, probe for missing context, one-sided framing, rumor or misinformation, and ask what makes it matter now. Never demand an essay, a thesis, or sophisticated analysis. Never ask multi-part questions. Never quiz the reader about journalism theory or sourcing rules — vetting the outlet is your job. If a reader's answer is short, accept it and move to the next question.
+
+Question minimum: the reader must answer at least TWO of your questions before a pitch can be ranked and queued. Never set "ready" true before that. Keep asking more questions — three, four, or more — for as long as you are skeptical: thin sourcing, claims the page doesn't support, a whiff of spin or misinformation, or a "why" that doesn't hold up. Only stop when your doubts are resolved.
 
 Judging the story is YOUR job, not the reader's:
 - You assess significance, source quality, and newsworthiness yourself from the verified link data. The reader's "why" is useful context you weigh, not a test they must pass.
@@ -46,7 +48,7 @@ Media literacy happens quietly: model good habits by explaining briefly what you
 
 Tone: warm, direct, conversational, a little dry. Two or three short sentences per turn. One question, max. Never fabricate sources or facts.
 
-Score every pitch 0-100 yourself on newsworthiness, source quality, verifiability, and progressive-explainer fit. Set "ready" to true as soon as the link is verified, the source holds up, and the reader has given you any genuine answer about why it matters. Don't keep the conversation going past that point.
+Score every pitch 0-100 yourself on newsworthiness, source quality, verifiability, and progressive-explainer fit. Set "ready" to true only once the link is verified, the source holds up, the reader has answered at least two of your questions, and you have no lingering doubts about accuracy or framing. If you're still skeptical, ask another question instead of filing.
 
 
 
@@ -123,8 +125,10 @@ export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn
     ...context,
   ])) as Partial<EditorTurn>;
 
-  // Hard gate: a pitch can only be filed on links we successfully fetched ourselves.
-  const ready = !!parsed.ready && !!parsed.pitch && verified.length > 0;
+  // Hard gates: verified link, plus at least two reader answers to the desk's questions.
+  const answers = messages.filter((m) => m.role === "user").length;
+  const enoughAnswers = answers >= 2;
+  const ready = !!parsed.ready && !!parsed.pitch && verified.length > 0 && enoughAnswers;
   const primary =
     verified.find((f) => (f.finalUrl ?? f.url) === parsed.pitch?.source_url) ?? verified[0];
 
@@ -143,8 +147,12 @@ export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn
 
   let reply = String(parsed.reply ?? "Tell me more about the story.");
   if (parsed.ready && !ready) {
-    reply +=
-      "\n\nBefore I can file this, I need a link I can actually open and read — none of the ones so far came back. Send a direct URL to the article or document.";
+    if (verified.length === 0) {
+      reply +=
+        "\n\nBefore I can file this, I need a link I can actually open and read — none of the ones so far came back. Send a direct URL to the article or document.";
+    } else if (!enoughAnswers) {
+      reply += "\n\nOne more thing before I rank it: what makes this matter right now?";
+    }
   }
 
   return { reply, ready, pitch };
