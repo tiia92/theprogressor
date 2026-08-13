@@ -7,8 +7,9 @@ const messageSchema = z.object({
   content: z.string().min(1).max(4000),
 });
 
-/** One turn of the Crowdsource desk conversation. Open to signed-out readers. */
+/** One turn of the Crowdsource desk conversation. Requires an account. */
 export const crowdsourceChat = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) =>
     z.object({ messages: z.array(messageSchema).min(1).max(40) }).parse(d),
   )

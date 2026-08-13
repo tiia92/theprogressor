@@ -3,11 +3,20 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   crowdsourceChat,
   listCrowdsourceQueue,
   submitCrowdsourcePitch,
 } from "@/lib/crowdsource.functions";
 import { useAuth } from "@/hooks/use-auth";
+
 
 export const Route = createFileRoute("/crowdsource")({
   head: () => ({
@@ -59,6 +68,8 @@ function CrowdsourcePage() {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [filed, setFiled] = useState(false);
   const [isAdult, setIsAdult] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -91,11 +102,16 @@ function CrowdsourcePage() {
   function send() {
     const text = input.trim();
     if (!text || chat.isPending) return;
+    if (!user) {
+      setShowLogin(true);
+      return;
+    }
     const next = [...messages, { role: "user" as const, content: text }];
     setMessages(next);
     setInput("");
     chat.mutate(next);
   }
+
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -239,7 +255,13 @@ function CrowdsourcePage() {
                   Send
                 </button>
               </div>
+              {!user && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Reading is open to everyone — you'll need an account to talk to the desk.
+                </p>
+              )}
             </div>
+
           </div>
         </section>
 
@@ -268,6 +290,33 @@ function CrowdsourcePage() {
           </ol>
         </aside>
       </div>
+
+      <Dialog open={showLogin} onOpenChange={setShowLogin}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Sign in to pitch the desk</DialogTitle>
+            <DialogDescription>
+              Anyone can read the Crowdsource desk, but pitching requires an account — it keeps the
+              queue accountable and lets you track what you filed.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <button
+              onClick={() => setShowLogin(false)}
+              className="rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+            >
+              Not now
+            </button>
+            <Link
+              to="/auth"
+              className="inline-flex rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              Sign in or create an account
+            </Link>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
+
   );
 }
