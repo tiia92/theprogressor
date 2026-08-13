@@ -22,6 +22,8 @@ export function GenerateEditionButton({ variant = "hero" }: { variant?: "hero" |
 
   const label = m.isPending ? "Writing today's edition…" : "Generate today's edition";
 
+  if (loading || !isAdmin) return null;
+
   if (variant === "compact") {
     return (
       <button
