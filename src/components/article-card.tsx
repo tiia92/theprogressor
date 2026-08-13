@@ -22,15 +22,12 @@ function TopicChips({ tags, max = 3 }: { tags?: string[] | null; max?: number })
   return (
     <div className="flex flex-wrap gap-1.5">
       {shown.map((t) => (
-        <Link
+        <span
           key={t}
-          to="/topic/$topic"
-          params={{ topic: t }}
-          onClick={(e) => e.stopPropagation()}
-          className="rounded-full border border-border bg-background/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+          className="rounded-full border border-border bg-background/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground"
         >
           {TOPIC_LABEL[t]}
-        </Link>
+        </span>
       ))}
     </div>
   );
