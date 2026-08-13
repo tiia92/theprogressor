@@ -143,7 +143,7 @@ function AccountNav() {
     return (
       <Link
         to="/auth"
-        className="rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground hover:bg-accent"
+        className="rounded-md border border-primary-foreground/30 bg-primary-foreground px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary-foreground/90"
       >
         Sign in
       </Link>
