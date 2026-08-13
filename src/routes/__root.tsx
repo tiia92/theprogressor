@@ -257,6 +257,14 @@ function SiteFooter() {
           evergreen background, and <span className="text-primary-foreground">Opinion</span> is
           explicitly editorial.
         </p>
+        <div className="mt-6 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+          <Link to="/privacy" className="hover:text-primary-foreground hover:underline">
+            Privacy
+          </Link>
+          <Link to="/terms" className="hover:text-primary-foreground hover:underline">
+            Terms
+          </Link>
+        </div>
       </div>
     </footer>
   );
