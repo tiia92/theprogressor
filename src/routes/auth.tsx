@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { confirmAllowlistedEmail } from "@/lib/auth-bypass.functions";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,12 +52,30 @@ function AuthPage() {
         });
         if (error) throw error;
         if (!data.session) {
-          toast.success("Check your email to confirm your account.");
-          return;
+          // Allowlisted addresses skip email confirmation and sign in immediately.
+          const bypass = await confirmAllowlistedEmail({ data: { email } }).catch(() => null);
+          if (bypass?.confirmed) {
+            const { error: signInError } = await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
+            if (signInError) throw signInError;
+          } else {
+            toast.success("Check your email to confirm your account.");
+            return;
+          }
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        if (error) {
+          const unconfirmed = /confirm/i.test(error.message);
+          const bypass = unconfirmed
+            ? await confirmAllowlistedEmail({ data: { email } }).catch(() => null)
+            : null;
+          if (!bypass?.confirmed) throw error;
+          const { error: retryError } = await supabase.auth.signInWithPassword({ email, password });
+          if (retryError) throw retryError;
+        }
       }
       navigate({ to: dest });
     } catch (err) {
