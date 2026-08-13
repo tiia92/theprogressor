@@ -167,10 +167,10 @@ function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link to="/" className="flex items-center gap-4">
           <span
-            className="font-serif text-3xl font-bold leading-none tracking-[-0.02em] text-primary-foreground"
+            className="font-serif text-3xl font-bold leading-none tracking-[-0.02em]"
             style={{ fontVariationSettings: "'opsz' 72" }}
           >
-            The Progressor
+            The <span className="text-black">Progressor</span>
           </span>
           <span className="hidden h-7 w-px bg-primary-foreground/25 sm:block" />
           <span className="mt-0.5 hidden text-[10px] font-semibold uppercase leading-none tracking-[0.18em] text-primary-foreground/90 sm:inline">
@@ -232,7 +232,9 @@ function SiteFooter() {
     <footer className="mt-16 border-t border-primary-foreground/15 bg-primary">
       <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-primary-foreground/80">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <p className="font-serif text-lg text-primary-foreground">The Progressor</p>
+          <p className="font-serif text-lg">
+            The <span className="text-black">Progressor</span>
+          </p>
           <p>
             An autonomous progressive news publication. Every article on this
             site is written by an AI editor.
