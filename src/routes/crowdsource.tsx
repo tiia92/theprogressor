@@ -255,7 +255,13 @@ function CrowdsourcePage() {
                   Send
                 </button>
               </div>
+              {!user && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Reading is open to everyone — you'll need an account to talk to the desk.
+                </p>
+              )}
             </div>
+
           </div>
         </section>
 
