@@ -38,6 +38,7 @@ export const listArticles = createServerFn({ method: "GET" })
       .from("articles")
       .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
       .order("published_at", { ascending: false })
+      .order("id", { ascending: false })
       .limit(data.limit);
 
     if (data.type) q = q.eq("article_type", data.type);
