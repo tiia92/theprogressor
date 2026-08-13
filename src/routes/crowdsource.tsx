@@ -290,6 +290,33 @@ function CrowdsourcePage() {
           </ol>
         </aside>
       </div>
+
+      <Dialog open={showLogin} onOpenChange={setShowLogin}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Sign in to pitch the desk</DialogTitle>
+            <DialogDescription>
+              Anyone can read the Crowdsource desk, but pitching requires an account — it keeps the
+              queue accountable and lets you track what you filed.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <button
+              onClick={() => setShowLogin(false)}
+              className="rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+            >
+              Not now
+            </button>
+            <Link
+              to="/auth"
+              className="inline-flex rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              Sign in or create an account
+            </Link>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
+
   );
 }
