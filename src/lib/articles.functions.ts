@@ -164,6 +164,7 @@ export const searchArticles = createServerFn({ method: "GET" })
       .select("id, slug, title, dek, article_type, category, tags, hero_gradient, featured, upvotes, published_at")
       .textSearch("search_vector", q, { type: "websearch", config: "english" })
       .order("published_at", { ascending: false })
+      .order("id", { ascending: false })
       .limit(data.limit);
     if (error) throw new Error(error.message);
     return rows ?? [];
