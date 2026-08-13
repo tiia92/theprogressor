@@ -181,13 +181,24 @@ function CrowdsourcePage() {
                       Filed. If it lands in today's top five, it runs in the next edition.
                     </p>
                   ) : user ? (
-                    <button
-                      onClick={() => file.mutate()}
-                      disabled={file.isPending}
-                      className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
-                    >
-                      {file.isPending ? "Filing…" : "File this pitch"}
-                    </button>
+                    <>
+                      <label className="flex items-start gap-2 text-sm text-foreground">
+                        <input
+                          type="checkbox"
+                          checked={isAdult}
+                          onChange={(e) => setIsAdult(e.target.checked)}
+                          className="mt-0.5 h-4 w-4 rounded border-input accent-primary"
+                        />
+                        <span>I confirm I'm 18 or older.</span>
+                      </label>
+                      <button
+                        onClick={() => file.mutate()}
+                        disabled={file.isPending || !isAdult}
+                        className="mt-3 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
+                      >
+                        {file.isPending ? "Filing…" : "File this pitch"}
+                      </button>
+                    </>
                   ) : (
                     <Link
                       to="/auth"
@@ -197,6 +208,7 @@ function CrowdsourcePage() {
                     </Link>
                   )}
                 </div>
+
               </div>
             )}
 
