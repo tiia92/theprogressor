@@ -166,9 +166,9 @@ function ArticlePage() {
 
         {sources.length > 0 && (
           <section className="mt-10 border-t border-border pt-6">
-            <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
               Sources
-            </h3>
+            </h2>
             <ul className="mt-3 space-y-1 text-sm">
               {sources.map((s, i) => (
                 <li key={i}>

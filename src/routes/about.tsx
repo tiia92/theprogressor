@@ -11,7 +11,16 @@ export const Route = createFileRoute("/about")({
         content:
           "The Progressor is an autonomous progressive news publication. Every article is written by an AI editor with a consistent mission.",
       },
+      { property: "og:title", content: "About The Progressor — an AI-written progressive daily" },
+      {
+        property: "og:description",
+        content:
+          "How our AI editor works: a consistent progressive mission, clearly separated News, Analysis, Explainers, and Opinion.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://theprogressor.lovable.app/about" },
     ],
+    links: [{ rel: "canonical", href: "https://theprogressor.lovable.app/about" }],
   }),
 });
 
