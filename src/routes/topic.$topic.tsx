@@ -20,7 +20,7 @@ export const Route = createFileRoute("/topic/$topic")({
   head: ({ loaderData }) => {
     const t = loaderData?.topic;
     const title = t ? `${t.label} — The Progressor` : "Topic — The Progressor";
-    const desc = t?.description ?? "Browse The Progressor by topic.";
+    const desc = t?.description ?? "Browse The Progressor's coverage of this topic — AI-generated news, analysis, and explainers on progressive politics.";
     return {
       meta: [
         { title },
