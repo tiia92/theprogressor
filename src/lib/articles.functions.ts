@@ -83,7 +83,7 @@ export const listArticlesByTopic = createServerFn({ method: "GET" })
   });
 
 export const ARTICLE_COLUMNS =
-  "id, slug, title, dek, body, article_type, category, tags, sources, hero_gradient, featured, views, upvotes, published_at";
+  "id, slug, title, dek, body, article_type, category, tags, sources, hero_gradient, hero_image_url, featured, views, upvotes, published_at";
 
 export const getArticleBySlug = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) => z.object({ slug: z.string().min(1) }).parse(data))
