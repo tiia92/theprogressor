@@ -66,7 +66,18 @@ function ArticlePage() {
 
   return (
     <article>
-      <div className={`h-56 w-full md:h-72 ${heroGradientClass(article.hero_gradient)}`} />
+      {article.hero_image_url ? (
+        <img
+          src={article.hero_image_url}
+          alt=""
+          width={1536}
+          height={1024}
+          loading="eager"
+          className="h-56 w-full object-cover md:h-72"
+        />
+      ) : (
+        <div className={`h-56 w-full md:h-72 ${heroGradientClass(article.hero_gradient)}`} />
+      )}
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="mb-4 flex items-center gap-3">
           <KindBadge type={article.article_type} />
