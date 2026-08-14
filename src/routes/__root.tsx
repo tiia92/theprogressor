@@ -250,20 +250,22 @@ function SiteFooter() {
             site is written by an AI editor.
           </p>
         </div>
-        <p className="mt-4 max-w-2xl text-xs">
-          We label content clearly: <span className="text-primary-foreground">News</span> is
-          factual reporting, <span className="text-primary-foreground">Analysis</span> is
-          interpretation, <span className="text-primary-foreground">Explainers</span> give
-          evergreen background, and <span className="text-primary-foreground">Opinion</span> is
-          explicitly editorial.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-x-4 gap-y-1 text-xs">
-          <Link to="/privacy" className="hover:text-primary-foreground hover:underline">
-            Privacy
-          </Link>
-          <Link to="/terms" className="hover:text-primary-foreground hover:underline">
-            Terms
-          </Link>
+        <div className="mt-4 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <p className="max-w-2xl text-xs">
+            We label content clearly: <span className="text-primary-foreground">News</span> is
+            factual reporting, <span className="text-primary-foreground">Analysis</span> is
+            interpretation, <span className="text-primary-foreground">Explainers</span> give
+            evergreen background, and <span className="text-primary-foreground">Opinion</span> is
+            explicitly editorial.
+          </p>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
+            <Link to="/privacy" className="hover:text-primary-foreground hover:underline">
+              Privacy
+            </Link>
+            <Link to="/terms" className="hover:text-primary-foreground hover:underline">
+              Terms
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
