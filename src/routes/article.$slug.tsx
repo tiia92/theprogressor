@@ -73,7 +73,7 @@ function ArticlePage() {
           width={1536}
           height={1024}
           loading="eager"
-          className="h-56 w-full object-cover object-top md:h-72"
+          className="h-56 w-full object-contain md:h-72"
         />
       ) : (
         <div className={`h-56 w-full md:h-72 ${heroGradientClass(article.hero_gradient)}`} />
