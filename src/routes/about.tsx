@@ -76,12 +76,19 @@ function About() {
           optimization.
         </p>
 
-        <h2>Generate today's edition</h2>
-        <p>
-          The Progressor publishes on a daily cycle. You can also trigger a fresh
-          edition on demand.
-        </p>
-      </div>
+      <h2>Generate today's edition</h2>
+      <p>
+        The Progressor publishes on a daily cycle. You can also trigger a fresh
+        edition on demand.
+      </p>
+      <p>
+        Questions or feedback? Email us at{" "}
+        <a href="mailto:theprogressor@duck.com" className="text-primary hover:underline">
+          theprogressor@duck.com
+        </a>
+        .
+      </p>
+    </div>
 
       <div className="mt-6">
         <GenerateEditionButton />

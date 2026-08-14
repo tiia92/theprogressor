@@ -306,6 +306,12 @@ function SiteFooter() {
             <Link to="/terms" className="hover:text-primary-foreground hover:underline">
               Terms
             </Link>
+            <a
+              href="mailto:theprogressor@duck.com"
+              className="hover:text-primary-foreground hover:underline"
+            >
+              Contact
+            </a>
           </div>
         </div>
       </div>
