@@ -196,6 +196,36 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_subscribers: {
+        Row: {
+          brevo_synced: boolean
+          created_at: string
+          email: string
+          id: string
+          last_sent_at: string | null
+          status: string
+          unsubscribe_token: string
+        }
+        Insert: {
+          brevo_synced?: boolean
+          created_at?: string
+          email: string
+          id?: string
+          last_sent_at?: string | null
+          status?: string
+          unsubscribe_token?: string
+        }
+        Update: {
+          brevo_synced?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          last_sent_at?: string | null
+          status?: string
+          unsubscribe_token?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

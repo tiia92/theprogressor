@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
+import { NewsletterSignup } from "@/components/newsletter-signup";
+
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
@@ -282,6 +284,10 @@ function SiteFooter() {
             site is written by an AI editor.
           </p>
         </div>
+        <div className="mt-6 border-t border-primary-foreground/15 pt-6">
+          <NewsletterSignup />
+        </div>
+
         <div className="mt-4 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <p className="max-w-2xl text-xs">
             We label content clearly: <span className="text-primary-foreground">News</span> is
