@@ -21,6 +21,7 @@ export const Route = createFileRoute("/topic/$topic")({
     const t = loaderData?.topic;
     const title = t ? `${t.label} — The Progressor` : "Topic — The Progressor";
     const desc = t?.description ?? "Browse The Progressor's coverage of this topic — AI-generated news, analysis, and explainers on progressive politics.";
+    const url = t ? `https://theprogressor.lovable.app/topic/${t.slug}` : "https://theprogressor.lovable.app/topics";
     return {
       meta: [
         { title },
@@ -29,6 +30,23 @@ export const Route = createFileRoute("/topic/$topic")({
         { property: "og:description", content: desc },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary" },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: title,
+            description: desc,
+            url,
+            isPartOf: {
+              "@type": "WebSite",
+              name: "The Progressor",
+              url: "https://theprogressor.lovable.app",
+            },
+          }),
+        },
       ],
     };
   },
