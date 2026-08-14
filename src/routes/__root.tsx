@@ -105,6 +105,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "The Progressor",
+            url: "https://theprogressor.lovable.app",
+            description: "Progressive daily, explained by AI.",
+            potentialAction: {
+              "@type": "SearchAction",
+              target:
+                "https://theprogressor.lovable.app/search?q={search_term_string}",
+              "query-input": "required name=search_term_string",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "NewsMediaOrganization",
+            name: "The Progressor",
+            url: "https://theprogressor.lovable.app",
+            logo: "https://theprogressor.lovable.app/favicon.png",
+            email: "theprogressor@duck.com",
+          },
+        ]),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
