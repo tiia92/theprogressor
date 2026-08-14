@@ -11,6 +11,23 @@ export const Route = createFileRoute("/topics")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Topics — The Progressor",
+          description: "Browse The Progressor by topic — from immigration and courts to climate, tech, and pop culture.",
+          url: "https://theprogressor.lovable.app/topics",
+          isPartOf: {
+            "@type": "WebSite",
+            name: "The Progressor",
+            url: "https://theprogressor.lovable.app",
+          },
+        }),
+      },
+    ],
   }),
   component: TopicsIndex,
 });
