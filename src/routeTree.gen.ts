@@ -14,6 +14,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -57,6 +58,11 @@ const SearchRoute = SearchRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrowdsourceRoute = CrowdsourceRouteImport.update({
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -221,6 +229,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -248,6 +257,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/pricing'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/pricing'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/pricing'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -326,6 +338,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   CrowdsourceRoute: typeof CrowdsourceRoute
+  PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -381,6 +394,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crowdsource': {
@@ -536,6 +556,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   CrowdsourceRoute: CrowdsourceRoute,
+  PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
