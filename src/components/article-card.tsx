@@ -20,6 +20,8 @@ interface Props {
   withArt?: boolean;
   /** Section pages: omit the photo/gradient block to avoid empty visual space. */
   noImage?: boolean;
+  /** Semantic heading level for the article title. Listing pages use h2 under the page h1. */
+  headingLevel?: "h2" | "h3";
 }
 
 function HeroArt({
@@ -95,7 +97,7 @@ function fmtDate(iso: string) {
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
-export function ArticleCard({ article, size = "medium", withArt = false, noImage = false }: Props) {
+export function ArticleCard({ article, size = "medium", withArt = false, noImage = false, headingLevel = "h3" }: Props) {
   if (size === "featured") {
     return (
       <Link
@@ -127,6 +129,7 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
   }
 
   if (size === "compact") {
+    const CompactTag = headingLevel;
     return (
       <Link
         to="/article/$slug"
@@ -139,13 +142,14 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
             {fmtDate(article.published_at)}
           </span>
         </div>
-        <h3 className="font-serif text-lg font-semibold leading-snug text-foreground group-hover:text-primary">
+        <CompactTag className="font-serif text-lg font-semibold leading-snug text-foreground group-hover:text-primary">
           {article.title}
-        </h3>
+        </CompactTag>
       </Link>
     );
   }
 
+  const TitleTag = headingLevel;
   return (
     <Link
       to="/article/$slug"
@@ -164,9 +168,9 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
           <KindBadge type={article.article_type} />
           <TypeLabel type={article.article_type} />
         </div>
-        <h3 className="font-serif text-xl font-semibold leading-snug text-foreground group-hover:text-primary">
+        <TitleTag className="font-serif text-xl font-semibold leading-snug text-foreground group-hover:text-primary">
           {article.title}
-        </h3>
+        </TitleTag>
         <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{article.dek}</p>
         <div className="mt-3"><TopicChips tags={article.tags} max={3} /></div>
         <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
