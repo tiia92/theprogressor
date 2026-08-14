@@ -77,15 +77,7 @@ function ArticlePage() {
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/40" />
-          <div className="relative mx-auto max-w-3xl px-4 py-14 text-white md:py-20">
-            <div className="mb-4 flex items-center gap-3">
-              <KindBadge type={article.article_type} />
-              <TypeLabel type={article.article_type} />
-              <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-white/80">
-                {fmtArticleDate(article.published_at)}
-              </span>
-            </div>
-
+          <div className="relative mx-auto max-w-3xl px-4 py-14 md:py-20">
             <h1 className="font-serif text-3xl font-bold leading-tight text-white md:text-5xl">
               {article.title}
             </h1>
@@ -100,14 +92,6 @@ function ArticlePage() {
       <div className="mx-auto max-w-3xl px-4 py-10">
         {!article.hero_image_url && (
           <>
-            <div className="mb-4 flex items-center gap-3">
-              <KindBadge type={article.article_type} />
-              <TypeLabel type={article.article_type} />
-              <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                {fmtArticleDate(article.published_at)}
-              </span>
-            </div>
-
             <h1 className="font-serif text-3xl font-bold leading-tight text-foreground md:text-5xl">
               {article.title}
             </h1>
@@ -116,6 +100,14 @@ function ArticlePage() {
             </p>
           </>
         )}
+        <div className="mb-4 flex items-center gap-3">
+          <KindBadge type={article.article_type} />
+          <TypeLabel type={article.article_type} />
+          <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+            {fmtArticleDate(article.published_at)}
+          </span>
+        </div>
+
         <div className="my-6 flex items-center gap-3 border-y border-border py-3 text-xs text-muted-foreground">
           <span className="font-mono uppercase tracking-[0.14em]">By The Progressor AI Editor</span>
           <span>·</span>
