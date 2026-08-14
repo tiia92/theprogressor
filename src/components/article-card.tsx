@@ -20,6 +20,8 @@ interface Props {
   withArt?: boolean;
   /** Section pages: omit the photo/gradient block to avoid empty visual space. */
   noImage?: boolean;
+  /** Semantic heading level for the article title. Listing pages use h2 under the page h1. */
+  headingLevel?: "h2" | "h3";
 }
 
 function HeroArt({
