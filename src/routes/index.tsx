@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "The Progressor — Progressive daily, explained by AI" },
+      { title: "Today's Progressive Briefing | The Progressor" },
       {
         name: "description",
         content:
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "The Progressor — Progressive daily, explained by AI",
+        content: "Today's Progressive Briefing | The Progressor",
       },
       {
         property: "og:description",
