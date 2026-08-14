@@ -149,6 +149,7 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
     );
   }
 
+  const TitleTag = headingLevel;
   return (
     <Link
       to="/article/$slug"
@@ -167,9 +168,9 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
           <KindBadge type={article.article_type} />
           <TypeLabel type={article.article_type} />
         </div>
-        <h3 className="font-serif text-xl font-semibold leading-snug text-foreground group-hover:text-primary">
+        <TitleTag className="font-serif text-xl font-semibold leading-snug text-foreground group-hover:text-primary">
           {article.title}
-        </h3>
+        </TitleTag>
         <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{article.dek}</p>
         <div className="mt-3"><TopicChips tags={article.tags} max={3} /></div>
         <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
