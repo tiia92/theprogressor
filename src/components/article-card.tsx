@@ -97,7 +97,7 @@ function fmtDate(iso: string) {
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
-export function ArticleCard({ article, size = "medium", withArt = false, noImage = false }: Props) {
+export function ArticleCard({ article, size = "medium", withArt = false, noImage = false, headingLevel = "h3" }: Props) {
   if (size === "featured") {
     return (
       <Link
