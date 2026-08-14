@@ -70,11 +70,11 @@ function ArticlePage() {
         <div className="relative">
           <img
             src={article.hero_image_url}
-            alt={article.title}
+            alt=""
             width={1536}
             height={1024}
             loading="eager"
-            className="h-auto w-full object-contain"
+            className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/40" />
           <div className="relative mx-auto max-w-3xl px-4 py-14 md:py-20">
