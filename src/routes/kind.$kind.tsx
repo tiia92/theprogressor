@@ -86,7 +86,7 @@ function KindPage() {
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {data.map((a) => (
-            <ArticleCard key={a.id} article={a} noImage />
+            <ArticleCard key={a.id} article={a} noImage headingLevel="h2" />
           ))}
         </div>
       )}

@@ -78,7 +78,7 @@ function TopicPage() {
       ) : (
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((a: (typeof articles)[number]) => (
-            <ArticleCard key={a.id} article={a} />
+            <ArticleCard key={a.id} article={a} headingLevel="h2" />
           ))}
         </div>
       )}
