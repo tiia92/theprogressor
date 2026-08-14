@@ -52,10 +52,10 @@ export const KIND_LABEL: Record<ContentKind, string> = {
 };
 
 export const KIND_DESCRIPTION: Record<ContentKind, string> = {
-  news: "Factual summaries of what happened.",
-  analysis: "Interpretation of what it means, clearly labeled.",
+  news: "Factual summaries of recent events and breaking news from Washington and beyond.",
+  analysis: "Interpretation and context for what the news means, clearly labeled as analysis.",
   explainer: "Evergreen background on the policies and institutions in play.",
-  opinion: "Editorial viewpoints, explicitly identified.",
+  opinion: "Editorial viewpoints and argument, explicitly identified as opinion journalism.",
 };
 
 export const CATEGORIES = [
