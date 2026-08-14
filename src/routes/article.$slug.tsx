@@ -20,8 +20,10 @@ export const Route = createFileRoute("/article/$slug")({
     return row;
   },
   component: ArticlePage,
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) return {};
+    const url = `https://theprogressor.lovable.app/article/${params.slug}`;
+    const image = (loaderData as { hero_image_url?: string | null }).hero_image_url ?? undefined;
     return {
       meta: [
         { title: `${loaderData.title} — The Progressor` },
@@ -29,7 +31,31 @@ export const Route = createFileRoute("/article/$slug")({
         { property: "og:title", content: loaderData.title },
         { property: "og:description", content: loaderData.dek },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { property: "article:published_time", content: loaderData.published_at },
+        ...(image
+          ? [
+              { property: "og:image", content: image },
+              { name: "twitter:image", content: image },
+            ]
+          : []),
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            headline: loaderData.title,
+            description: loaderData.dek,
+            datePublished: loaderData.published_at,
+            mainEntityOfPage: url,
+            ...(image ? { image: [image] } : {}),
+            author: { "@type": "Organization", name: "The Progressor" },
+            publisher: { "@type": "Organization", name: "The Progressor" },
+          }),
+        },
       ],
     };
   },
