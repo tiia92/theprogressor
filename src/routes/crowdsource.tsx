@@ -25,7 +25,7 @@ export const Route = createFileRoute("/crowdsource")({
       {
         name: "description",
         content:
-          "Pitch a story or topic to The Progressor's Crowdsource desk. Our editor bot vets your sources, presses you on the merits, and the top five pitches run in the next daily Crowdsource edition.",
+          "Pitch a story to The Progressor's Crowdsource desk. Our editor bot vets sources, tests claims, and the top five reader pitches run in the next daily edition.",
       },
       { property: "og:title", content: "Crowdsource — Pitch the next edition | The Progressor" },
       {
