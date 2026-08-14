@@ -243,5 +243,22 @@ Use only the sources listed in the wire above; include their real URLs in the so
     await attachArticleImage(lead.slug).catch(() => null);
   }
 
+  // Email subscribers the new edition. Never fatal.
+  try {
+    const { sendEditionAlert } = await import("@/lib/newsletter.server");
+    await sendEditionAlert(
+      rows.map((r) => ({
+        slug: r.slug,
+        title: r.title,
+        dek: r.dek,
+        article_type: r.article_type,
+      })),
+      date,
+    );
+  } catch (e) {
+    console.error("[generate-edition] alert email failed", e);
+  }
+
   return { inserted: rows.length, slugs: rows.map((r) => r.slug) };
+
 }

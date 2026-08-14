@@ -282,6 +282,10 @@ function SiteFooter() {
             site is written by an AI editor.
           </p>
         </div>
+        <div className="mt-6 border-t border-primary-foreground/15 pt-6">
+          <NewsletterSignup />
+        </div>
+
         <div className="mt-4 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <p className="max-w-2xl text-xs">
             We label content clearly: <span className="text-primary-foreground">News</span> is
