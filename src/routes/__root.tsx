@@ -300,6 +300,9 @@ function SiteFooter() {
             explicitly editorial.
           </p>
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
+            <Link to="/about" className="hover:text-primary-foreground hover:underline">
+              About
+            </Link>
             <Link to="/privacy" className="hover:text-primary-foreground hover:underline">
               Privacy
             </Link>
