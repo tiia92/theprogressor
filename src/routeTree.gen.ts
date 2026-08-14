@@ -14,6 +14,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -21,9 +22,12 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TopicTopicRouteImport } from './routes/topic.$topic'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api/public/newsletter/unsubscribe'
+import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
@@ -56,6 +60,11 @@ const SearchRoute = SearchRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrowdsourceRoute = CrowdsourceRouteImport.update({
@@ -92,6 +101,11 @@ const KindKindRoute = KindKindRouteImport.update({
   path: '/kind/$kind',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/checkout/return',
+  path: '/checkout/return',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArticleSlugRoute = ArticleSlugRouteImport.update({
   id: '/article/$slug',
   path: '/article/$slug',
@@ -102,10 +116,22 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicNewsletterUnsubscribeRoute =
   ApiPublicNewsletterUnsubscribeRouteImport.update({
     id: '/api/public/newsletter/unsubscribe',
     path: '/api/public/newsletter/unsubscribe',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksWeeklyDigestRoute =
+  ApiPublicHooksWeeklyDigestRouteImport.update({
+    id: '/api/public/hooks/weekly-digest',
+    path: '/api/public/hooks/weekly-digest',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicHooksGenerateOpinionRoute =
@@ -162,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -169,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/topics': typeof TopicsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
@@ -179,13 +207,16 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -193,6 +224,7 @@ export interface FileRoutesByTo {
   '/topics': typeof TopicsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
@@ -203,7 +235,9 @@ export interface FileRoutesByTo {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -212,6 +246,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -219,6 +254,7 @@ export interface FileRoutesById {
   '/topics': typeof TopicsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
@@ -229,7 +265,9 @@ export interface FileRoutesById {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -238,6 +276,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/pricing'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -245,6 +284,7 @@ export interface FileRouteTypes {
     | '/topics'
     | '/dashboard'
     | '/article/$slug'
+    | '/checkout/return'
     | '/kind/$kind'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
@@ -255,13 +295,16 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/pricing'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -269,6 +312,7 @@ export interface FileRouteTypes {
     | '/topics'
     | '/dashboard'
     | '/article/$slug'
+    | '/checkout/return'
     | '/kind/$kind'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
@@ -279,7 +323,9 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -287,6 +333,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/pricing'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -294,6 +341,7 @@ export interface FileRouteTypes {
     | '/topics'
     | '/_authenticated/dashboard'
     | '/article/$slug'
+    | '/checkout/return'
     | '/kind/$kind'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
@@ -304,7 +352,9 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -313,12 +363,14 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   CrowdsourceRoute: typeof CrowdsourceRoute
+  PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   TopicsRoute: typeof TopicsRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
   KindKindRoute: typeof KindKindRoute
   TopicTopicRoute: typeof TopicTopicRoute
   ApiPublicArticleImageSlugRoute: typeof ApiPublicArticleImageSlugRoute
@@ -329,7 +381,9 @@ export interface RootRouteChildren {
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
   ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
+  ApiPublicHooksWeeklyDigestRoute: typeof ApiPublicHooksWeeklyDigestRoute
   ApiPublicNewsletterUnsubscribeRoute: typeof ApiPublicNewsletterUnsubscribeRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -367,6 +421,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crowdsource': {
@@ -418,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KindKindRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/checkout/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/article/$slug': {
       id: '/article/$slug'
       path: '/article/$slug'
@@ -432,11 +500,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/newsletter/unsubscribe': {
       id: '/api/public/newsletter/unsubscribe'
       path: '/api/public/newsletter/unsubscribe'
       fullPath: '/api/public/newsletter/unsubscribe'
       preLoaderRoute: typeof ApiPublicNewsletterUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/weekly-digest': {
+      id: '/api/public/hooks/weekly-digest'
+      path: '/api/public/hooks/weekly-digest'
+      fullPath: '/api/public/hooks/weekly-digest'
+      preLoaderRoute: typeof ApiPublicHooksWeeklyDigestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/generate-opinion': {
@@ -515,12 +597,14 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   CrowdsourceRoute: CrowdsourceRoute,
+  PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   TopicsRoute: TopicsRoute,
   ArticleSlugRoute: ArticleSlugRoute,
+  CheckoutReturnRoute: CheckoutReturnRoute,
   KindKindRoute: KindKindRoute,
   TopicTopicRoute: TopicTopicRoute,
   ApiPublicArticleImageSlugRoute: ApiPublicArticleImageSlugRoute,
@@ -532,7 +616,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
   ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
+  ApiPublicHooksWeeklyDigestRoute: ApiPublicHooksWeeklyDigestRoute,
   ApiPublicNewsletterUnsubscribeRoute: ApiPublicNewsletterUnsubscribeRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

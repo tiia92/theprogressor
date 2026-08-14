@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { ArticleCard } from "@/components/article-card";
+import { MembershipPanel } from "@/components/membership-panel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TOPICS } from "@/lib/content-types";
@@ -42,7 +43,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   ),
 });
 
-type Tab = "feed" | "follows" | "saved";
+type Tab = "feed" | "follows" | "saved" | "membership";
 
 function Dashboard() {
   const qc = useQueryClient();
@@ -93,6 +94,7 @@ function Dashboard() {
     { id: "feed", label: "Your feed" },
     { id: "follows", label: "Following" },
     { id: "saved", label: "Saved" },
+    { id: "membership", label: "Membership" },
   ];
 
   return (
@@ -234,6 +236,8 @@ function Dashboard() {
           )}
         </section>
       )}
+
+      {tab === "membership" && <MembershipPanel />}
     </div>
   );
 }

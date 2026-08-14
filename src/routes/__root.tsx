@@ -226,6 +226,7 @@ function SiteHeader() {
           <Link to="/topics" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
           <Link to="/crowdsource" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Crowdsource</Link>
           <Link to="/about" className="hover:text-primary-foreground [&.active]:text-primary-foreground">About</Link>
+          <Link to="/pricing" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Pro</Link>
 
         </nav>
         <div className="ml-5 flex items-center gap-3">
@@ -257,6 +258,8 @@ function SiteHeader() {
           <Link to="/crowdsource" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Crowdsource</Link>
           <span className="text-primary-foreground/50">·</span>
           <Link to="/about" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">About</Link>
+          <span aria-hidden>·</span>
+          <Link to="/pricing" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Pro</Link>
           <span className="text-primary-foreground/50">·</span>
 
           <Link to="/search" search={{ q: "" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Search</Link>
