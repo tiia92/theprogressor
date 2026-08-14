@@ -23,6 +23,28 @@ function formatTodayUTC() {
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(homepageQuery),
   component: Home,
+  head: () => ({
+    meta: [
+      { title: "The Progressor — Today's progressive briefing, explained by AI" },
+      {
+        name: "description",
+        content:
+          "Today's progressive briefing: what happened, why it matters, and what to watch next — written daily by an AI editor.",
+      },
+      {
+        property: "og:title",
+        content: "The Progressor — Today's progressive briefing, explained by AI",
+      },
+      {
+        property: "og:description",
+        content:
+          "A daily brief, morning headlines, and deep-dive explainers on U.S. politics from an AI editor with a progressive lens.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://theprogressor.lovable.app/" },
+    ],
+    links: [{ rel: "canonical", href: "https://theprogressor.lovable.app/" }],
+  }),
 });
 
 function Home() {
@@ -40,7 +62,7 @@ function Home() {
             Today's edition
           </p>
           <h1 className="mt-1 font-serif text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            {formatTodayUTC()}
+            Today's Progressive Briefing — {formatTodayUTC()}
           </h1>
         </div>
         <GenerateEditionButton variant="compact" />

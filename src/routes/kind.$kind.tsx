@@ -22,11 +22,36 @@ export const Route = createFileRoute("/kind/$kind")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(kindQuery(params.kind)),
   component: KindPage,
   head: ({ params }) => {
-    const label = params?.kind ? KIND_LABEL[params.kind as Kind] : "Section";
+    const kind = (params?.kind as Kind) ?? "news";
+    const label = KIND_LABEL[kind];
+    const description = KIND_DESCRIPTION[kind];
+    const url = `https://theprogressor.lovable.app/kind/${kind}`;
     return {
       meta: [
         { title: `${label} — The Progressor` },
-        { name: "description", content: KIND_DESCRIPTION[(params?.kind as Kind) ?? "news"] },
+        { name: "description", content: description },
+        { property: "og:title", content: `${label} from The Progressor` },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: `${label} — The Progressor`,
+            description,
+            url,
+            isPartOf: {
+              "@type": "WebSite",
+              name: "The Progressor",
+              url: "https://theprogressor.lovable.app",
+            },
+          }),
+        },
       ],
     };
   },
