@@ -115,7 +115,7 @@ function Terms() {
 
         <h2>10. Contact</h2>
         <p>
-          Questions about these terms can be sent to discussabilityonline@gmail.com.
+          Questions about these terms can be sent to theprogressor@duck.com.
         </p>
       </div>
     </div>

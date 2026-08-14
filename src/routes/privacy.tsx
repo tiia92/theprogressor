@@ -122,7 +122,7 @@ function Privacy() {
         <h2>9. Contact us</h2>
         <p>
           If you have questions about this Privacy Policy or your data, please
-          contact us at discussabilityonline@gmail.com.
+          contact us at theprogressor@duck.com.
         </p>
       </div>
     </div>
