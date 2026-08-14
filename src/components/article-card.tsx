@@ -129,6 +129,7 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
   }
 
   if (size === "compact") {
+    const CompactTag = headingLevel;
     return (
       <Link
         to="/article/$slug"
@@ -141,9 +142,9 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
             {fmtDate(article.published_at)}
           </span>
         </div>
-        <h3 className="font-serif text-lg font-semibold leading-snug text-foreground group-hover:text-primary">
+        <CompactTag className="font-serif text-lg font-semibold leading-snug text-foreground group-hover:text-primary">
           {article.title}
-        </h3>
+        </CompactTag>
       </Link>
     );
   }
