@@ -5,7 +5,7 @@ const GATEWAY_URL = "https://connector-gateway.lovable.dev/brevo";
 
 export const SENDER = {
   name: "The Progressor",
-  email: "noreply@theprogressor.lovable.app",
+  email: "discussabilityonline+prog@gmail.com",
 };
 
 function headers() {
