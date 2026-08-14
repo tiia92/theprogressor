@@ -22,6 +22,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TopicTopicRouteImport } from './routes/topic.$topic'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -97,6 +98,11 @@ const TopicTopicRoute = TopicTopicRouteImport.update({
 const KindKindRoute = KindKindRouteImport.update({
   id: '/kind/$kind',
   path: '/kind/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/checkout/return',
+  path: '/checkout/return',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArticleSlugRoute = ArticleSlugRouteImport.update({
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/topics': typeof TopicsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
@@ -209,6 +216,7 @@ export interface FileRoutesByTo {
   '/topics': typeof TopicsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
@@ -237,6 +245,7 @@ export interface FileRoutesById {
   '/topics': typeof TopicsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/topics'
     | '/dashboard'
     | '/article/$slug'
+    | '/checkout/return'
     | '/kind/$kind'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
@@ -291,6 +301,7 @@ export interface FileRouteTypes {
     | '/topics'
     | '/dashboard'
     | '/article/$slug'
+    | '/checkout/return'
     | '/kind/$kind'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
@@ -318,6 +329,7 @@ export interface FileRouteTypes {
     | '/topics'
     | '/_authenticated/dashboard'
     | '/article/$slug'
+    | '/checkout/return'
     | '/kind/$kind'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
@@ -345,6 +357,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TopicsRoute: typeof TopicsRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
   KindKindRoute: typeof KindKindRoute
   TopicTopicRoute: typeof TopicTopicRoute
   ApiPublicArticleImageSlugRoute: typeof ApiPublicArticleImageSlugRoute
@@ -450,6 +463,13 @@ declare module '@tanstack/react-router' {
       path: '/kind/$kind'
       fullPath: '/kind/$kind'
       preLoaderRoute: typeof KindKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/checkout/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/article/$slug': {
@@ -563,6 +583,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TopicsRoute: TopicsRoute,
   ArticleSlugRoute: ArticleSlugRoute,
+  CheckoutReturnRoute: CheckoutReturnRoute,
   KindKindRoute: KindKindRoute,
   TopicTopicRoute: TopicTopicRoute,
   ApiPublicArticleImageSlugRoute: ApiPublicArticleImageSlugRoute,
