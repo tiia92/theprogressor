@@ -90,19 +90,120 @@ function renderEdition(articles: EditionArticle[], token: string, date: string) 
   </body></html>`;
 }
 
-/** Emails every active subscriber a digest of the day's new edition. Never fatal. */
+/** user_ids with a currently-valid Pro subscription in the given environment. */
+async function activeProUserIds(userIds: string[], environment: string) {
+  if (!userIds.length) return new Set<string>();
+  const { data } = await supabaseAdmin
+    .from("subscriptions")
+    .select("user_id, status, current_period_end")
+    .in("user_id", userIds)
+    .eq("environment", environment);
+  const now = Date.now();
+  const pro = new Set<string>();
+  for (const row of data ?? []) {
+    const future = !row.current_period_end || new Date(row.current_period_end).getTime() > now;
+    if (["active", "trialing", "past_due", "canceled"].includes(row.status) && future) {
+      pro.add(row.user_id as string);
+    }
+  }
+  return pro;
+}
+
+function articlesForTopics(articles: EditionArticle[], topics: string[]) {
+  if (!topics.length) return articles;
+  const wanted = new Set(topics);
+  const matched = articles.filter(
+    (a) => wanted.has(a.category ?? "") || (a.tags ?? []).some((t) => wanted.has(t)),
+  );
+  return matched.length ? matched : articles;
+}
+
+/**
+ * Emails the day's edition to Pro members on the daily cadence.
+ * Personalized members get only the stories matching the topics they follow.
+ */
 export async function sendEditionAlert(articles: EditionArticle[], date: string) {
   if (!articles.length) return { sent: 0 };
+
+  const environment = process.env['STRIPE_LIVE_API_KEY'] ? "live" : "sandbox";
+
+  const { data: subs, error } = await supabaseAdmin
+    .from("newsletter_subscribers")
+    .select("email, unsubscribe_token, user_id, personalized")
+    .eq("status", "subscribed")
+    .eq("cadence", "daily");
+  if (error) throw new Error(error.message);
+  if (!subs?.length) return { sent: 0 };
+
+  const userIds = subs.map((s) => s.user_id).filter(Boolean) as string[];
+  const pro = await activeProUserIds(userIds, environment);
+  const eligible = subs.filter((s) => s.user_id && pro.has(s.user_id));
+  if (!eligible.length) return { sent: 0 };
+
+  const lead = articles.find((a) => a.article_type === "daily_brief") ?? articles[0];
+  const subject = `The Progressor — ${lead.title}`;
+
+  let sent = 0;
+  for (const sub of eligible) {
+    try {
+      let list = articles;
+      if (sub.personalized && sub.user_id) {
+        const { data: topics } = await supabaseAdmin
+          .from("followed_topics")
+          .select("topic_slug")
+          .eq("user_id", sub.user_id);
+        list = articlesForTopics(
+          articles,
+          (topics ?? []).map((t) => t.topic_slug as string),
+        );
+      }
+      await sendBrevoEmail({
+        to: sub.email,
+        subject,
+        htmlContent: renderEdition(list, sub.unsubscribe_token, date),
+        textContent: list
+          .map((a) => `${a.title}\n${a.dek}\n${SITE_URL}/article/${a.slug}`)
+          .join("\n\n"),
+      });
+      sent++;
+      await supabaseAdmin
+        .from("newsletter_subscribers")
+        .update({ last_sent_at: new Date().toISOString() })
+        .eq("email", sub.email);
+    } catch (e) {
+      console.error("[newsletter] send failed", sub.email, e);
+    }
+  }
+
+  return { sent };
+}
+
+/** Free weekly roundup: the past seven days of articles, sent to weekly-cadence subscribers. */
+export async function sendWeeklyDigest() {
+  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+  const { data: articles } = await supabaseAdmin
+    .from("articles")
+    .select("slug, title, dek, article_type, category, tags")
+    .gte("published_at", since)
+    .order("published_at", { ascending: false })
+    .limit(12);
+  if (!articles?.length) return { sent: 0 };
 
   const { data: subs, error } = await supabaseAdmin
     .from("newsletter_subscribers")
     .select("email, unsubscribe_token")
-    .eq("status", "subscribed");
+    .eq("status", "subscribed")
+    .eq("cadence", "weekly");
   if (error) throw new Error(error.message);
   if (!subs?.length) return { sent: 0 };
 
-  const lead = articles.find((a) => a.article_type === "daily_brief") ?? articles[0];
-  const subject = `The Progressor — ${lead.title}`;
+  const date = new Date().toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  const subject = `The Progressor — this week's roundup`;
 
   let sent = 0;
   for (const sub of subs) {
@@ -110,21 +211,23 @@ export async function sendEditionAlert(articles: EditionArticle[], date: string)
       await sendBrevoEmail({
         to: sub.email,
         subject,
-        htmlContent: renderEdition(articles, sub.unsubscribe_token, date),
+        htmlContent: renderEdition(articles as EditionArticle[], sub.unsubscribe_token, date),
         textContent: articles
           .map((a) => `${a.title}\n${a.dek}\n${SITE_URL}/article/${a.slug}`)
           .join("\n\n"),
       });
       sent++;
     } catch (e) {
-      console.error("[newsletter] send failed", sub.email, e);
+      console.error("[newsletter] weekly send failed", sub.email, e);
     }
   }
 
   await supabaseAdmin
     .from("newsletter_subscribers")
     .update({ last_sent_at: new Date().toISOString() })
-    .eq("status", "subscribed");
+    .eq("status", "subscribed")
+    .eq("cadence", "weekly");
 
   return { sent };
 }
+
