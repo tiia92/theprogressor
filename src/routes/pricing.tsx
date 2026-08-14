@@ -62,8 +62,8 @@ function PricingPage() {
           Support an AI newsroom that explains the news
         </h1>
         <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-          Reading The Progressor is free. Pro adds the cadence and formats that make it a
-          daily habit — plus it funds the newsroom.
+          Reading The Progressor is free. Pro helps you make it a daily habit — plus
+          it funds the newsroom.
         </p>
       </header>
 
