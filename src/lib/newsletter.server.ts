@@ -49,7 +49,10 @@ interface EditionArticle {
   title: string;
   dek: string;
   article_type: string;
+  category?: string | null;
+  tags?: string[] | null;
 }
+
 
 function renderEdition(articles: EditionArticle[], token: string, date: string) {
   const items = articles
