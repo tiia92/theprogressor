@@ -67,33 +67,55 @@ function ArticlePage() {
   return (
     <article>
       {article.hero_image_url ? (
-        <img
-          src={article.hero_image_url}
-          alt=""
-          width={1536}
-          height={1024}
-          loading="eager"
-          className="h-56 w-full object-contain md:h-72"
-        />
+        <div className="relative">
+          <img
+            src={article.hero_image_url}
+            alt=""
+            width={1536}
+            height={1024}
+            loading="eager"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/40" />
+          <div className="relative mx-auto max-w-3xl px-4 py-14 text-white md:py-20">
+            <div className="mb-4 flex items-center gap-3">
+              <KindBadge type={article.article_type} />
+              <TypeLabel type={article.article_type} />
+              <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-white/80">
+                {fmtArticleDate(article.published_at)}
+              </span>
+            </div>
+
+            <h1 className="font-serif text-3xl font-bold leading-tight text-white md:text-5xl">
+              {article.title}
+            </h1>
+            <p className="mt-4 font-serif text-xl italic leading-snug text-white/90 md:text-2xl">
+              {article.dek}
+            </p>
+          </div>
+        </div>
       ) : (
         <div className={`h-56 w-full md:h-72 ${heroGradientClass(article.hero_gradient)}`} />
       )}
       <div className="mx-auto max-w-3xl px-4 py-10">
-        <div className="mb-4 flex items-center gap-3">
-          <KindBadge type={article.article_type} />
-          <TypeLabel type={article.article_type} />
-          <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-            {fmtArticleDate(article.published_at)}
-          </span>
-        </div>
+        {!article.hero_image_url && (
+          <>
+            <div className="mb-4 flex items-center gap-3">
+              <KindBadge type={article.article_type} />
+              <TypeLabel type={article.article_type} />
+              <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                {fmtArticleDate(article.published_at)}
+              </span>
+            </div>
 
-        <h1 className="font-serif text-3xl font-bold leading-tight text-foreground md:text-5xl">
-          {article.title}
-        </h1>
-        <p className="mt-4 font-serif text-xl italic leading-snug text-muted-foreground md:text-2xl">
-          {article.dek}
-        </p>
-
+            <h1 className="font-serif text-3xl font-bold leading-tight text-foreground md:text-5xl">
+              {article.title}
+            </h1>
+            <p className="mt-4 font-serif text-xl italic leading-snug text-muted-foreground md:text-2xl">
+              {article.dek}
+            </p>
+          </>
+        )}
         <div className="my-6 flex items-center gap-3 border-y border-border py-3 text-xs text-muted-foreground">
           <span className="font-mono uppercase tracking-[0.14em]">By The Progressor AI Editor</span>
           <span>·</span>
