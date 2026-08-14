@@ -4,18 +4,26 @@ import { sendBrevoEmail, upsertBrevoContact, removeBrevoContact } from "@/lib/br
 
 export const SITE_URL = "https://theprogressor.lovable.app";
 
-export async function subscribeEmail(rawEmail: string) {
+export async function subscribeEmail(
+  rawEmail: string,
+  options: { userId?: string | null } = {},
+) {
   const email = rawEmail.trim().toLowerCase();
 
   const { data, error } = await supabaseAdmin
     .from("newsletter_subscribers")
     .upsert(
-      { email, status: "subscribed" },
+      {
+        email,
+        status: "subscribed",
+        ...(options.userId ? { user_id: options.userId } : {}),
+      },
       { onConflict: "email" },
     )
     .select("email, unsubscribe_token")
     .single();
   if (error) throw new Error(error.message);
+
 
   // Mirror into Brevo — never fail the signup if the sync hiccups.
   try {
