@@ -204,7 +204,7 @@ export async function sendEditionAlert(articles: EditionArticle[], date: string)
       await sendBrevoEmail({
         to: sub.email,
         subject,
-        htmlContent: renderEdition(list, sub.unsubscribe_token, date),
+        htmlContent: renderEdition(list, sub.unsubscribe_token, date, cover),
         textContent: list
           .map((a) => `${a.title}\n${a.dek}\n${SITE_URL}/article/${a.slug}`)
           .join("\n\n"),
