@@ -228,7 +228,7 @@ export async function sendWeeklyDigest() {
 
   const { data: articles } = await supabaseAdmin
     .from("articles")
-    .select("slug, title, dek, article_type, category, tags")
+    .select("slug, title, dek, article_type, category, tags, hero_image_url")
     .gte("published_at", since)
     .order("published_at", { ascending: false })
     .limit(12);
