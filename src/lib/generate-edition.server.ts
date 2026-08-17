@@ -253,6 +253,7 @@ Use only the sources listed in the wire above; include their real URLs in the so
         dek: r.dek,
         article_type: r.article_type,
       })),
+
       date,
     );
   } catch (e) {
