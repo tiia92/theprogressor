@@ -184,6 +184,8 @@ export async function sendEditionAlert(articles: EditionArticle[], date: string)
 
   const lead = articles.find((a) => a.article_type === "daily_brief") ?? articles[0];
   const subject = `The Progressor — ${lead.title}`;
+  const cover = await leadImageUrl(lead);
+
 
   let sent = 0;
   for (const sub of eligible) {
