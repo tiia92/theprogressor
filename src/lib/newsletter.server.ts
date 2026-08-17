@@ -248,6 +248,7 @@ export async function sendWeeklyDigest() {
     year: "numeric",
   });
   const subject = `The Progressor — this week's roundup`;
+  const cover = await leadImageUrl(articles[0] as EditionArticle);
 
   let sent = 0;
   for (const sub of subs) {
@@ -255,7 +256,8 @@ export async function sendWeeklyDigest() {
       await sendBrevoEmail({
         to: sub.email,
         subject,
-        htmlContent: renderEdition(articles as EditionArticle[], sub.unsubscribe_token, date),
+        htmlContent: renderEdition(articles as EditionArticle[], sub.unsubscribe_token, date, cover),
+
         textContent: articles
           .map((a) => `${a.title}\n${a.dek}\n${SITE_URL}/article/${a.slug}`)
           .join("\n\n"),
