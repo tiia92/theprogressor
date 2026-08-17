@@ -63,7 +63,7 @@ interface EditionArticle {
 }
 
 /** Absolute URL for an article's cover image, looked up when not already loaded. */
-async function leadImageUrl(article: EditionArticle | undefined) {
+export async function leadImageUrl(article: EditionArticle | undefined) {
   if (!article) return null;
   let url = article.hero_image_url ?? null;
   if (!url) {
@@ -78,7 +78,7 @@ async function leadImageUrl(article: EditionArticle | undefined) {
   return url.startsWith("http") ? url : `${SITE_URL}${url}`;
 }
 
-function renderEdition(
+export function renderEdition(
   articles: EditionArticle[],
   token: string,
   date: string,
