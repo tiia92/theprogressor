@@ -59,10 +59,31 @@ interface EditionArticle {
   article_type: string;
   category?: string | null;
   tags?: string[] | null;
+  hero_image_url?: string | null;
 }
 
+/** Absolute URL for an article's cover image, looked up when not already loaded. */
+export async function leadImageUrl(article: EditionArticle | undefined) {
+  if (!article) return null;
+  let url = article.hero_image_url ?? null;
+  if (!url) {
+    const { data } = await supabaseAdmin
+      .from("articles")
+      .select("hero_image_url")
+      .eq("slug", article.slug)
+      .maybeSingle();
+    url = (data?.hero_image_url as string | null) ?? null;
+  }
+  if (!url) return null;
+  return url.startsWith("http") ? url : `${SITE_URL}${url}`;
+}
 
-function renderEdition(articles: EditionArticle[], token: string, date: string) {
+export function renderEdition(
+  articles: EditionArticle[],
+  token: string,
+  date: string,
+  coverImage?: string | null,
+) {
   const items = articles
     .map(
       (a) => `
@@ -78,6 +99,14 @@ function renderEdition(articles: EditionArticle[], token: string, date: string) 
     )
     .join("");
 
+  const cover = coverImage
+    ? `<tr><td style="padding-bottom:22px;">
+         <a href="${SITE_URL}/article/${articles[0]?.slug ?? ""}">
+           <img src="${coverImage}" alt="" width="552" style="display:block;width:100%;max-width:552px;height:auto;border-radius:8px;border:0;" />
+         </a>
+       </td></tr>`
+    : "";
+
   return `<!doctype html><html><body style="margin:0;background:#ffffff;">
     <table role="presentation" width="100%" style="background:#ffffff;"><tr><td align="center">
       <table role="presentation" width="600" style="max-width:600px;padding:28px 24px;">
@@ -88,7 +117,9 @@ function renderEdition(articles: EditionArticle[], token: string, date: string) 
         <tr><td style="font:400 13px/1.4 Arial,sans-serif;color:#64748b;padding-bottom:22px;">
           Today's edition — ${date}
         </td></tr>
+        ${cover}
         ${items}
+
         <tr><td style="padding-top:8px;">
           <a href="${SITE_URL}" style="display:inline-block;background:#1d4ed8;color:#ffffff;font:600 14px/1 Arial,sans-serif;padding:12px 20px;border-radius:6px;text-decoration:none;">Read the full edition</a>
         </td></tr>
@@ -153,6 +184,8 @@ export async function sendEditionAlert(articles: EditionArticle[], date: string)
 
   const lead = articles.find((a) => a.article_type === "daily_brief") ?? articles[0];
   const subject = `The Progressor — ${lead.title}`;
+  const cover = await leadImageUrl(lead);
+
 
   let sent = 0;
   for (const sub of eligible) {
@@ -171,7 +204,7 @@ export async function sendEditionAlert(articles: EditionArticle[], date: string)
       await sendBrevoEmail({
         to: sub.email,
         subject,
-        htmlContent: renderEdition(list, sub.unsubscribe_token, date),
+        htmlContent: renderEdition(list, sub.unsubscribe_token, date, cover),
         textContent: list
           .map((a) => `${a.title}\n${a.dek}\n${SITE_URL}/article/${a.slug}`)
           .join("\n\n"),
@@ -195,7 +228,7 @@ export async function sendWeeklyDigest() {
 
   const { data: articles } = await supabaseAdmin
     .from("articles")
-    .select("slug, title, dek, article_type, category, tags")
+    .select("slug, title, dek, article_type, category, tags, hero_image_url")
     .gte("published_at", since)
     .order("published_at", { ascending: false })
     .limit(12);
@@ -215,6 +248,7 @@ export async function sendWeeklyDigest() {
     year: "numeric",
   });
   const subject = `The Progressor — this week's roundup`;
+  const cover = await leadImageUrl(articles[0] as EditionArticle);
 
   let sent = 0;
   for (const sub of subs) {
@@ -222,7 +256,8 @@ export async function sendWeeklyDigest() {
       await sendBrevoEmail({
         to: sub.email,
         subject,
-        htmlContent: renderEdition(articles as EditionArticle[], sub.unsubscribe_token, date),
+        htmlContent: renderEdition(articles as EditionArticle[], sub.unsubscribe_token, date, cover),
+
         textContent: articles
           .map((a) => `${a.title}\n${a.dek}\n${SITE_URL}/article/${a.slug}`)
           .join("\n\n"),
