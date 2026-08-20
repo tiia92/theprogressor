@@ -69,19 +69,35 @@ async function speak(text: string): Promise<Uint8Array> {
   return new Uint8Array(await res.arrayBuffer());
 }
 
-/** Generate the episode for the current week. Returns the episode slug. */
-export async function generateWeeklyEpisode(options: { publish?: boolean } = {}) {
-  const week = weekStartISO();
-  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+export interface GenerateEpisodeOptions {
+  publish?: boolean;
+  /** ISO date (YYYY-MM-DD) the episode's week starts on. Defaults to this week. */
+  weekStart?: string;
+  /** ISO date (YYYY-MM-DD) the coverage window ends on, inclusive. */
+  weekEnd?: string;
+  /** Extra instruction appended to the writing prompt (e.g. "expand on the sample"). */
+  extraDirection?: string;
+  /** Slug suffix so a second take of the same week gets its own episode. */
+  slugSuffix?: string;
+}
+
+/** Generate the episode for a week of coverage. Returns the episode slug. */
+export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}) {
+  const week = options.weekStart ?? weekStartISO();
+  const since = `${week}T00:00:00Z`;
+  const until = options.weekEnd
+    ? `${options.weekEnd}T23:59:59Z`
+    : new Date(new Date(since).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: articles, error } = await supabaseAdmin
     .from("articles")
     .select("title, dek, body, article_type, category, published_at")
     .gte("published_at", since)
+    .lte("published_at", until)
     .order("published_at", { ascending: false })
     .limit(40);
   if (error) throw new Error(error.message);
-  if (!articles?.length) throw new Error("No articles published in the last week");
+  if (!articles?.length) throw new Error("No articles published in that week");
 
   const { data: sponsors } = await supabaseAdmin
     .from("sponsors")
@@ -107,13 +123,64 @@ export async function generateWeeklyEpisode(options: { publish?: boolean } = {})
         .join("\n")
     : "(no sponsors this week)";
 
-  const script = await chat([
-    { role: "system", content: HOST_SYSTEM_PROMPT },
-    {
-      role: "user",
-      content: `Here is everything The Progressor published this week. Write this week's episode.\n\nSPONSORS TO READ:\n${sponsorBlock}\n\nTHIS WEEK'S COVERAGE:\n${digest}`,
-    },
-  ]);
+  const context = `${
+    options.extraDirection ? `EXTRA DIRECTION:\n${options.extraDirection}\n\n` : ""
+  }SPONSORS TO READ:\n${sponsorBlock}\n\nTHIS WEEK'S COVERAGE (${week} to ${
+    options.weekEnd ?? "end of week"
+  }):\n${digest}`;
+
+  // Long-form scripts come out short in one shot, so outline first, then write
+  // each section separately and stitch them into the full episode.
+  const outlineRaw = await chat(
+    [
+      { role: "system", content: HOST_SYSTEM_PROMPT },
+      {
+        role: "user",
+        content: `${context}\n\nPlan this week's 25-minute episode. Return JSON only: {"sections":[{"kind":"cold_open"|"intro"|"sponsors"|"segment"|"explainer"|"close","title":string,"beats":string}]} in running order: cold open, AI-disclosure intro, sponsor read, 4 story segments, one explainer detour, close. "beats" lists the specific facts, names and sources that section must cover, drawn from the coverage above.`,
+      },
+    ],
+    true,
+  );
+
+  interface Section {
+    kind: string;
+    title: string;
+    beats: string;
+  }
+  let sections: Section[] = [];
+  try {
+    sections = (JSON.parse(outlineRaw) as { sections?: Section[] }).sections ?? [];
+  } catch {
+    console.error("[podcast] outline parse failed");
+  }
+  if (!sections.length) {
+    sections = [{ kind: "segment", title: "This week", beats: "The week's biggest stories." }];
+  }
+
+  const targets: Record<string, number> = {
+    cold_open: 150,
+    intro: 200,
+    sponsors: 150,
+    segment: 750,
+    explainer: 450,
+    close: 200,
+  };
+
+  const written: string[] = [];
+  for (const section of sections.slice(0, 10)) {
+    const target = targets[section.kind] ?? 600;
+    const previous = written.slice(-1)[0]?.slice(-1200) ?? "(this is the opening of the episode)";
+    const part = await chat([
+      { role: "system", content: HOST_SYSTEM_PROMPT },
+      {
+        role: "user",
+        content: `${context}\n\nYou are writing ONE section of this week's episode, in order.\n\nSECTION: ${section.kind} — ${section.title}\nMUST COVER: ${section.beats}\n\nThe previous section ended with:\n"""${previous}"""\n\nWrite roughly ${target} words of spoken script for this section only. No headings, no stage directions, no section labels — only the words the host says. Do not re-introduce the show unless this is the intro, and do not sign off unless this is the close.`,
+      },
+    ]);
+    written.push(part.trim());
+  }
+
+  const script = written.join("\n\n");
 
   const metaRaw = await chat(
     [
@@ -158,7 +225,7 @@ export async function generateWeeklyEpisode(options: { publish?: boolean } = {})
     offset += p.length;
   }
 
-  const slug = `week-of-${week}`;
+  const slug = `week-of-${week}${options.slugSuffix ? `-${options.slugSuffix}` : ""}`;
   const path = `${slug}.mp3`;
   const { error: uploadError } = await supabaseAdmin.storage
     .from(BUCKET)

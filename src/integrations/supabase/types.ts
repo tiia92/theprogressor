@@ -235,6 +235,42 @@ export type Database = {
         }
         Relationships: []
       }
+      podcast_comments: {
+        Row: {
+          ai_reason: string | null
+          ai_score: number
+          author_name: string
+          body: string
+          created_at: string
+          episode_slug: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          ai_reason?: string | null
+          ai_score?: number
+          author_name?: string
+          body: string
+          created_at?: string
+          episode_slug: string
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          ai_reason?: string | null
+          ai_score?: number
+          author_name?: string
+          body?: string
+          created_at?: string
+          episode_slug?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       podcast_episodes: {
         Row: {
           audio_path: string | null
