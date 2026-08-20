@@ -81,7 +81,7 @@ function TopicPage() {
           All topics →
         </Link>
       </div>
-      <h1 className="mt-2 font-heading text-4xl font-bold text-foreground md:text-5xl">{t.label}</h1>
+      <h1 className="mt-2 font-heading text-4xl text-foreground md:text-5xl">{t.label}</h1>
       <p className="mt-3 max-w-2xl text-base text-muted-foreground">{t.description}</p>
 
       {articles.length === 0 ? (

@@ -30,7 +30,7 @@ function CheckoutReturn() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-20 text-center">
-      <h1 className="font-heading text-3xl font-bold">
+      <h1 className="font-heading text-3xl">
         {sessionId ? "You're a Pro member" : "No checkout session found"}
       </h1>
       <p className="mt-3 text-muted-foreground">

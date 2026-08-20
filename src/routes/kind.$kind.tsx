@@ -75,7 +75,7 @@ function KindPage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-8 border-b border-border pb-4">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">Section</p>
-        <h1 className="mt-1 font-heading text-4xl font-bold text-foreground">
+        <h1 className="mt-1 font-heading text-4xl text-foreground">
           {KIND_LABEL[kind]}
         </h1>
         <p className="mt-2 max-w-2xl text-muted-foreground">{KIND_DESCRIPTION[kind]}</p>
