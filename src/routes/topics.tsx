@@ -36,7 +36,7 @@ function TopicsIndex() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Explore</p>
-      <h1 className="mt-2 font-serif text-4xl font-bold text-foreground md:text-5xl">Topics</h1>
+      <h1 className="mt-2 font-heading text-4xl font-bold text-foreground md:text-5xl">Topics</h1>
       <p className="mt-3 max-w-2xl text-base text-muted-foreground">
         Every article is tagged with one or more of these topics. Pick one to
         see everything we've written about it.
@@ -50,7 +50,7 @@ function TopicsIndex() {
             params={{ topic: t.slug }}
             className="group block rounded-md border border-border bg-card p-4 transition-colors hover:border-primary/50 hover:bg-accent/30"
           >
-            <p className="font-serif text-lg font-semibold text-foreground group-hover:text-primary">
+            <p className="font-heading text-lg font-semibold text-foreground group-hover:text-primary">
               {t.label}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">{t.description}</p>

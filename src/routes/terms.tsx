@@ -26,7 +26,7 @@ function Terms() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">Legal</p>
-      <h1 className="mt-2 font-serif text-4xl font-bold leading-tight text-foreground md:text-5xl">
+      <h1 className="mt-2 font-heading text-4xl font-bold leading-tight text-foreground md:text-5xl">
         Terms of Service
       </h1>
       <p className="mt-4 text-sm text-muted-foreground">

@@ -59,7 +59,7 @@ function SearchPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Search</p>
-      <h1 className="mt-2 font-serif text-4xl font-bold text-foreground">Find a story</h1>
+      <h1 className="mt-2 font-heading text-4xl font-bold text-foreground">Find a story</h1>
 
       <form
         className="mt-6 flex max-w-xl gap-2"

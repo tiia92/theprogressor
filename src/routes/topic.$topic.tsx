@@ -60,7 +60,7 @@ export const Route = createFileRoute("/topic/$topic")({
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-16 text-center">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">404</p>
-      <h1 className="mt-2 font-serif text-3xl text-foreground">Topic not found</h1>
+      <h1 className="mt-2 font-heading text-3xl text-foreground">Topic not found</h1>
       <Link to="/topics" className="mt-4 inline-block text-sm text-primary underline">
         See all topics
       </Link>
@@ -81,7 +81,7 @@ function TopicPage() {
           All topics →
         </Link>
       </div>
-      <h1 className="mt-2 font-serif text-4xl font-bold text-foreground md:text-5xl">{t.label}</h1>
+      <h1 className="mt-2 font-heading text-4xl font-bold text-foreground md:text-5xl">{t.label}</h1>
       <p className="mt-3 max-w-2xl text-base text-muted-foreground">{t.description}</p>
 
       {articles.length === 0 ? (

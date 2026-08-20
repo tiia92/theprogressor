@@ -61,7 +61,7 @@ function Home() {
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
             Today's edition
           </p>
-          <h1 className="mt-1 font-serif text-3xl font-bold leading-tight text-foreground md:text-4xl">
+          <h1 className="mt-1 font-heading text-3xl font-bold leading-tight text-foreground md:text-4xl">
             Today's Progressive Briefing — {formatTodayUTC()}
           </h1>
         </div>
@@ -99,7 +99,7 @@ function Home() {
               <Link
                 to="/article/$slug"
                 params={{ slug: data.headlines.slug }}
-                className="mt-1 block font-serif text-xl font-semibold leading-tight text-foreground hover:text-primary"
+                className="mt-1 block font-heading text-xl font-semibold leading-tight text-foreground hover:text-primary"
               >
                 {data.headlines.title}
               </Link>
@@ -133,7 +133,7 @@ function Home() {
 function SectionHeading({ title, href }: { title: string; href: string }) {
   return (
     <div className="mb-4 flex items-baseline justify-between border-b border-border pb-2">
-      <h2 className="font-serif text-xl font-semibold text-foreground">{title}</h2>
+      <h2 className="font-heading text-xl font-semibold text-foreground">{title}</h2>
       <a href={href} className="text-xs font-medium uppercase tracking-wider text-primary hover:underline">
         View all
       </a>
@@ -145,7 +145,7 @@ function EmptyState() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
       <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">The Progressor</p>
-      <h1 className="mt-3 font-serif text-4xl font-bold leading-tight text-foreground md:text-5xl">
+      <h1 className="mt-3 font-heading text-4xl font-bold leading-tight text-foreground md:text-5xl">
         Progressive daily, explained by AI.
       </h1>
       <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">

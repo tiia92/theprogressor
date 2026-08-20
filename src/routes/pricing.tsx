@@ -58,7 +58,7 @@ function PricingPage() {
       <PaymentTestModeBanner />
 
       <header className="mt-8 text-center">
-        <h1 className="font-serif text-4xl font-bold tracking-tight">
+        <h1 className="font-heading text-4xl font-bold tracking-tight">
           Support an AI newsroom that explains the news
         </h1>
         <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
@@ -69,7 +69,7 @@ function PricingPage() {
 
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <section className="rounded-lg border border-border p-6">
-          <h2 className="font-serif text-2xl font-semibold">Free</h2>
+          <h2 className="font-heading text-2xl font-semibold">Free</h2>
           <p className="mt-1 text-3xl font-bold">$0</p>
           <ul className="mt-5 space-y-2 text-sm">
             {FREE.map((f) => (
@@ -85,7 +85,7 @@ function PricingPage() {
         </section>
 
         <section className="rounded-lg border-2 border-primary p-6">
-          <h2 className="font-serif text-2xl font-semibold">Pro</h2>
+          <h2 className="font-heading text-2xl font-semibold">Pro</h2>
           <p className="mt-1 text-3xl font-bold">
             $5<span className="text-base font-normal text-muted-foreground">/month</span>
           </p>
