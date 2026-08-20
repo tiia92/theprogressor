@@ -224,6 +224,7 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Explainers</Link>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
           <Link to="/topics" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
+          <Link to="/podcast" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Podcast</Link>
           <Link to="/crowdsource" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Crowdsource</Link>
           <Link to="/about" className="hover:text-primary-foreground [&.active]:text-primary-foreground">About</Link>
           <Link to="/pricing" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Pro</Link>
@@ -254,6 +255,8 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
           <span className="text-primary-foreground/50">·</span>
           <Link to="/topics" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
+          <span className="text-primary-foreground/50">·</span>
+          <Link to="/podcast" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Podcast</Link>
           <span className="text-primary-foreground/50">·</span>
           <Link to="/crowdsource" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Crowdsource</Link>
           <span className="text-primary-foreground/50">·</span>
