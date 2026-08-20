@@ -5,6 +5,7 @@ import { getLatestPodcastEpisode } from "@/lib/podcast.functions";
 import { ArticleCard } from "@/components/article-card";
 import { GenerateEditionButton } from "@/components/generate-edition-button";
 import { PodcastPlayer } from "@/components/podcast-player";
+import { PodcastShareActions } from "@/components/podcast-share-actions";
 
 const homepageQuery = queryOptions({
   queryKey: ["homepage"],
@@ -152,6 +153,9 @@ function Home() {
                   src={`/api/public/podcast-audio/${episode.slug}`}
                   fallbackDuration={episode.duration_seconds}
                 />
+              </div>
+              <div className="mt-4">
+                <PodcastShareActions slug={episode.slug} title={episode.title} />
               </div>
               <Link
                 to="/podcast/$slug"
