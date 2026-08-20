@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { PodcastComments } from "@/components/podcast-comments";
 import { PodcastPlayer } from "@/components/podcast-player";
+import { PodcastShareActions } from "@/components/podcast-share-actions";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Chapter {
@@ -119,6 +120,9 @@ function EpisodePage() {
           src={`/api/public/podcast-audio/${e.slug}`}
           fallbackDuration={e.duration_seconds}
         />
+      </div>
+      <div className="mt-4">
+        <PodcastShareActions slug={e.slug} title={e.title} />
       </div>
 
       {chapters.length > 0 && (
