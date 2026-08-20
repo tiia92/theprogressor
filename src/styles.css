@@ -132,6 +132,7 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
+    font-weight: 400;
     font-optical-sizing: auto;
     letter-spacing: -0.01em;
   }
@@ -167,7 +168,7 @@
   & h2 {
     font-family: var(--font-heading);
     font-size: 1.65rem;
-    font-weight: 600;
+    font-weight: 400;
     margin-top: 2.25rem;
     margin-bottom: 0.75rem;
     letter-spacing: -0.015em;
@@ -175,7 +176,7 @@
   & h3 {
     font-family: var(--font-heading);
     font-size: 1.3rem;
-    font-weight: 600;
+    font-weight: 400;
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
   }
