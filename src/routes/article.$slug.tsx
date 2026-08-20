@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { getArticleBySlug } from "@/lib/articles.functions";
+import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { getArticleBySlug, listRelatedArticles } from "@/lib/articles.functions";
+import { ArticleCard } from "@/components/article-card";
 import { ArticleBody } from "@/components/article-body";
 import { ArticleActions } from "@/components/article-actions";
 import { KindBadge, TypeLabel } from "@/components/article-card";
@@ -81,6 +82,31 @@ const MONTHS_LONG = ["January","February","March","April","May","June","July","A
 function fmtArticleDate(iso: string) {
   const d = new Date(iso);
   return `${MONTHS_LONG[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
+
+function relatedQuery(article: { slug: string; category: string; tags?: string[] | null }) {
+  return queryOptions({
+    queryKey: ["related", article.slug],
+    queryFn: () =>
+      listRelatedArticles({
+        data: { slug: article.slug, category: article.category, tags: article.tags ?? [], limit: 4 },
+      }),
+  });
+}
+
+function RelatedArticles({ article }: { article: { slug: string; category: string; tags?: string[] | null } }) {
+  const { data } = useQuery(relatedQuery(article));
+  if (!data || data.length === 0) return null;
+  return (
+    <section className="mt-12 border-t border-border pt-6">
+      <h2 className="font-heading text-2xl text-foreground">Related articles</h2>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        {data.map((a) => (
+          <ArticleCard key={a.slug} article={a} size="medium" noImage headingLevel="h3" />
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function ArticlePage() {
@@ -189,6 +215,8 @@ function ArticlePage() {
             </ul>
           </section>
         )}
+
+        <RelatedArticles article={article} />
 
         <div className="mt-12 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
           <p className="font-heading text-base text-foreground">

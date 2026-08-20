@@ -82,6 +82,84 @@ export const listArticlesByTopic = createServerFn({ method: "GET" })
     return rows ?? [];
   });
 
+export const listRelatedArticles = createServerFn({ method: "GET" })
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        slug: z.string().min(1),
+        category: z.string().optional(),
+        tags: z.array(z.string()).default([]),
+        limit: z.number().int().min(1).max(12).default(4),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data }) => {
+    const supabase = serverPublicClient();
+    const cols =
+      "id, slug, title, dek, article_type, category, tags, hero_gradient, hero_image_url, featured, upvotes, published_at";
+
+    type Row = Pick<
+      Database["public"]["Tables"]["articles"]["Row"],
+      | "id"
+      | "slug"
+      | "title"
+      | "dek"
+      | "article_type"
+      | "category"
+      | "tags"
+      | "hero_gradient"
+      | "hero_image_url"
+      | "featured"
+      | "upvotes"
+      | "published_at"
+    >;
+    const picked: Row[] = [];
+    const seen = new Set<string>([data.slug]);
+
+    if (data.tags.length > 0) {
+      const { data: byTag } = await supabase
+        .from("articles")
+        .select(cols)
+        .overlaps("tags", data.tags)
+        .order("published_at", { ascending: false })
+        .limit(data.limit + 5);
+      for (const r of byTag ?? []) {
+        if (seen.has(r.slug)) continue;
+        seen.add(r.slug);
+        picked.push(r);
+      }
+    }
+
+    if (picked.length < data.limit && data.category) {
+      const { data: byCat } = await supabase
+        .from("articles")
+        .select(cols)
+        .eq("category", data.category)
+        .order("published_at", { ascending: false })
+        .limit(data.limit + 5);
+      for (const r of byCat ?? []) {
+        if (seen.has(r.slug)) continue;
+        seen.add(r.slug);
+        picked.push(r);
+      }
+    }
+
+    if (picked.length < data.limit) {
+      const { data: recent } = await supabase
+        .from("articles")
+        .select(cols)
+        .order("published_at", { ascending: false })
+        .limit(data.limit + 5);
+      for (const r of recent ?? []) {
+        if (seen.has(r.slug)) continue;
+        seen.add(r.slug);
+        picked.push(r);
+      }
+    }
+
+    return picked.slice(0, data.limit);
+  });
+
 export const ARTICLE_COLUMNS =
   "id, slug, title, dek, body, article_type, category, tags, sources, hero_gradient, hero_image_url, featured, views, upvotes, published_at";
 
