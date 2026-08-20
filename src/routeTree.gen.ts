@@ -29,6 +29,7 @@ import { Route as ApiPublicPodcastAudioSlugRouteImport } from './routes/api/publ
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api/public/newsletter/unsubscribe'
 import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
+import { Route as ApiPublicHooksGeneratePodcastRouteImport } from './routes/api/public/hooks/generate-podcast'
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
@@ -141,6 +142,12 @@ const ApiPublicHooksWeeklyDigestRoute =
     path: '/api/public/hooks/weekly-digest',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksGeneratePodcastRoute =
+  ApiPublicHooksGeneratePodcastRouteImport.update({
+    id: '/api/public/hooks/generate-podcast',
+    path: '/api/public/hooks/generate-podcast',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksGenerateOpinionRoute =
   ApiPublicHooksGenerateOpinionRouteImport.update({
     id: '/api/public/hooks/generate-opinion',
@@ -214,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -243,6 +251,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -274,6 +283,7 @@ export interface FileRoutesById {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
@@ -334,6 +345,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
@@ -364,6 +376,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
@@ -394,6 +407,7 @@ export interface RootRouteChildren {
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
   ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
+  ApiPublicHooksGeneratePodcastRoute: typeof ApiPublicHooksGeneratePodcastRoute
   ApiPublicHooksWeeklyDigestRoute: typeof ApiPublicHooksWeeklyDigestRoute
   ApiPublicNewsletterUnsubscribeRoute: typeof ApiPublicNewsletterUnsubscribeRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -542,6 +556,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksWeeklyDigestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-podcast': {
+      id: '/api/public/hooks/generate-podcast'
+      path: '/api/public/hooks/generate-podcast'
+      fullPath: '/api/public/hooks/generate-podcast'
+      preLoaderRoute: typeof ApiPublicHooksGeneratePodcastRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/generate-opinion': {
       id: '/api/public/hooks/generate-opinion'
       path: '/api/public/hooks/generate-opinion'
@@ -637,6 +658,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
   ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
+  ApiPublicHooksGeneratePodcastRoute: ApiPublicHooksGeneratePodcastRoute,
   ApiPublicHooksWeeklyDigestRoute: ApiPublicHooksWeeklyDigestRoute,
   ApiPublicNewsletterUnsubscribeRoute: ApiPublicNewsletterUnsubscribeRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
