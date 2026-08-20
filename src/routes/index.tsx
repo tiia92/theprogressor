@@ -1,12 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getHomepage } from "@/lib/articles.functions";
+import { getLatestPodcastEpisode } from "@/lib/podcast.functions";
 import { ArticleCard } from "@/components/article-card";
 import { GenerateEditionButton } from "@/components/generate-edition-button";
+import { PodcastPlayer } from "@/components/podcast-player";
 
 const homepageQuery = queryOptions({
   queryKey: ["homepage"],
   queryFn: () => getHomepage(),
+});
+
+const latestPodcastQuery = queryOptions({
+  queryKey: ["latest-podcast-episode"],
+  queryFn: () => getLatestPodcastEpisode(),
 });
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -21,7 +28,10 @@ function formatTodayUTC() {
 }
 
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(homepageQuery),
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(homepageQuery);
+    await context.queryClient.ensureQueryData(latestPodcastQuery);
+  },
   component: Home,
   head: () => ({
     meta: [
@@ -47,8 +57,18 @@ export const Route = createFileRoute("/")({
   }),
 });
 
+function formatWeek(week: string) {
+  return new Date(`${week}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 function Home() {
   const { data } = useSuspenseQuery(homepageQuery);
+  const { data: episode } = useSuspenseQuery(latestPodcastQuery);
 
   if (data.totalCount === 0) {
     return <EmptyState />;
@@ -110,6 +130,35 @@ function Home() {
                 className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
               >
                 Read the briefing →
+              </Link>
+            </div>
+          )}
+
+          {episode && (
+            <div className="mt-8 rounded-lg border border-border bg-card p-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
+                The Progressor Podcast · Week of {formatWeek(episode.week_start)}
+              </p>
+              <Link
+                to="/podcast/$slug"
+                params={{ slug: episode.slug }}
+                className="mt-1 block font-heading text-xl leading-tight text-foreground hover:text-primary"
+              >
+                {episode.title}
+              </Link>
+              <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{episode.summary}</p>
+              <div className="mt-4">
+                <PodcastPlayer
+                  src={`/api/public/podcast-audio/${episode.slug}`}
+                  fallbackDuration={episode.duration_seconds}
+                />
+              </div>
+              <Link
+                to="/podcast/$slug"
+                params={{ slug: episode.slug }}
+                className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+              >
+                Chapters and full transcript →
               </Link>
             </div>
           )}
