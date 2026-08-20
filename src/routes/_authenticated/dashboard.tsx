@@ -210,9 +210,15 @@ function Dashboard() {
               {keywords.map((w) => (
                 <span
                   key={w}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs text-foreground"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1 pr-3 pl-3 text-xs text-foreground"
                 >
-                  {w}
+                  <Link
+                    to="/search"
+                    search={{ q: w }}
+                    className="hover:text-primary hover:underline"
+                  >
+                    {w}
+                  </Link>
                   <button
                     onClick={() => onRemoveKeyword(w)}
                     aria-label={`Remove ${w}`}
