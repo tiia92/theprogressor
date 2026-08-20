@@ -235,6 +235,51 @@ export type Database = {
         }
         Relationships: []
       }
+      podcast_episodes: {
+        Row: {
+          audio_path: string | null
+          chapters: Json
+          created_at: string
+          duration_seconds: number | null
+          id: string
+          published_at: string | null
+          script: string
+          slug: string
+          status: string
+          summary: string
+          title: string
+          week_start: string
+        }
+        Insert: {
+          audio_path?: string | null
+          chapters?: Json
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          published_at?: string | null
+          script?: string
+          slug: string
+          status?: string
+          summary?: string
+          title: string
+          week_start: string
+        }
+        Update: {
+          audio_path?: string | null
+          chapters?: Json
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          published_at?: string | null
+          script?: string
+          slug?: string
+          status?: string
+          summary?: string
+          title?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -281,6 +326,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sponsors: {
+        Row: {
+          active: boolean
+          copy: string
+          created_at: string
+          ends_on: string | null
+          id: string
+          link: string | null
+          name: string
+          sort_order: number
+          starts_on: string | null
+        }
+        Insert: {
+          active?: boolean
+          copy?: string
+          created_at?: string
+          ends_on?: string | null
+          id?: string
+          link?: string | null
+          name: string
+          sort_order?: number
+          starts_on?: string | null
+        }
+        Update: {
+          active?: boolean
+          copy?: string
+          created_at?: string
+          ends_on?: string | null
+          id?: string
+          link?: string | null
+          name?: string
+          sort_order?: number
+          starts_on?: string | null
+        }
+        Relationships: []
       }
       subscriptions: {
         Row: {

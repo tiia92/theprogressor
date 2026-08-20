@@ -20,14 +20,19 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PodcastIndexRouteImport } from './routes/podcast/index'
 import { Route as TopicTopicRouteImport } from './routes/topic.$topic'
+import { Route as PodcastRssDotxmlRouteImport } from './routes/podcast/rss[.]xml'
+import { Route as PodcastSlugRouteImport } from './routes/podcast/$slug'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiPublicPodcastAudioSlugRouteImport } from './routes/api/public/podcast-audio.$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api/public/newsletter/unsubscribe'
 import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
+import { Route as ApiPublicHooksGeneratePodcastRouteImport } from './routes/api/public/hooks/generate-podcast'
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
@@ -91,9 +96,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PodcastIndexRoute = PodcastIndexRouteImport.update({
+  id: '/podcast/',
+  path: '/podcast/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TopicTopicRoute = TopicTopicRouteImport.update({
   id: '/topic/$topic',
   path: '/topic/$topic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PodcastRssDotxmlRoute = PodcastRssDotxmlRouteImport.update({
+  id: '/podcast/rss.xml',
+  path: '/podcast/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PodcastSlugRoute = PodcastSlugRouteImport.update({
+  id: '/podcast/$slug',
+  path: '/podcast/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KindKindRoute = KindKindRouteImport.update({
@@ -116,6 +136,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicPodcastAudioSlugRoute =
+  ApiPublicPodcastAudioSlugRouteImport.update({
+    id: '/api/public/podcast-audio/$slug',
+    path: '/api/public/podcast-audio/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -132,6 +158,12 @@ const ApiPublicHooksWeeklyDigestRoute =
   ApiPublicHooksWeeklyDigestRouteImport.update({
     id: '/api/public/hooks/weekly-digest',
     path: '/api/public/hooks/weekly-digest',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGeneratePodcastRoute =
+  ApiPublicHooksGeneratePodcastRouteImport.update({
+    id: '/api/public/hooks/generate-podcast',
+    path: '/api/public/hooks/generate-podcast',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicHooksGenerateOpinionRoute =
@@ -198,7 +230,10 @@ export interface FileRoutesByFullPath {
   '/article/$slug': typeof ArticleSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
+  '/podcast/': typeof PodcastIndexRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
@@ -207,9 +242,11 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/podcast-audio/$slug': typeof ApiPublicPodcastAudioSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -226,7 +263,10 @@ export interface FileRoutesByTo {
   '/article/$slug': typeof ArticleSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
+  '/podcast': typeof PodcastIndexRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
@@ -235,9 +275,11 @@ export interface FileRoutesByTo {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/podcast-audio/$slug': typeof ApiPublicPodcastAudioSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -256,7 +298,10 @@ export interface FileRoutesById {
   '/article/$slug': typeof ArticleSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
+  '/podcast/': typeof PodcastIndexRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
@@ -265,9 +310,11 @@ export interface FileRoutesById {
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
+  '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/podcast-audio/$slug': typeof ApiPublicPodcastAudioSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -286,7 +333,10 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/checkout/return'
     | '/kind/$kind'
+    | '/podcast/$slug'
+    | '/podcast/rss.xml'
     | '/topic/$topic'
+    | '/podcast/'
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
@@ -295,9 +345,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
+    | '/api/public/podcast-audio/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -314,7 +366,10 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/checkout/return'
     | '/kind/$kind'
+    | '/podcast/$slug'
+    | '/podcast/rss.xml'
     | '/topic/$topic'
+    | '/podcast'
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
@@ -323,9 +378,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
+    | '/api/public/podcast-audio/$slug'
   id:
     | '__root__'
     | '/'
@@ -343,7 +400,10 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/checkout/return'
     | '/kind/$kind'
+    | '/podcast/$slug'
+    | '/podcast/rss.xml'
     | '/topic/$topic'
+    | '/podcast/'
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
@@ -352,9 +412,11 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
     | '/api/public/hooks/generate-opinion'
+    | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
+    | '/api/public/podcast-audio/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -372,7 +434,10 @@ export interface RootRouteChildren {
   ArticleSlugRoute: typeof ArticleSlugRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   KindKindRoute: typeof KindKindRoute
+  PodcastSlugRoute: typeof PodcastSlugRoute
+  PodcastRssDotxmlRoute: typeof PodcastRssDotxmlRoute
   TopicTopicRoute: typeof TopicTopicRoute
+  PodcastIndexRoute: typeof PodcastIndexRoute
   ApiPublicArticleImageSlugRoute: typeof ApiPublicArticleImageSlugRoute
   ApiPublicHooksBackfillTopicsRoute: typeof ApiPublicHooksBackfillTopicsRoute
   ApiPublicHooksGenerateAnalysisRoute: typeof ApiPublicHooksGenerateAnalysisRoute
@@ -381,9 +446,11 @@ export interface RootRouteChildren {
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
   ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
+  ApiPublicHooksGeneratePodcastRoute: typeof ApiPublicHooksGeneratePodcastRoute
   ApiPublicHooksWeeklyDigestRoute: typeof ApiPublicHooksWeeklyDigestRoute
   ApiPublicNewsletterUnsubscribeRoute: typeof ApiPublicNewsletterUnsubscribeRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicPodcastAudioSlugRoute: typeof ApiPublicPodcastAudioSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -465,11 +532,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/podcast/': {
+      id: '/podcast/'
+      path: '/podcast'
+      fullPath: '/podcast/'
+      preLoaderRoute: typeof PodcastIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/topic/$topic': {
       id: '/topic/$topic'
       path: '/topic/$topic'
       fullPath: '/topic/$topic'
       preLoaderRoute: typeof TopicTopicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/podcast/rss.xml': {
+      id: '/podcast/rss.xml'
+      path: '/podcast/rss.xml'
+      fullPath: '/podcast/rss.xml'
+      preLoaderRoute: typeof PodcastRssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/podcast/$slug': {
+      id: '/podcast/$slug'
+      path: '/podcast/$slug'
+      fullPath: '/podcast/$slug'
+      preLoaderRoute: typeof PodcastSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kind/$kind': {
@@ -500,6 +588,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/podcast-audio/$slug': {
+      id: '/api/public/podcast-audio/$slug'
+      path: '/api/public/podcast-audio/$slug'
+      fullPath: '/api/public/podcast-audio/$slug'
+      preLoaderRoute: typeof ApiPublicPodcastAudioSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -519,6 +614,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/hooks/weekly-digest'
       fullPath: '/api/public/hooks/weekly-digest'
       preLoaderRoute: typeof ApiPublicHooksWeeklyDigestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-podcast': {
+      id: '/api/public/hooks/generate-podcast'
+      path: '/api/public/hooks/generate-podcast'
+      fullPath: '/api/public/hooks/generate-podcast'
+      preLoaderRoute: typeof ApiPublicHooksGeneratePodcastRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/generate-opinion': {
@@ -606,7 +708,10 @@ const rootRouteChildren: RootRouteChildren = {
   ArticleSlugRoute: ArticleSlugRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   KindKindRoute: KindKindRoute,
+  PodcastSlugRoute: PodcastSlugRoute,
+  PodcastRssDotxmlRoute: PodcastRssDotxmlRoute,
   TopicTopicRoute: TopicTopicRoute,
+  PodcastIndexRoute: PodcastIndexRoute,
   ApiPublicArticleImageSlugRoute: ApiPublicArticleImageSlugRoute,
   ApiPublicHooksBackfillTopicsRoute: ApiPublicHooksBackfillTopicsRoute,
   ApiPublicHooksGenerateAnalysisRoute: ApiPublicHooksGenerateAnalysisRoute,
@@ -616,9 +721,11 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
   ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
+  ApiPublicHooksGeneratePodcastRoute: ApiPublicHooksGeneratePodcastRoute,
   ApiPublicHooksWeeklyDigestRoute: ApiPublicHooksWeeklyDigestRoute,
   ApiPublicNewsletterUnsubscribeRoute: ApiPublicNewsletterUnsubscribeRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicPodcastAudioSlugRoute: ApiPublicPodcastAudioSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
