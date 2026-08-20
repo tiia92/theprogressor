@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { GenerateEditionButton } from "@/components/generate-edition-button";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -76,11 +75,6 @@ function About() {
           optimization.
         </p>
 
-      <h2>Generate today's edition</h2>
-      <p>
-        The Progressor publishes on a daily cycle. You can also trigger a fresh
-        edition on demand.
-      </p>
       <p>
         Questions or feedback? Email us at{" "}
         <a href="mailto:theprogressor@duck.com" className="text-primary hover:underline">
@@ -89,10 +83,6 @@ function About() {
         .
       </p>
     </div>
-
-      <div className="mt-6">
-        <GenerateEditionButton />
-      </div>
     </div>
   );
 }
