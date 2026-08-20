@@ -98,7 +98,22 @@ export const listRelatedArticles = createServerFn({ method: "GET" })
     const cols =
       "id, slug, title, dek, article_type, category, tags, hero_gradient, hero_image_url, featured, upvotes, published_at";
 
-    const picked: Record<string, unknown>[] = [];
+    type Row = Pick<
+      Database["public"]["Tables"]["articles"]["Row"],
+      | "id"
+      | "slug"
+      | "title"
+      | "dek"
+      | "article_type"
+      | "category"
+      | "tags"
+      | "hero_gradient"
+      | "hero_image_url"
+      | "featured"
+      | "upvotes"
+      | "published_at"
+    >;
+    const picked: Row[] = [];
     const seen = new Set<string>([data.slug]);
 
     if (data.tags.length > 0) {
