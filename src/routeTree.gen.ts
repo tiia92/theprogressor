@@ -22,6 +22,8 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TopicTopicRouteImport } from './routes/topic.$topic'
+import { Route as PodcastRssDotxmlRouteImport } from './routes/podcast.rss[.]xml'
+import { Route as PodcastSlugRouteImport } from './routes/podcast.$slug'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -103,6 +105,16 @@ const TopicTopicRoute = TopicTopicRouteImport.update({
   id: '/topic/$topic',
   path: '/topic/$topic',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PodcastRssDotxmlRoute = PodcastRssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => PodcastRoute,
+} as any)
+const PodcastSlugRoute = PodcastSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PodcastRoute,
 } as any)
 const KindKindRoute = KindKindRouteImport.update({
   id: '/kind/$kind',
@@ -208,7 +220,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
-  '/podcast': typeof PodcastRoute
+  '/podcast': typeof PodcastRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
@@ -219,6 +231,8 @@ export interface FileRoutesByFullPath {
   '/article/$slug': typeof ArticleSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
@@ -239,7 +253,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
-  '/podcast': typeof PodcastRoute
+  '/podcast': typeof PodcastRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
@@ -250,6 +264,8 @@ export interface FileRoutesByTo {
   '/article/$slug': typeof ArticleSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
@@ -272,7 +288,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
-  '/podcast': typeof PodcastRoute
+  '/podcast': typeof PodcastRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
@@ -283,6 +299,8 @@ export interface FileRoutesById {
   '/article/$slug': typeof ArticleSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
@@ -316,6 +334,8 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/checkout/return'
     | '/kind/$kind'
+    | '/podcast/$slug'
+    | '/podcast/rss.xml'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
@@ -347,6 +367,8 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/checkout/return'
     | '/kind/$kind'
+    | '/podcast/$slug'
+    | '/podcast/rss.xml'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
@@ -379,6 +401,8 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/checkout/return'
     | '/kind/$kind'
+    | '/podcast/$slug'
+    | '/podcast/rss.xml'
     | '/topic/$topic'
     | '/api/public/article-image/$slug'
     | '/api/public/hooks/backfill-topics'
@@ -401,7 +425,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   CrowdsourceRoute: typeof CrowdsourceRoute
-  PodcastRoute: typeof PodcastRoute
+  PodcastRoute: typeof PodcastRouteWithChildren
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
@@ -519,6 +543,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/topic/$topic'
       preLoaderRoute: typeof TopicTopicRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/podcast/rss.xml': {
+      id: '/podcast/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/podcast/rss.xml'
+      preLoaderRoute: typeof PodcastRssDotxmlRouteImport
+      parentRoute: typeof PodcastRoute
+    }
+    '/podcast/$slug': {
+      id: '/podcast/$slug'
+      path: '/$slug'
+      fullPath: '/podcast/$slug'
+      preLoaderRoute: typeof PodcastSlugRouteImport
+      parentRoute: typeof PodcastRoute
     }
     '/kind/$kind': {
       id: '/kind/$kind'
@@ -653,13 +691,26 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface PodcastRouteChildren {
+  PodcastSlugRoute: typeof PodcastSlugRoute
+  PodcastRssDotxmlRoute: typeof PodcastRssDotxmlRoute
+}
+
+const PodcastRouteChildren: PodcastRouteChildren = {
+  PodcastSlugRoute: PodcastSlugRoute,
+  PodcastRssDotxmlRoute: PodcastRssDotxmlRoute,
+}
+
+const PodcastRouteWithChildren =
+  PodcastRoute._addFileChildren(PodcastRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   CrowdsourceRoute: CrowdsourceRoute,
-  PodcastRoute: PodcastRoute,
+  PodcastRoute: PodcastRouteWithChildren,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,

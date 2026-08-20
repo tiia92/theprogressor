@@ -13,7 +13,7 @@ function esc(s: string) {
     .replace(/"/g, "&quot;");
 }
 
-export const Route = createFileRoute("/podcast/rss/xml")({
+export const Route = createFileRoute("/podcast/rss.xml")({
   server: {
     handlers: {
       GET: async () => {
