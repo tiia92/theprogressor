@@ -57,8 +57,18 @@ export const Route = createFileRoute("/")({
   }),
 });
 
+function formatWeek(week: string) {
+  return new Date(`${week}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 function Home() {
   const { data } = useSuspenseQuery(homepageQuery);
+  const { data: episode } = useSuspenseQuery(latestPodcastQuery);
 
   if (data.totalCount === 0) {
     return <EmptyState />;
