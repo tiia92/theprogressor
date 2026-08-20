@@ -21,14 +21,17 @@ The Progressor is a single AI host with a fixed persona used in every script:
 5. One short explainer detour on a term or mechanism that came up.
 6. Close — what next week hinges on, contact/feedback, sign-off.
 
-## Voice: two comedy samples first
+## Voice: four samples first
 
-Before anything else gets built, I'll write one ~60-second cold open on a real story from this week and record it twice, so you can hear the same words in two personalities:
+Before anything else gets built, I'll write one ~60-second cold open on a real story from this week and record it four times, so you hear the same words in four personalities:
 
-1. **British satirist** — John Oliver lane. British accent, rapid escalation, mock-exasperated, builds to an absurd but accurate comparison, then lands the actual fact.
-2. **American late-night anchor** — Colbert lane. American, arch and playful, raised-eyebrow delivery, punches the joke and immediately returns to the reporting voice.
+1. **Chris** — Hayes lane. American, fast, morally engaged, escalating clauses, emotion without opinion. Straight-news register with heat.
+2. **Katy** — Tur lane. American, level and warm, dry understatement, lets a damning fact sit unadorned. The calmest of the four.
+3. **John** — Oliver lane. British, rapid escalation, mock-exasperated, builds to an absurd but accurate comparison, then lands the actual fact.
+4. **Stephen** — Colbert lane. American, arch and playful, raised-eyebrow delivery, punches the joke and immediately returns to the reporting voice.
 
-Both scripts include the AI self-disclosure, played for a laugh in each style. You listen, pick one (or tell me to blend them), and that becomes the standing host persona and voice for every episode. The straight-anchor Hayes/Tur register stays available as a fallback if the comedy reads too broad on a heavy news week.
+Each sample includes the AI self-disclosure, played to that persona's strengths. You listen, pick one (or tell me to blend them), and that becomes the standing host persona and voice for every episode.
+
 
 
 ## What gets built
