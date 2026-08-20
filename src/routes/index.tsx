@@ -134,6 +134,35 @@ function Home() {
             </div>
           )}
 
+          {episode && (
+            <div className="mt-8 rounded-lg border border-border bg-card p-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
+                The Progressor Podcast · Week of {formatWeek(episode.week_start)}
+              </p>
+              <Link
+                to="/podcast/$slug"
+                params={{ slug: episode.slug }}
+                className="mt-1 block font-heading text-xl leading-tight text-foreground hover:text-primary"
+              >
+                {episode.title}
+              </Link>
+              <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{episode.summary}</p>
+              <div className="mt-4">
+                <PodcastPlayer
+                  src={`/api/public/podcast-audio/${episode.slug}`}
+                  fallbackDuration={episode.duration_seconds}
+                />
+              </div>
+              <Link
+                to="/podcast/$slug"
+                params={{ slug: episode.slug }}
+                className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+              >
+                Chapters and full transcript →
+              </Link>
+            </div>
+          )}
+
           {data.latest.length > 0 && (
             <div className="mt-8">
               <SectionHeading title="More coverage" href="/kind/news" />
