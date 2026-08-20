@@ -65,7 +65,7 @@ export function MembershipPanel() {
   return (
     <section className="mt-8 space-y-10">
       <div>
-        <h2 className="font-heading text-2xl font-semibold text-foreground">Membership</h2>
+        <h2 className="font-heading text-2xl text-foreground">Membership</h2>
         {isPro ? (
           <>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -91,7 +91,7 @@ export function MembershipPanel() {
       </div>
 
       <div>
-        <h2 className="font-heading text-2xl font-semibold text-foreground">Email digests</h2>
+        <h2 className="font-heading text-2xl text-foreground">Email digests</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Weekly is free. Daily and personalized digests are part of Pro.
         </p>

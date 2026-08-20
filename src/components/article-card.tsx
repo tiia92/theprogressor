@@ -118,7 +118,7 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
               {fmtDate(article.published_at)}
             </span>
           </div>
-          <h2 className="font-heading text-2xl font-semibold leading-tight text-foreground group-hover:text-primary md:text-3xl">
+          <h2 className="font-heading text-2xl leading-tight text-foreground group-hover:text-primary md:text-3xl">
             {article.title}
           </h2>
           <p className="mt-3 text-base text-muted-foreground md:text-lg">{article.dek}</p>
@@ -142,7 +142,7 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
             {fmtDate(article.published_at)}
           </span>
         </div>
-        <CompactTag className="font-heading text-lg font-semibold leading-snug text-foreground group-hover:text-primary">
+        <CompactTag className="font-heading text-lg leading-snug text-foreground group-hover:text-primary">
           {article.title}
         </CompactTag>
       </Link>
@@ -168,7 +168,7 @@ export function ArticleCard({ article, size = "medium", withArt = false, noImage
           <KindBadge type={article.article_type} />
           <TypeLabel type={article.article_type} />
         </div>
-        <TitleTag className="font-heading text-xl font-semibold leading-snug text-foreground group-hover:text-primary">
+        <TitleTag className="font-heading text-xl leading-snug text-foreground group-hover:text-primary">
           {article.title}
         </TitleTag>
         <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{article.dek}</p>

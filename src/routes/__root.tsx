@@ -24,7 +24,7 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">404</p>
-        <h1 className="mt-3 font-heading text-4xl font-semibold text-foreground">Page not found</h1>
+        <h1 className="mt-3 font-heading text-4xl text-foreground">Page not found</h1>
         <p className="mt-3 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or hasn't been published yet.
         </p>
@@ -51,7 +51,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-heading text-2xl font-semibold text-foreground">This page didn't load</h1>
+        <h1 className="font-heading text-2xl text-foreground">This page didn't load</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. Try refreshing or head back to the front page.
         </p>

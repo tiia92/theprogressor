@@ -117,7 +117,7 @@ function CrowdsourcePage() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <header className="max-w-3xl">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">Crowdsource</p>
-        <h1 className="mt-3 font-heading text-4xl font-semibold leading-tight text-foreground md:text-5xl">
+        <h1 className="mt-3 font-heading text-4xl leading-tight text-foreground md:text-5xl">
           Pitch the next edition
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
@@ -145,7 +145,7 @@ function CrowdsourcePage() {
           },
         ].map((c) => (
           <div key={c.h} className="rounded-lg border border-border bg-card p-5">
-            <h2 className="font-heading text-lg font-semibold text-foreground">{c.h}</h2>
+            <h2 className="font-heading text-lg text-foreground">{c.h}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{c.p}</p>
           </div>
         ))}
@@ -187,7 +187,7 @@ function CrowdsourcePage() {
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
                   Fit to file · score {draft.score}
                 </p>
-                <p className="mt-1 font-heading text-lg font-semibold text-foreground">{draft.title}</p>
+                <p className="mt-1 font-heading text-lg text-foreground">{draft.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{draft.summary}</p>
                 {draft.source_outlet && (
                   <p className="mt-1 text-xs text-muted-foreground">
@@ -266,7 +266,7 @@ function CrowdsourcePage() {
         </section>
 
         <aside>
-          <h2 className="font-heading text-xl font-semibold text-foreground">In line for tomorrow</h2>
+          <h2 className="font-heading text-xl text-foreground">In line for tomorrow</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Pitches that cleared the desk, ranked. The top five run in the next Crowdsource edition.
           </p>
