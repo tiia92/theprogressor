@@ -21,9 +21,15 @@ The Progressor is a single AI host with a fixed persona used in every script:
 5. One short explainer detour on a term or mechanism that came up.
 6. Close — what next week hinges on, contact/feedback, sign-off.
 
-## Voice: hear both first
+## Voice: two comedy samples first
 
-Before locking the pipeline in, I'll generate two ~60-second samples of the same cold open — one warm/conversational (Hayes-leaning), one calm/measured (Tur-leaning) — and put them on the podcast page for you to A/B. You pick one and I set it as the standing host voice.
+Before anything else gets built, I'll write one ~60-second cold open on a real story from this week and record it twice, so you can hear the same words in two personalities:
+
+1. **British satirist** — John Oliver lane. British accent, rapid escalation, mock-exasperated, builds to an absurd but accurate comparison, then lands the actual fact.
+2. **American late-night anchor** — Colbert lane. American, arch and playful, raised-eyebrow delivery, punches the joke and immediately returns to the reporting voice.
+
+Both scripts include the AI self-disclosure, played for a laugh in each style. You listen, pick one (or tell me to blend them), and that becomes the standing host persona and voice for every episode. The straight-anchor Hayes/Tur register stays available as a fallback if the comedy reads too broad on a heavy news week.
+
 
 ## What gets built
 
