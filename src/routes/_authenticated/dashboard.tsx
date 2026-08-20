@@ -152,24 +152,37 @@ function Dashboard() {
           <div>
             <h2 className="font-heading text-2xl text-foreground">Topics</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Tap to follow or unfollow. {followed.size} followed.
+              Click a topic to see all its coverage; use the ✓/+ to follow or unfollow.{" "}
+              {followed.size} followed.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {TOPICS.map((t) => {
                 const on = followed.has(t.slug);
                 return (
-                  <button
+                  <span
                     key={t.slug}
-                    onClick={() => onToggleTopic(t.slug)}
-                    className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                    className={`inline-flex items-center gap-1 rounded-full border text-xs transition-colors ${
                       on
                         ? "border-primary bg-primary/10 text-foreground"
-                        : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                        : "border-border bg-card text-muted-foreground hover:border-primary/50"
                     }`}
                   >
-                    {on ? "✓ " : ""}
-                    {t.label}
-                  </button>
+                    <Link
+                      to="/topic/$topic"
+                      params={{ topic: t.slug }}
+                      className="rounded-l-full py-1 pl-3 hover:text-foreground hover:underline"
+                    >
+                      {t.label}
+                    </Link>
+                    <button
+                      onClick={() => onToggleTopic(t.slug)}
+                      aria-label={on ? `Unfollow ${t.label}` : `Follow ${t.label}`}
+                      title={on ? "Unfollow" : "Follow"}
+                      className="rounded-r-full py-1 pr-3 pl-1 text-muted-foreground hover:text-foreground"
+                    >
+                      {on ? "✓" : "+"}
+                    </button>
+                  </span>
                 );
               })}
             </div>
@@ -197,9 +210,15 @@ function Dashboard() {
               {keywords.map((w) => (
                 <span
                   key={w}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs text-foreground"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card py-1 pr-3 pl-3 text-xs text-foreground"
                 >
-                  {w}
+                  <Link
+                    to="/search"
+                    search={{ q: w }}
+                    className="hover:text-primary hover:underline"
+                  >
+                    {w}
+                  </Link>
                   <button
                     onClick={() => onRemoveKeyword(w)}
                     aria-label={`Remove ${w}`}
