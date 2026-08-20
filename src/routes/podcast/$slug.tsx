@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { PodcastComments } from "@/components/podcast-comments";
 import { PodcastPlayer } from "@/components/podcast-player";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -145,6 +146,8 @@ function EpisodePage() {
             ))}
         </div>
       </section>
+
+      <PodcastComments slug={e.slug} />
     </div>
   );
 }

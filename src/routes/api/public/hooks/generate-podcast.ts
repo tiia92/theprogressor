@@ -17,8 +17,14 @@ export const Route = createFileRoute("/api/public/hooks/generate-podcast")({
           });
         }
         try {
+          const body = (await request.json().catch(() => ({}))) as {
+            weekStart?: string;
+            weekEnd?: string;
+            slugSuffix?: string;
+            extraDirection?: string;
+          };
           const { generateWeeklyEpisode } = await import("@/lib/generate-podcast.server");
-          const result = await generateWeeklyEpisode();
+          const result = await generateWeeklyEpisode(body ?? {});
           return Response.json({ ok: true, ...result });
         } catch (err) {
           const message = err instanceof Error ? err.message : String(err);

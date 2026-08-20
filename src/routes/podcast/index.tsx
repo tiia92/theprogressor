@@ -92,7 +92,11 @@ function PodcastPage() {
   });
 
   const gen = useMutation({
-    mutationFn: () => generate({ data: undefined as never }),
+    mutationFn: async () => {
+      const res = await generate({ data: {} });
+      if (res && "error" in res && res.error) throw new Error(res.error);
+      return res;
+    },
     onSuccess: () => {
       toast.success("Episode published");
       void qc.invalidateQueries({ queryKey: ["podcast-episodes"] });
