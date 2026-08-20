@@ -102,7 +102,7 @@ function AuthPage() {
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
         Reader account
       </p>
-      <h1 className="mt-2 font-serif text-4xl font-bold text-foreground">
+      <h1 className="mt-2 font-heading text-4xl font-bold text-foreground">
         {mode === "signin" ? "Sign in" : "Create your account"}
       </h1>
       <p className="mt-3 text-sm text-muted-foreground">

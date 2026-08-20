@@ -100,7 +100,7 @@ function Dashboard() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Dashboard</p>
-      <h1 className="mt-2 font-serif text-4xl font-bold text-foreground md:text-5xl">
+      <h1 className="mt-2 font-heading text-4xl font-bold text-foreground md:text-5xl">
         Your reading
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
@@ -150,7 +150,7 @@ function Dashboard() {
       {tab === "follows" && (
         <section className="mt-8 space-y-10">
           <div>
-            <h2 className="font-serif text-2xl font-semibold text-foreground">Topics</h2>
+            <h2 className="font-heading text-2xl font-semibold text-foreground">Topics</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Tap to follow or unfollow. {followed.size} followed.
             </p>
@@ -176,7 +176,7 @@ function Dashboard() {
           </div>
 
           <div>
-            <h2 className="font-serif text-2xl font-semibold text-foreground">Keywords</h2>
+            <h2 className="font-heading text-2xl font-semibold text-foreground">Keywords</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Precise terms — a bill name, a person, an agency. We match them across full article
               text.
