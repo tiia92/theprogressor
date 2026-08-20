@@ -1,12 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getHomepage } from "@/lib/articles.functions";
+import { getLatestPodcastEpisode } from "@/lib/podcast.functions";
 import { ArticleCard } from "@/components/article-card";
 import { GenerateEditionButton } from "@/components/generate-edition-button";
+import { PodcastPlayer } from "@/components/podcast-player";
 
 const homepageQuery = queryOptions({
   queryKey: ["homepage"],
   queryFn: () => getHomepage(),
+});
+
+const latestPodcastQuery = queryOptions({
+  queryKey: ["latest-podcast-episode"],
+  queryFn: () => getLatestPodcastEpisode(),
 });
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
