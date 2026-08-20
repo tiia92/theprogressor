@@ -28,7 +28,10 @@ function formatTodayUTC() {
 }
 
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(homepageQuery),
+  loader: ({ context }) => {
+    context.queryClient.ensureQueryData(homepageQuery);
+    context.queryClient.ensureQueryData(latestPodcastQuery);
+  },
   component: Home,
   head: () => ({
     meta: [
