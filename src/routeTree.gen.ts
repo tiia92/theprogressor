@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PodcastRouteImport } from './routes/podcast'
 import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -67,6 +68,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PodcastRoute = PodcastRouteImport.update({
+  id: '/podcast',
+  path: '/podcast',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrowdsourceRoute = CrowdsourceRouteImport.update({
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/podcast': typeof PodcastRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
@@ -232,6 +239,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/podcast': typeof PodcastRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
@@ -264,6 +272,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/podcast': typeof PodcastRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
@@ -296,6 +305,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/podcast'
     | '/pricing'
     | '/privacy'
     | '/search'
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/podcast'
     | '/pricing'
     | '/privacy'
     | '/search'
@@ -357,6 +368,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/podcast'
     | '/pricing'
     | '/privacy'
     | '/search'
@@ -389,6 +401,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   CrowdsourceRoute: typeof CrowdsourceRoute
+  PodcastRoute: typeof PodcastRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
@@ -456,6 +469,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/podcast': {
+      id: '/podcast'
+      path: '/podcast'
+      fullPath: '/podcast'
+      preLoaderRoute: typeof PodcastRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crowdsource': {
@@ -639,6 +659,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   CrowdsourceRoute: CrowdsourceRoute,
+  PodcastRoute: PodcastRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
