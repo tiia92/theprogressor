@@ -61,7 +61,7 @@ export const Route = createFileRoute("/article/$slug")({
   },
   notFoundComponent: () => (
     <div className="mx-auto max-w-2xl px-4 py-16 text-center">
-      <h1 className="font-serif text-3xl font-semibold text-foreground">Article not found</h1>
+      <h1 className="font-heading text-3xl font-semibold text-foreground">Article not found</h1>
       <p className="mt-2 text-muted-foreground">This story may have been unpublished.</p>
       <Link to="/" className="mt-6 inline-block text-primary hover:underline">
         ← Back to today's edition

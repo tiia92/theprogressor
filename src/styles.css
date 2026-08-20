@@ -165,7 +165,7 @@
   line-height: 1.75;
 
   & h2 {
-    font-family: var(--font-serif);
+    font-family: var(--font-heading);
     font-size: 1.65rem;
     font-weight: 600;
     margin-top: 2.25rem;
@@ -173,7 +173,7 @@
     letter-spacing: -0.015em;
   }
   & h3 {
-    font-family: var(--font-serif);
+    font-family: var(--font-heading);
     font-size: 1.3rem;
     font-weight: 600;
     margin-top: 1.75rem;
