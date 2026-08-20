@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Bookmark, BookmarkCheck, Link2, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { ListenButton } from "@/components/listen-button";
+
 import {
   getMyReaction,
   getReaderState,
@@ -105,6 +107,8 @@ export function ArticleActions({ articleId, slug, title, upvotes }: Props) {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
+      <ListenButton slug={slug} />
+
       <button
         onClick={() => onVote(1)}
         className={`${btn} ${vote === 1 ? "border-primary text-foreground" : ""}`}
