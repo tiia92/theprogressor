@@ -12,7 +12,7 @@ const ADMIN_EMAIL = "discussabilityonline@gmail.com";
 const DESCRIPTION =
   "A free weekly 20-30 minute podcast: The Progressor, an AI host, walks through the week in U.S. politics and policy — straight reporting, dry humor, and what to watch next.";
 
-export const Route = createFileRoute("/podcast")({
+export const Route = createFileRoute("/podcast/")({
   component: PodcastPage,
   head: () => ({
     meta: [
