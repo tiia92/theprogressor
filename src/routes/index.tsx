@@ -28,9 +28,9 @@ function formatTodayUTC() {
 }
 
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(homepageQuery);
-    context.queryClient.ensureQueryData(latestPodcastQuery);
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(homepageQuery);
+    await context.queryClient.ensureQueryData(latestPodcastQuery);
   },
   component: Home,
   head: () => ({
