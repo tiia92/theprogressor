@@ -147,12 +147,6 @@ function Home() {
               >
                 {episode.title}
               </Link>
-              <img
-                src={PODCAST_COVER_URL}
-                alt={PODCAST_COVER_ALT}
-                loading="lazy"
-                className="mt-3 w-full rounded-md border border-border object-cover"
-              />
               <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">{episode.summary}</p>
               <div className="mt-4">
                 <PodcastPlayer
