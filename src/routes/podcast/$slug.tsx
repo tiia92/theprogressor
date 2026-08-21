@@ -121,8 +121,14 @@ function EpisodePage() {
           fallbackDuration={e.duration_seconds}
         />
       </div>
-      <div className="mt-4">
+      <div className="mt-4 flex flex-wrap items-center gap-3">
         <PodcastShareActions slug={e.slug} title={e.title} />
+        <a
+          href="/podcast/rss.xml"
+          className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
+        >
+          RSS feed
+        </a>
       </div>
 
       {chapters.length > 0 && (
