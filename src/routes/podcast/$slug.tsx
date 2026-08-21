@@ -46,7 +46,10 @@ export const Route = createFileRoute("/podcast/$slug")({
         content: "The week in U.S. politics and policy, explained by The Progressor.",
       },
       { property: "og:type", content: "article" },
-      { name: "twitter:card", content: "summary" },
+      { property: "og:image", content: PODCAST_COVER_ABSOLUTE },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: PODCAST_COVER_ABSOLUTE },
+
     ],
     links: [
       {
