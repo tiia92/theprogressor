@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { PodcastComments } from "@/components/podcast-comments";
 import { PodcastPlayer } from "@/components/podcast-player";
+import { PODCAST_COVER_ABSOLUTE, PODCAST_COVER_ALT, PODCAST_COVER_URL } from "@/lib/podcast-cover";
 import { PodcastShareActions } from "@/components/podcast-share-actions";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -111,7 +112,13 @@ function EpisodePage() {
       >
         ← The Progressor Podcast
       </Link>
-      <h1 className="mt-3 font-heading text-4xl text-foreground">{e.title}</h1>
+      <img
+        src={PODCAST_COVER_URL}
+        alt={PODCAST_COVER_ALT}
+        loading="lazy"
+        className="mt-4 w-full rounded-md border border-border object-cover"
+      />
+      <h1 className="mt-4 font-heading text-4xl text-foreground">{e.title}</h1>
       <p className="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
         Week of {formatWeek(e.week_start)}
         {e.duration_seconds ? ` · ${Math.round(e.duration_seconds / 60)} min` : ""}
