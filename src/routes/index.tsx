@@ -5,7 +5,6 @@ import { getLatestPodcastEpisode } from "@/lib/podcast.functions";
 import { ArticleCard } from "@/components/article-card";
 import { GenerateEditionButton } from "@/components/generate-edition-button";
 import { PodcastPlayer } from "@/components/podcast-player";
-import { PODCAST_COVER_ALT, PODCAST_COVER_URL } from "@/lib/podcast-cover";
 import { PodcastShareActions } from "@/components/podcast-share-actions";
 
 const homepageQuery = queryOptions({
@@ -148,12 +147,6 @@ function Home() {
               >
                 {episode.title}
               </Link>
-              <img
-                src={PODCAST_COVER_URL}
-                alt={PODCAST_COVER_ALT}
-                loading="lazy"
-                className="mt-3 w-full rounded-md border border-border object-cover"
-              />
               <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">{episode.summary}</p>
               <div className="mt-4">
                 <PodcastPlayer
