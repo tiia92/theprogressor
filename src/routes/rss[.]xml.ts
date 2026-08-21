@@ -21,12 +21,12 @@ export const Route = createFileRoute("/rss.xml")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        const { serverPublicClient } = await import("@/lib/supabase-public.server");
+        const { createPublicSupabaseClient } = await import("@/lib/supabase-public.server");
         const url = new URL(request.url);
         const topic = url.searchParams.get("topic");
         const kind = url.searchParams.get("kind");
 
-        const supabase = serverPublicClient();
+        const supabase = createPublicSupabaseClient();
         let q = supabase
           .from("articles")
           .select("slug, title, dek, category, tags, article_type, hero_image_url, published_at")
