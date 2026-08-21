@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { PODCAST_COVER_ABSOLUTE } from "@/lib/podcast-cover";
+
 const BASE_URL = "https://theprogressor.lovable.app";
 const TITLE = "The Progressor Podcast";
 const DESCRIPTION =
@@ -38,6 +40,7 @@ export const Route = createFileRoute("/podcast/rss.xml")({
       <enclosure url="${url}" type="audio/mpeg" length="0" />
       <itunes:duration>${e.duration_seconds ?? 0}</itunes:duration>
       <itunes:explicit>false</itunes:explicit>
+      <itunes:image href="${PODCAST_COVER_ABSOLUTE}" />
     </item>`;
           })
           .join("\n");
@@ -50,6 +53,12 @@ export const Route = createFileRoute("/podcast/rss.xml")({
     <language>en-us</language>
     <description>${esc(DESCRIPTION)}</description>
     <itunes:author>The Progressor</itunes:author>
+    <itunes:image href="${PODCAST_COVER_ABSOLUTE}" />
+    <image>
+      <url>${PODCAST_COVER_ABSOLUTE}</url>
+      <title>${TITLE}</title>
+      <link>${BASE_URL}/podcast</link>
+    </image>
     <itunes:explicit>false</itunes:explicit>
     <itunes:category text="News"><itunes:category text="Politics" /></itunes:category>
 ${items}

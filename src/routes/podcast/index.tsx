@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { PodcastPlayer } from "@/components/podcast-player";
+import { PODCAST_COVER_ABSOLUTE, PODCAST_COVER_ALT, PODCAST_COVER_URL } from "@/lib/podcast-cover";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { triggerPodcastGeneration } from "@/lib/podcast.functions";
@@ -21,7 +22,9 @@ export const Route = createFileRoute("/podcast/")({
       { property: "og:title", content: "The Progressor Podcast" },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { property: "og:image", content: PODCAST_COVER_ABSOLUTE },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: PODCAST_COVER_ABSOLUTE },
     ],
     links: [
       { rel: "canonical", href: "https://theprogressor.lovable.app/podcast" },
@@ -166,6 +169,12 @@ function PodcastPage() {
               </Link>
             </h2>
             <p className="mt-2 text-muted-foreground">{latest.summary}</p>
+            <img
+              src={PODCAST_COVER_URL}
+              alt={PODCAST_COVER_ALT}
+              loading="lazy"
+              className="mt-4 w-full rounded-md border border-border object-cover"
+            />
             <div className="mt-4">
               <PodcastPlayer
                 src={audioUrl(latest.slug)}
