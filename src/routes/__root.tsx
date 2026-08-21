@@ -104,6 +104,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "The Progressor — Articles",
+        href: "https://theprogressor.lovable.app/rss.xml",
+      },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "The Progressor Podcast",
+        href: "https://theprogressor.lovable.app/podcast/rss.xml",
+      },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
