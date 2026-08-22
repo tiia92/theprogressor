@@ -284,6 +284,7 @@ export type Database = {
           status: string
           summary: string
           title: string
+          video_path: string | null
           week_start: string
         }
         Insert: {
@@ -298,6 +299,7 @@ export type Database = {
           status?: string
           summary?: string
           title: string
+          video_path?: string | null
           week_start: string
         }
         Update: {
@@ -312,6 +314,7 @@ export type Database = {
           status?: string
           summary?: string
           title?: string
+          video_path?: string | null
           week_start?: string
         }
         Relationships: []
