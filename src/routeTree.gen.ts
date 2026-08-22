@@ -29,6 +29,7 @@ import { Route as KindKindRouteImport } from './routes/kind.$kind'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiPublicPodcastVideoSlugRouteImport } from './routes/api/public/podcast-video.$slug'
 import { Route as ApiPublicPodcastAudioSlugRouteImport } from './routes/api/public/podcast-audio.$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api/public/newsletter/unsubscribe'
@@ -142,6 +143,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicPodcastVideoSlugRoute =
+  ApiPublicPodcastVideoSlugRouteImport.update({
+    id: '/api/public/podcast-video/$slug',
+    path: '/api/public/podcast-video/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPodcastAudioSlugRoute =
   ApiPublicPodcastAudioSlugRouteImport.update({
     id: '/api/public/podcast-audio/$slug',
@@ -254,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/podcast-audio/$slug': typeof ApiPublicPodcastAudioSlugRoute
+  '/api/public/podcast-video/$slug': typeof ApiPublicPodcastVideoSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -288,6 +296,7 @@ export interface FileRoutesByTo {
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/podcast-audio/$slug': typeof ApiPublicPodcastAudioSlugRoute
+  '/api/public/podcast-video/$slug': typeof ApiPublicPodcastVideoSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -324,6 +333,7 @@ export interface FileRoutesById {
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/podcast-audio/$slug': typeof ApiPublicPodcastAudioSlugRoute
+  '/api/public/podcast-video/$slug': typeof ApiPublicPodcastVideoSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -360,6 +370,7 @@ export interface FileRouteTypes {
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
     | '/api/public/podcast-audio/$slug'
+    | '/api/public/podcast-video/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
     | '/api/public/podcast-audio/$slug'
+    | '/api/public/podcast-video/$slug'
   id:
     | '__root__'
     | '/'
@@ -429,6 +441,7 @@ export interface FileRouteTypes {
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
     | '/api/public/podcast-audio/$slug'
+    | '/api/public/podcast-video/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -464,6 +477,7 @@ export interface RootRouteChildren {
   ApiPublicNewsletterUnsubscribeRoute: typeof ApiPublicNewsletterUnsubscribeRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   ApiPublicPodcastAudioSlugRoute: typeof ApiPublicPodcastAudioSlugRoute
+  ApiPublicPodcastVideoSlugRoute: typeof ApiPublicPodcastVideoSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -608,6 +622,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/podcast-video/$slug': {
+      id: '/api/public/podcast-video/$slug'
+      path: '/api/public/podcast-video/$slug'
+      fullPath: '/api/public/podcast-video/$slug'
+      preLoaderRoute: typeof ApiPublicPodcastVideoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/podcast-audio/$slug': {
       id: '/api/public/podcast-audio/$slug'
       path: '/api/public/podcast-audio/$slug'
@@ -747,6 +768,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicNewsletterUnsubscribeRoute: ApiPublicNewsletterUnsubscribeRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   ApiPublicPodcastAudioSlugRoute: ApiPublicPodcastAudioSlugRoute,
+  ApiPublicPodcastVideoSlugRoute: ApiPublicPodcastVideoSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
