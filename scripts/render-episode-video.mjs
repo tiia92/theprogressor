@@ -21,7 +21,7 @@ const run = promisify(execFile);
 
 const BUCKET = "podcast";
 const NAVY = "0x0b2b5f";
-const EMBER = "0xd95f2b";
+const EMBER = "#d95f2b";
 const W = 1920;
 const H = 1080;
 const FPS = 15;
@@ -69,7 +69,7 @@ async function renderOne(episode, workdir, force) {
     `color=c=${NAVY}:s=${W}x${H}:r=${FPS}[bg]`,
     `[1:v]scale=-1:${coverH}[cover]`,
     `[bg][cover]overlay=(W-w)/2:20:shortest=0[base]`,
-    `[0:a]showwaves=s=${W}x160:mode=cline:rate=${FPS}:colors=${EMBER}[wave]`,
+    `[0:a]showwaves=s=${W}x160:mode=cline:rate=${FPS}:colors=${EMBER},format=rgba,colorkey=0x000000:0.10:0.05[wave]`,
     `[base][wave]overlay=0:${H - 170}:shortest=1,format=yuv420p[v]`,
   ].join(";");
 
