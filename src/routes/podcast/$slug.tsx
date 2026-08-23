@@ -20,6 +20,7 @@ interface Episode {
   duration_seconds: number | null;
   week_start: string;
   published_at: string | null;
+  video_path: string | null;
 }
 
 function formatWeek(week: string) {
@@ -77,7 +78,7 @@ function EpisodePage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("podcast_episodes")
-        .select("slug, title, summary, script, chapters, duration_seconds, week_start, published_at")
+        .select("slug, title, summary, script, chapters, duration_seconds, week_start, published_at, video_path")
         .eq("slug", slug)
         .eq("status", "published")
         .maybeSingle();
@@ -133,6 +134,14 @@ function EpisodePage() {
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <PodcastShareActions slug={e.slug} title={e.title} />
+        {e.video_path ? (
+          <a
+            href={`/api/public/podcast-video/${e.slug}`}
+            className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
+          >
+            Download MP4
+          </a>
+        ) : null}
         <a
           href="/podcast/rss.xml"
           className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
