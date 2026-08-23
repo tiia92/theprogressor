@@ -136,10 +136,11 @@ function EpisodePage() {
         <PodcastShareActions slug={e.slug} title={e.title} />
         {e.video_path ? (
           <a
-            href={`/api/public/podcast-video/${e.slug}`}
+            href={`/api/public/podcast-video/${e.slug}.mp4`}
+            download={`${e.slug}.mp4`}
             className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
           >
-            Download MP4
+            Download MP4 (saves to your Downloads folder)
           </a>
         ) : null}
         <a
