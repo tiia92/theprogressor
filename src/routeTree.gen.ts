@@ -24,6 +24,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PodcastIndexRouteImport } from './routes/podcast/index'
 import { Route as TopicTopicRouteImport } from './routes/topic.$topic'
 import { Route as PodcastRssDotxmlRouteImport } from './routes/podcast/rss[.]xml'
+import { Route as PodcastMusicRouteImport } from './routes/podcast/music'
 import { Route as PodcastSlugRouteImport } from './routes/podcast/$slug'
 import { Route as KindKindRouteImport } from './routes/kind.$kind'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
@@ -116,6 +117,11 @@ const TopicTopicRoute = TopicTopicRouteImport.update({
 const PodcastRssDotxmlRoute = PodcastRssDotxmlRouteImport.update({
   id: '/podcast/rss.xml',
   path: '/podcast/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PodcastMusicRoute = PodcastMusicRouteImport.update({
+  id: '/podcast/music',
+  path: '/podcast/music',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PodcastSlugRoute = PodcastSlugRouteImport.update({
@@ -245,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/music': typeof PodcastMusicRoute
   '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/podcast/': typeof PodcastIndexRoute
@@ -280,6 +287,7 @@ export interface FileRoutesByTo {
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/music': typeof PodcastMusicRoute
   '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/podcast': typeof PodcastIndexRoute
@@ -317,6 +325,7 @@ export interface FileRoutesById {
   '/checkout/return': typeof CheckoutReturnRoute
   '/kind/$kind': typeof KindKindRoute
   '/podcast/$slug': typeof PodcastSlugRoute
+  '/podcast/music': typeof PodcastMusicRoute
   '/podcast/rss.xml': typeof PodcastRssDotxmlRoute
   '/topic/$topic': typeof TopicTopicRoute
   '/podcast/': typeof PodcastIndexRoute
@@ -354,6 +363,7 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/kind/$kind'
     | '/podcast/$slug'
+    | '/podcast/music'
     | '/podcast/rss.xml'
     | '/topic/$topic'
     | '/podcast/'
@@ -389,6 +399,7 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/kind/$kind'
     | '/podcast/$slug'
+    | '/podcast/music'
     | '/podcast/rss.xml'
     | '/topic/$topic'
     | '/podcast'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/kind/$kind'
     | '/podcast/$slug'
+    | '/podcast/music'
     | '/podcast/rss.xml'
     | '/topic/$topic'
     | '/podcast/'
@@ -461,6 +473,7 @@ export interface RootRouteChildren {
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   KindKindRoute: typeof KindKindRoute
   PodcastSlugRoute: typeof PodcastSlugRoute
+  PodcastMusicRoute: typeof PodcastMusicRoute
   PodcastRssDotxmlRoute: typeof PodcastRssDotxmlRoute
   TopicTopicRoute: typeof TopicTopicRoute
   PodcastIndexRoute: typeof PodcastIndexRoute
@@ -585,6 +598,13 @@ declare module '@tanstack/react-router' {
       path: '/podcast/rss.xml'
       fullPath: '/podcast/rss.xml'
       preLoaderRoute: typeof PodcastRssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/podcast/music': {
+      id: '/podcast/music'
+      path: '/podcast/music'
+      fullPath: '/podcast/music'
+      preLoaderRoute: typeof PodcastMusicRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/podcast/$slug': {
@@ -751,6 +771,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutReturnRoute: CheckoutReturnRoute,
   KindKindRoute: KindKindRoute,
   PodcastSlugRoute: PodcastSlugRoute,
+  PodcastMusicRoute: PodcastMusicRoute,
   PodcastRssDotxmlRoute: PodcastRssDotxmlRoute,
   TopicTopicRoute: TopicTopicRoute,
   PodcastIndexRoute: PodcastIndexRoute,
