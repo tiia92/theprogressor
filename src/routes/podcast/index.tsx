@@ -126,6 +126,13 @@ function PodcastPage() {
         >
           RSS feed
         </a>
+        <Link
+          to="/podcast/music"
+          className="font-mono text-xs uppercase tracking-[0.14em] text-primary hover:underline"
+        >
+          Theme music samples
+        </Link>
+
         {user?.email === ADMIN_EMAIL && (
           <button
             onClick={() => {
