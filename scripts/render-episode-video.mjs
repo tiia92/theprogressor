@@ -24,7 +24,7 @@ const NAVY = "0x0b2b5f";
 const EMBER = "#f4703a";
 const W = 1920;
 const H = 1080;
-const FPS = 15;
+const FPS = 12;
 const COVER_URL = "https://theprogressor.lovable.app" +
   JSON.parse(await readFile(new URL("../src/assets/podcast-cover.png.asset.json", import.meta.url), "utf8")).url;
 
@@ -87,7 +87,7 @@ async function renderOne(episode, workdir, force) {
       "-loop", "1", "-i", coverFile,
       "-filter_complex", filter,
       "-map", "[v]", "-map", "0:a",
-      "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", "-r", String(FPS),
+      "-c:v", "libx264", "-preset", "veryfast", "-crf", "32", "-r", String(FPS),
       "-c:a", "copy",
       "-movflags", "+faststart",
       outFile,
