@@ -166,10 +166,11 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
     close: 200,
   };
 
-  const written: string[] = [];
+  const written: { kind: string; text: string }[] = [];
   for (const section of sections.slice(0, 10)) {
     const target = targets[section.kind] ?? 600;
-    const previous = written.slice(-1)[0]?.slice(-1200) ?? "(this is the opening of the episode)";
+    const previous =
+      written.slice(-1)[0]?.text.slice(-1200) ?? "(this is the opening of the episode)";
     const part = await chat([
       { role: "system", content: HOST_SYSTEM_PROMPT },
       {
@@ -177,10 +178,11 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
         content: `${context}\n\nYou are writing ONE section of this week's episode, in order.\n\nSECTION: ${section.kind} — ${section.title}\nMUST COVER: ${section.beats}\n\nThe previous section ended with:\n"""${previous}"""\n\nWrite roughly ${target} words of spoken script for this section only. No headings, no stage directions, no section labels — only the words the host says. Do not re-introduce the show unless this is the intro, and do not sign off unless this is the close.`,
       },
     ]);
-    written.push(part.trim());
+    written.push({ kind: section.kind, text: part.trim() });
   }
 
-  const script = written.join("\n\n");
+  const script = written.map((w) => w.text).join("\n\n");
+
 
   const metaRaw = await chat(
     [
