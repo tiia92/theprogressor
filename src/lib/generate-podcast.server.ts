@@ -2,6 +2,12 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { chunkForNarration, plainTextForNarration } from "@/lib/narration-text";
 import {
+  CUE_SECONDS,
+  concatAudio,
+  loadCue,
+  transitionFor,
+} from "@/lib/podcast-music.server";
+import {
   HOST_SYSTEM_PROMPT,
   HOST_VOICE,
   HOST_VOICE_INSTRUCTIONS,
