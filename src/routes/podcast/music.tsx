@@ -68,8 +68,8 @@ function MusicPage() {
       <h1 className="mt-6 text-4xl">Theme music samples</h1>
       <p className="mt-4 text-muted-foreground">
         Original cues synthesized for the show — no licensing, no attribution, no external service.
-        One musical idea runs through all of them so the intro, the stingers, and the outro sound
-        like the same program.
+        These are the cues in use: the theme opens every episode, a stinger marks each new segment,
+        and the outro bed runs under the sign-off.
       </p>
 
       <div className="mt-10 space-y-8">

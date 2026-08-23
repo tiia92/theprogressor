@@ -2,6 +2,12 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { chunkForNarration, plainTextForNarration } from "@/lib/narration-text";
 import {
+  CUE_SECONDS,
+  concatAudio,
+  loadCue,
+  transitionFor,
+} from "@/lib/podcast-music.server";
+import {
   HOST_SYSTEM_PROMPT,
   HOST_VOICE,
   HOST_VOICE_INSTRUCTIONS,
@@ -166,10 +172,11 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
     close: 200,
   };
 
-  const written: string[] = [];
+  const written: { kind: string; text: string }[] = [];
   for (const section of sections.slice(0, 10)) {
     const target = targets[section.kind] ?? 600;
-    const previous = written.slice(-1)[0]?.slice(-1200) ?? "(this is the opening of the episode)";
+    const previous =
+      written.slice(-1)[0]?.text.slice(-1200) ?? "(this is the opening of the episode)";
     const part = await chat([
       { role: "system", content: HOST_SYSTEM_PROMPT },
       {
@@ -177,10 +184,11 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
         content: `${context}\n\nYou are writing ONE section of this week's episode, in order.\n\nSECTION: ${section.kind} — ${section.title}\nMUST COVER: ${section.beats}\n\nThe previous section ended with:\n"""${previous}"""\n\nWrite roughly ${target} words of spoken script for this section only. No headings, no stage directions, no section labels — only the words the host says. Do not re-introduce the show unless this is the intro, and do not sign off unless this is the close.`,
       },
     ]);
-    written.push(part.trim());
+    written.push({ kind: section.kind, text: part.trim() });
   }
 
-  const script = written.join("\n\n");
+  const script = written.map((w) => w.text).join("\n\n");
+
 
   const metaRaw = await chat(
     [
@@ -211,19 +219,43 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
   }
 
   // Voice the script chunk by chunk, then stitch the MP3 pieces together.
-  const spoken = plainTextForNarration(script, null, null);
-  const chunks = chunkForNarration(spoken, 300);
+  // Voice each section, then lay the show's music cues around them: the theme
+  // up top, a stinger into each new segment, and the outro bed under the close.
   const parts: Uint8Array[] = [];
-  for (const chunk of chunks) {
-    parts.push(await speak(chunk));
+  let chunkCount = 0;
+  let musicSeconds = 0;
+  let segmentIndex = 0;
+
+  const intro = await loadCue("theme-intro");
+  if (intro) {
+    parts.push(intro);
+    musicSeconds += CUE_SECONDS["theme-intro"];
   }
-  const total = parts.reduce((n, p) => n + p.length, 0);
-  const audio = new Uint8Array(total);
-  let offset = 0;
-  for (const p of parts) {
-    audio.set(p, offset);
-    offset += p.length;
+
+  for (const section of written) {
+    const cueName = transitionFor(section.kind, segmentIndex);
+    if (section.kind !== "explainer" && section.kind !== "close" && cueName) segmentIndex++;
+    if (cueName) {
+      const cue = await loadCue(cueName);
+      if (cue) {
+        parts.push(cue);
+        musicSeconds += CUE_SECONDS[cueName];
+      }
+    }
+    const spokenSection = plainTextForNarration(section.text, null, null);
+    for (const chunk of chunkForNarration(spokenSection, 300)) {
+      parts.push(await speak(chunk));
+      chunkCount++;
+    }
   }
+
+  const outro = await loadCue("theme-outro");
+  if (outro) {
+    parts.push(outro);
+    musicSeconds += CUE_SECONDS["theme-outro"];
+  }
+
+  const audio = concatAudio(parts);
 
   const slug = `week-of-${week}${options.slugSuffix ? `-${options.slugSuffix}` : ""}`;
   const path = `${slug}.mp3`;
@@ -232,9 +264,11 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
     .upload(path, audio, { contentType: "audio/mpeg", upsert: true });
   if (uploadError) throw new Error(`Audio upload failed: ${uploadError.message}`);
 
+  const spoken = plainTextForNarration(script, null, null);
   const words = (spoken.match(/\S+/g) ?? []).length;
-  const duration = Math.round((words / 150) * 60);
+  const duration = Math.round((words / 150) * 60 + musicSeconds);
   const publish = options.publish ?? true;
+
 
   const { error: saveError } = await supabaseAdmin.from("podcast_episodes").upsert(
     {
@@ -253,5 +287,5 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
   );
   if (saveError) throw new Error(saveError.message);
 
-  return { slug, title, chunks: chunks.length, durationSeconds: duration, status: publish ? "published" : "draft" };
+  return { slug, title, chunks: chunkCount, durationSeconds: duration, status: publish ? "published" : "draft" };
 }
