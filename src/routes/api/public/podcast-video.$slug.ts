@@ -8,19 +8,19 @@ export const Route = createFileRoute("/api/public/podcast-video/$slug")({
         if (!slug) return new Response("Not found", { status: 404 });
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        // Video files are large (hundreds of MB); redirect to a signed storage
+        // URL so the CDN streams it with range support instead of buffering
+        // the whole file in the worker.
         const { data, error } = await supabaseAdmin.storage
           .from("podcast")
-          .download(`${slug}.mp4`);
-        if (error || !data) return new Response("Not found", { status: 404 });
+          .createSignedUrl(`${slug}.mp4`, 60 * 60, { download: `${slug}.mp4` });
+        if (error || !data?.signedUrl) return new Response("Not found", { status: 404 });
 
-        const bytes = await data.arrayBuffer();
-        return new Response(bytes, {
+        return new Response(null, {
+          status: 302,
           headers: {
-            "Content-Type": "video/mp4",
-            "Content-Length": String(bytes.byteLength),
-            "Accept-Ranges": "bytes",
-            "Cache-Control": "public, max-age=86400",
-            "Content-Disposition": `attachment; filename="${slug}.mp4"`,
+            Location: data.signedUrl,
+            "Cache-Control": "no-store",
           },
         });
       },
