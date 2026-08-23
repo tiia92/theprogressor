@@ -281,5 +281,5 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
   );
   if (saveError) throw new Error(saveError.message);
 
-  return { slug, title, chunks: chunks.length, durationSeconds: duration, status: publish ? "published" : "draft" };
+  return { slug, title, chunks: chunkCount, durationSeconds: duration, status: publish ? "published" : "draft" };
 }
