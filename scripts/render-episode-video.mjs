@@ -21,7 +21,7 @@ const run = promisify(execFile);
 
 const BUCKET = "podcast";
 const NAVY = "0x0b2b5f";
-const EMBER = "#d95f2b";
+const EMBER = "#f4703a";
 const W = 1920;
 const H = 1080;
 const FPS = 15;
@@ -63,14 +63,20 @@ async function renderOne(episode, workdir, force) {
   if (!coverRes.ok) throw new Error(`cover fetch failed: ${coverRes.status}`);
   await writeFile(coverFile, Buffer.from(await coverRes.arrayBuffer()));
 
-  // Cover scaled to fit above a 180px waveform band, centered on navy.
+  // Cover scaled to fit above a waveform band, centered on navy, with the
+  // episode title set quietly along the bottom for video platforms.
   const coverH = H - 200;
+  const label = (episode.title ?? "")
+    .replace(/[\\:']/g, "")
+    .replace(/[^\x20-\x7E]/g, "")
+    .slice(0, 90);
   const filter = [
     `color=c=${NAVY}:s=${W}x${H}:r=${FPS}[bg]`,
     `[1:v]scale=-1:${coverH}[cover]`,
     `[bg][cover]overlay=(W-w)/2:20:shortest=0[base]`,
-    `[0:a]showwaves=s=${W}x160:mode=cline:rate=${FPS}:colors=${EMBER},format=rgba,colorkey=0x000000:0.10:0.05[wave]`,
-    `[base][wave]overlay=0:${H - 170}:shortest=1,format=yuv420p[v]`,
+    `[0:a]volume=8,showwaves=s=${W}x150:mode=cline:rate=${FPS}:scale=sqrt:draw=full:colors=${EMBER},format=rgba,colorkey=0x000000:0.01:0[wave]`,
+    `[base][wave]overlay=0:${H - 165}:shortest=1[withwave]`,
+    `[withwave]drawtext=font=serif:text='${label}':fontcolor=0xffffff@0.75:fontsize=30:x=(w-text_w)/2:y=${H - 45},format=yuv420p[v]`,
   ].join(";");
 
   await run(
@@ -107,7 +113,7 @@ async function renderOne(episode, workdir, force) {
 }
 
 const slug = value("slug");
-let query = supabase.from("podcast_episodes").select("slug, audio_path, video_path").order("week_start", { ascending: false });
+let query = supabase.from("podcast_episodes").select("slug, title, audio_path, video_path").order("week_start", { ascending: false });
 if (slug) query = query.eq("slug", slug);
 else if (!flag("all")) throw new Error("Pass --slug <slug> or --all");
 
