@@ -213,19 +213,43 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
   }
 
   // Voice the script chunk by chunk, then stitch the MP3 pieces together.
-  const spoken = plainTextForNarration(script, null, null);
-  const chunks = chunkForNarration(spoken, 300);
+  // Voice each section, then lay the show's music cues around them: the theme
+  // up top, a stinger into each new segment, and the outro bed under the close.
   const parts: Uint8Array[] = [];
-  for (const chunk of chunks) {
-    parts.push(await speak(chunk));
+  let chunkCount = 0;
+  let musicSeconds = 0;
+  let segmentIndex = 0;
+
+  const intro = await loadCue("theme-intro");
+  if (intro) {
+    parts.push(intro);
+    musicSeconds += CUE_SECONDS["theme-intro"];
   }
-  const total = parts.reduce((n, p) => n + p.length, 0);
-  const audio = new Uint8Array(total);
-  let offset = 0;
-  for (const p of parts) {
-    audio.set(p, offset);
-    offset += p.length;
+
+  for (const section of written) {
+    const cueName = transitionFor(section.kind, segmentIndex);
+    if (section.kind !== "explainer" && section.kind !== "close" && cueName) segmentIndex++;
+    if (cueName) {
+      const cue = await loadCue(cueName);
+      if (cue) {
+        parts.push(cue);
+        musicSeconds += CUE_SECONDS[cueName];
+      }
+    }
+    const spokenSection = plainTextForNarration(section.text, null, null);
+    for (const chunk of chunkForNarration(spokenSection, 300)) {
+      parts.push(await speak(chunk));
+      chunkCount++;
+    }
   }
+
+  const outro = await loadCue("theme-outro");
+  if (outro) {
+    parts.push(outro);
+    musicSeconds += CUE_SECONDS["theme-outro"];
+  }
+
+  const audio = concatAudio(parts);
 
   const slug = `week-of-${week}${options.slugSuffix ? `-${options.slugSuffix}` : ""}`;
   const path = `${slug}.mp3`;
@@ -234,9 +258,11 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
     .upload(path, audio, { contentType: "audio/mpeg", upsert: true });
   if (uploadError) throw new Error(`Audio upload failed: ${uploadError.message}`);
 
+  const spoken = plainTextForNarration(script, null, null);
   const words = (spoken.match(/\S+/g) ?? []).length;
-  const duration = Math.round((words / 150) * 60);
+  const duration = Math.round((words / 150) * 60 + musicSeconds);
   const publish = options.publish ?? true;
+
 
   const { error: saveError } = await supabaseAdmin.from("podcast_episodes").upsert(
     {
