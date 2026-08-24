@@ -68,8 +68,8 @@ Return the best 1–4 topic slugs.`;
   return Array.from(new Set(valid)).slice(0, 4);
 }
 
-export async function backfillArticleTopics(opts: { onlyMissing?: boolean } = {}) {
-  const { onlyMissing = false } = opts;
+export async function backfillArticleTopics(opts: { onlyMissing?: boolean; force?: boolean } = {}) {
+  const { onlyMissing = false, force = true } = opts;
   const { data: rows, error } = await supabaseAdmin
     .from("articles")
     .select("id, title, dek, category, tags");
@@ -85,7 +85,7 @@ export async function backfillArticleTopics(opts: { onlyMissing?: boolean } = {}
     let topics: string[] = aliased;
 
     // If alias mapping didn't yield enough coverage, ask the model.
-    const needsAI = onlyMissing ? topics.length === 0 : topics.length < 2;
+    const needsAI = onlyMissing ? topics.length === 0 : force ? true : topics.length < 2;
     if (needsAI) {
       try {
         const classified = await classifyOne(row.title, row.dek, row.category);
