@@ -135,7 +135,8 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
         .join("\n")
     : "(no sponsors this week)";
 
-  const context = `${
+  const today = new Date().toISOString().slice(0, 10);
+  const context = `TODAY'S DATE: ${today}\n\n${
     options.extraDirection ? `EXTRA DIRECTION:\n${options.extraDirection}\n\n` : ""
   }SPONSORS TO READ:\n${sponsorBlock}\n\nTHIS WEEK'S COVERAGE (${week} to ${
     options.weekEnd ?? "end of week"
