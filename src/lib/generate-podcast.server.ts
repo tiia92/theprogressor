@@ -23,12 +23,18 @@ export interface Chapter {
   summary: string;
 }
 
+/**
+ * The Sunday that starts the most recently *completed* week of coverage.
+ * Episodes publish on Sunday morning and cover the previous Sun–Sat window,
+ * so we always look back a full week rather than at the (empty) current day.
+ */
 function weekStartISO(d = new Date()) {
   const date = new Date(d);
   const day = date.getUTCDay(); // 0 = Sunday
-  date.setUTCDate(date.getUTCDate() - day);
+  date.setUTCDate(date.getUTCDate() - day - 7);
   return date.toISOString().slice(0, 10);
 }
+
 
 function apiKey() {
   const key = process.env["LOVABLE_API_KEY"];
