@@ -126,23 +126,24 @@ function PodcastPage() {
         >
           RSS feed
         </a>
-        <Link
-          to="/podcast/music"
-          className="font-mono text-xs uppercase tracking-[0.14em] text-primary hover:underline"
-        >
-          Theme music samples
-        </Link>
-
         {user?.email === ADMIN_EMAIL && (
-          <button
-            onClick={() => {
-              if (confirm("Generating a full episode costs real AI credits. Continue?")) gen.mutate();
-            }}
-            disabled={gen.isPending}
-            className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent disabled:opacity-60"
-          >
-            {gen.isPending ? "Recording this week's episode…" : "Generate this week's episode"}
-          </button>
+          <>
+            <Link
+              to="/podcast/music"
+              className="font-mono text-xs uppercase tracking-[0.14em] text-primary hover:underline"
+            >
+              Theme music samples
+            </Link>
+            <button
+              onClick={() => {
+                if (confirm("Generating a full episode costs real AI credits. Continue?")) gen.mutate();
+              }}
+              disabled={gen.isPending}
+              className="rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent disabled:opacity-60"
+            >
+              {gen.isPending ? "Recording this week's episode…" : "Generate this week's episode"}
+            </button>
+          </>
         )}
       </div>
 
