@@ -85,7 +85,7 @@ export async function backfillArticleTopics(opts: { onlyMissing?: boolean; force
     let topics: string[] = aliased;
 
     // If alias mapping didn't yield enough coverage, ask the model.
-    const needsAI = onlyMissing ? topics.length === 0 : topics.length < 2;
+    const needsAI = onlyMissing ? topics.length === 0 : force ? true : topics.length < 2;
     if (needsAI) {
       try {
         const classified = await classifyOne(row.title, row.dek, row.category);
