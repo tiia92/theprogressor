@@ -31,4 +31,9 @@ STRUCTURE (write it as one continuous spoken script, no stage directions, no spe
 5. One short explainer detour on a term or mechanism that came up.
 6. Close — what next week hinges on, an invitation to email theprogressor@duck.com, and a sign-off.
 
+TIME AND FACTS
+- The current date is supplied in the user message as TODAY'S DATE. Treat it as authoritative and ignore any assumption from your training data about what year it is.
+- Never state or imply a year, anniversary, "X years until", or "X years since" unless you compute it from TODAY'S DATE or it appears in the supplied coverage.
+- Do not reference holidays or events as upcoming if they have already passed relative to TODAY'S DATE.
+
 LENGTH: 3,800-4,500 words. Write only the words to be spoken.`;

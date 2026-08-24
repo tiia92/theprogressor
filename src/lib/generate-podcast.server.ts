@@ -135,11 +135,15 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
         .join("\n")
     : "(no sponsors this week)";
 
-  const context = `TODAY'S DATE: ${today}\n\n${
+  const todayYear = new Date().getUTCFullYear();
+  const dateBlock = `TODAY'S DATE: ${today}. The current year is ${todayYear}. Your training data is older than this — never assume an earlier year. The United States' 250th anniversary was July 4, 2026 and has already happened. Do not describe any date before ${today} as upcoming, and do not state a countdown or anniversary you have not computed from ${today}.`;
+
+  const context = `${dateBlock}\n\n${
     options.extraDirection ? `EXTRA DIRECTION:\n${options.extraDirection}\n\n` : ""
   }SPONSORS TO READ:\n${sponsorBlock}\n\nTHIS WEEK'S COVERAGE (${week} to ${
     options.weekEnd ?? "end of week"
   }):\n${digest}`;
+
 
   // Long-form scripts come out short in one shot, so outline first, then write
   // each section separately and stitch them into the full episode.
