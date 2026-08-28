@@ -37,6 +37,7 @@ import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api
 import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
 import { Route as ApiPublicHooksGeneratePodcastRouteImport } from './routes/api/public/hooks/generate-podcast'
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
+import { Route as ApiPublicHooksGenerateInsightsRouteImport } from './routes/api/public/hooks/generate-insights'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
 import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/api/public/hooks/generate-crowdsource'
@@ -191,6 +192,12 @@ const ApiPublicHooksGenerateOpinionRoute =
     path: '/api/public/hooks/generate-opinion',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksGenerateInsightsRoute =
+  ApiPublicHooksGenerateInsightsRouteImport.update({
+    id: '/api/public/hooks/generate-insights',
+    path: '/api/public/hooks/generate-insights',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksGenerateExplainersRoute =
   ApiPublicHooksGenerateExplainersRouteImport.update({
     id: '/api/public/hooks/generate-explainers',
@@ -262,6 +269,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
@@ -298,6 +306,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
@@ -336,6 +345,7 @@ export interface FileRoutesById {
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
@@ -374,6 +384,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
@@ -410,6 +421,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
@@ -447,6 +459,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
@@ -484,6 +497,7 @@ export interface RootRouteChildren {
   ApiPublicHooksGenerateCrowdsourceRoute: typeof ApiPublicHooksGenerateCrowdsourceRoute
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
+  ApiPublicHooksGenerateInsightsRoute: typeof ApiPublicHooksGenerateInsightsRoute
   ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
   ApiPublicHooksGeneratePodcastRoute: typeof ApiPublicHooksGeneratePodcastRoute
   ApiPublicHooksWeeklyDigestRoute: typeof ApiPublicHooksWeeklyDigestRoute
@@ -691,6 +705,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateOpinionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-insights': {
+      id: '/api/public/hooks/generate-insights'
+      path: '/api/public/hooks/generate-insights'
+      fullPath: '/api/public/hooks/generate-insights'
+      preLoaderRoute: typeof ApiPublicHooksGenerateInsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/generate-explainers': {
       id: '/api/public/hooks/generate-explainers'
       path: '/api/public/hooks/generate-explainers'
@@ -783,6 +804,7 @@ const rootRouteChildren: RootRouteChildren = {
     ApiPublicHooksGenerateCrowdsourceRoute,
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
+  ApiPublicHooksGenerateInsightsRoute: ApiPublicHooksGenerateInsightsRoute,
   ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
   ApiPublicHooksGeneratePodcastRoute: ApiPublicHooksGeneratePodcastRoute,
   ApiPublicHooksWeeklyDigestRoute: ApiPublicHooksWeeklyDigestRoute,
