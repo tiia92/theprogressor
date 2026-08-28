@@ -196,6 +196,69 @@ export type Database = {
         }
         Relationships: []
       }
+      insight_reports: {
+        Row: {
+          allegations: Json
+          article_count: number
+          confirmed: Json
+          created_at: string
+          disputed: Json
+          id: string
+          prior_context: Json
+          published_at: string
+          slug: string
+          sources: Json
+          status: string
+          stories: Json
+          summary: string
+          synthesis: string
+          title: string
+          unknowns: Json
+          week_end: string
+          week_start: string
+        }
+        Insert: {
+          allegations?: Json
+          article_count?: number
+          confirmed?: Json
+          created_at?: string
+          disputed?: Json
+          id?: string
+          prior_context?: Json
+          published_at?: string
+          slug: string
+          sources?: Json
+          status?: string
+          stories?: Json
+          summary?: string
+          synthesis?: string
+          title: string
+          unknowns?: Json
+          week_end: string
+          week_start: string
+        }
+        Update: {
+          allegations?: Json
+          article_count?: number
+          confirmed?: Json
+          created_at?: string
+          disputed?: Json
+          id?: string
+          prior_context?: Json
+          published_at?: string
+          slug?: string
+          sources?: Json
+          status?: string
+          stories?: Json
+          summary?: string
+          synthesis?: string
+          title?: string
+          unknowns?: Json
+          week_end?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           brevo_synced: boolean
