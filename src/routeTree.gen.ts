@@ -16,6 +16,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -37,6 +38,7 @@ import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api
 import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
 import { Route as ApiPublicHooksGeneratePodcastRouteImport } from './routes/api/public/hooks/generate-podcast'
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
+import { Route as ApiPublicHooksGenerateInsightsRouteImport } from './routes/api/public/hooks/generate-insights'
 import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
 import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
 import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/api/public/hooks/generate-crowdsource'
@@ -78,6 +80,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrowdsourceRoute = CrowdsourceRouteImport.update({
@@ -191,6 +198,12 @@ const ApiPublicHooksGenerateOpinionRoute =
     path: '/api/public/hooks/generate-opinion',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksGenerateInsightsRoute =
+  ApiPublicHooksGenerateInsightsRouteImport.update({
+    id: '/api/public/hooks/generate-insights',
+    path: '/api/public/hooks/generate-insights',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksGenerateExplainersRoute =
   ApiPublicHooksGenerateExplainersRouteImport.update({
     id: '/api/public/hooks/generate-explainers',
@@ -239,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/insights': typeof InsightsRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -262,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
@@ -275,6 +290,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/insights': typeof InsightsRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -298,6 +314,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
@@ -313,6 +330,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/insights': typeof InsightsRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -336,6 +354,7 @@ export interface FileRoutesById {
   '/api/public/hooks/generate-crowdsource': typeof ApiPublicHooksGenerateCrowdsourceRoute
   '/api/public/hooks/generate-edition': typeof ApiPublicHooksGenerateEditionRoute
   '/api/public/hooks/generate-explainers': typeof ApiPublicHooksGenerateExplainersRoute
+  '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
@@ -351,6 +370,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/insights'
     | '/pricing'
     | '/privacy'
     | '/rss.xml'
@@ -374,6 +394,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
@@ -387,6 +408,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/insights'
     | '/pricing'
     | '/privacy'
     | '/rss.xml'
@@ -410,6 +432,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
@@ -424,6 +447,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/insights'
     | '/pricing'
     | '/privacy'
     | '/rss.xml'
@@ -447,6 +471,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-crowdsource'
     | '/api/public/hooks/generate-edition'
     | '/api/public/hooks/generate-explainers'
+    | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
     | '/api/public/hooks/weekly-digest'
@@ -462,6 +487,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   CrowdsourceRoute: typeof CrowdsourceRoute
+  InsightsRoute: typeof InsightsRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
@@ -484,6 +510,7 @@ export interface RootRouteChildren {
   ApiPublicHooksGenerateCrowdsourceRoute: typeof ApiPublicHooksGenerateCrowdsourceRoute
   ApiPublicHooksGenerateEditionRoute: typeof ApiPublicHooksGenerateEditionRoute
   ApiPublicHooksGenerateExplainersRoute: typeof ApiPublicHooksGenerateExplainersRoute
+  ApiPublicHooksGenerateInsightsRoute: typeof ApiPublicHooksGenerateInsightsRoute
   ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
   ApiPublicHooksGeneratePodcastRoute: typeof ApiPublicHooksGeneratePodcastRoute
   ApiPublicHooksWeeklyDigestRoute: typeof ApiPublicHooksWeeklyDigestRoute
@@ -542,6 +569,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crowdsource': {
@@ -691,6 +725,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateOpinionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-insights': {
+      id: '/api/public/hooks/generate-insights'
+      path: '/api/public/hooks/generate-insights'
+      fullPath: '/api/public/hooks/generate-insights'
+      preLoaderRoute: typeof ApiPublicHooksGenerateInsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/generate-explainers': {
       id: '/api/public/hooks/generate-explainers'
       path: '/api/public/hooks/generate-explainers'
@@ -760,6 +801,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   CrowdsourceRoute: CrowdsourceRoute,
+  InsightsRoute: InsightsRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RssDotxmlRoute: RssDotxmlRoute,
@@ -783,6 +825,7 @@ const rootRouteChildren: RootRouteChildren = {
     ApiPublicHooksGenerateCrowdsourceRoute,
   ApiPublicHooksGenerateEditionRoute: ApiPublicHooksGenerateEditionRoute,
   ApiPublicHooksGenerateExplainersRoute: ApiPublicHooksGenerateExplainersRoute,
+  ApiPublicHooksGenerateInsightsRoute: ApiPublicHooksGenerateInsightsRoute,
   ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
   ApiPublicHooksGeneratePodcastRoute: ApiPublicHooksGeneratePodcastRoute,
   ApiPublicHooksWeeklyDigestRoute: ApiPublicHooksWeeklyDigestRoute,
