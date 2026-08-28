@@ -16,6 +16,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -79,6 +80,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrowdsourceRoute = CrowdsourceRouteImport.update({
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/insights': typeof InsightsRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -283,6 +290,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/insights': typeof InsightsRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -322,6 +330,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/crowdsource': typeof CrowdsourceRoute
+  '/insights': typeof InsightsRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -361,6 +370,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/insights'
     | '/pricing'
     | '/privacy'
     | '/rss.xml'
@@ -398,6 +408,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/insights'
     | '/pricing'
     | '/privacy'
     | '/rss.xml'
@@ -436,6 +447,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/crowdsource'
+    | '/insights'
     | '/pricing'
     | '/privacy'
     | '/rss.xml'
@@ -475,6 +487,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   CrowdsourceRoute: typeof CrowdsourceRoute
+  InsightsRoute: typeof InsightsRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
@@ -556,6 +569,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crowdsource': {
@@ -781,6 +801,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   CrowdsourceRoute: CrowdsourceRoute,
+  InsightsRoute: InsightsRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RssDotxmlRoute: RssDotxmlRoute,
