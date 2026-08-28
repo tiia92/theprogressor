@@ -268,7 +268,9 @@ function SiteHeader() {
           <span className="text-primary-foreground/50">·</span>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
           <span className="text-primary-foreground/50">·</span>
-          <Link to="/topics" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
+          <Link to="/insights" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Insights</Link>
+          <span className="text-primary-foreground/50">·</span>
+
           <span className="text-primary-foreground/50">·</span>
           <Link to="/podcast" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Podcast</Link>
           <span className="text-primary-foreground/50">·</span>
