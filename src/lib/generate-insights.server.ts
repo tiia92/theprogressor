@@ -356,7 +356,7 @@ export async function generateInsightsReport(opts: GenerateInsightsOptions = {})
         allegations: report.allegations,
         unknowns: report.unknowns,
         prior_context: report.prior_context,
-        stories: report.stories,
+        stories: report.stories as unknown as import("@/integrations/supabase/types").Json,
         sources,
         article_count: own.length,
         status: "published",
