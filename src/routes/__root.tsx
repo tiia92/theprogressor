@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 
+const ADMIN_EMAIL = "discussabilityonline@gmail.com";
+
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
@@ -208,6 +210,8 @@ function AccountNav() {
 }
 
 function SiteHeader() {
+  const { user } = useAuth();
+  const isAdmin = user?.email === ADMIN_EMAIL;
   return (
     <header className="border-b border-primary-foreground/15 bg-primary">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
@@ -235,7 +239,9 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "analysis" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Analysis</Link>
           <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Explainers</Link>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
-          <Link to="/insights" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Insights</Link>
+          {isAdmin && (
+            <Link to="/insights" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Insights</Link>
+          )}
           <Link to="/topics" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
 
           <Link to="/podcast" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Podcast</Link>
@@ -268,7 +274,9 @@ function SiteHeader() {
           <span className="text-primary-foreground/50">·</span>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
           <span className="text-primary-foreground/50">·</span>
-          <Link to="/insights" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Insights</Link>
+          {isAdmin && (
+            <Link to="/insights" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Insights</Link>
+          )}
           <span className="text-primary-foreground/50">·</span>
           <Link to="/topics" className="whitespace-nowrap hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
 
