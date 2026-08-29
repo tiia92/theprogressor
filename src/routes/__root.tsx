@@ -208,6 +208,8 @@ function AccountNav() {
 }
 
 function SiteHeader() {
+  const { user } = useAuth();
+  const isAdmin = user?.email === ADMIN_EMAIL;
   return (
     <header className="border-b border-primary-foreground/15 bg-primary">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
