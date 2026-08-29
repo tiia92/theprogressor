@@ -235,7 +235,10 @@ function SiteHeader() {
           <Link to="/kind/$kind" params={{ kind: "analysis" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Analysis</Link>
           <Link to="/kind/$kind" params={{ kind: "explainer" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Explainers</Link>
           <Link to="/kind/$kind" params={{ kind: "opinion" }} className="hover:text-primary-foreground [&.active]:text-primary-foreground">Opinion</Link>
-          <Link to="/insights" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Insights</Link>
+        <nav className="hidden items-center gap-5 text-sm font-medium text-primary-foreground/80 md:flex">
+          {isAdmin && (
+            <Link to="/insights" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Insights</Link>
+          )}
           <Link to="/topics" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Topics</Link>
 
           <Link to="/podcast" className="hover:text-primary-foreground [&.active]:text-primary-foreground">Podcast</Link>
