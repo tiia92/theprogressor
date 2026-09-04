@@ -169,6 +169,18 @@ export async function generateExplainersFromWire(limit = 15) {
   const wire = await fetchWire(cap);
   if (!wire.length) throw new Error("No wire items available");
 
+  const { storeArchiveItems } = await import("@/lib/news-archive.server");
+  await storeArchiveItems(
+    wire.map((w) => ({
+      url: w.url,
+      title: w.title,
+      summary: w.description,
+      outlet: w.source,
+      publishedAt: w.publishedAt,
+    })),
+  );
+
+
   const { data: existingRows } = await supabaseAdmin.from("articles").select("slug");
   const existing = new Set((existingRows ?? []).map((r) => r.slug));
 
