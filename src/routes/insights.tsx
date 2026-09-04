@@ -129,6 +129,9 @@ function InsightsPage() {
         <GenerateInsightsButton />
       </div>
 
+      <ArchiveBackfillPanel />
+
+
       {!report ? (
         <div className="rounded-lg border border-dashed border-border p-10 text-center text-muted-foreground">
           No insights report published yet. The desk publishes one every week.
