@@ -311,6 +311,23 @@ export async function generateInsightsReport(opts: GenerateInsightsOptions = {})
     throw new Error(`No coverage found for ${weekStart} – ${weekEnd}`);
   }
 
+  const { storeArchiveItems, priorContextBlock } = await import("@/lib/news-archive.server");
+  await storeArchiveItems(
+    wire.map((w) => ({
+      url: w.url,
+      title: w.title,
+      summary: w.description,
+      outlet: w.source,
+      publishedAt: w.publishedAt,
+    })),
+  );
+  const priorBlock = await priorContextBlock(
+    [...own.slice(0, 6).map((a) => a.title), ...wire.slice(0, 8).map((w) => w.title)],
+    20,
+    `${weekStart}T00:00:00Z`,
+  );
+
+
   const ownBlock = own
     .map(
       (a) =>
