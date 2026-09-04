@@ -115,6 +115,9 @@ async function generateOne(item: WireItem): Promise<GeneratedExplainer> {
   const apiKey = process.env.LOVABLE_API_KEY;
   if (!apiKey) throw new Error("LOVABLE_API_KEY not configured");
 
+  const { priorContextBlock } = await import("@/lib/news-archive.server");
+  const priorBlock = await priorContextBlock([item.title], 10, item.publishedAt || undefined);
+
   const userPrompt = `Write an explainer grounded in this real news item:
 
 Headline: ${item.title}
@@ -123,7 +126,10 @@ URL: ${item.url}
 Published: ${item.publishedAt}
 Summary: ${item.description}
 
-Explain the background, why it matters, who is affected, and what to watch next. Cite the outlet by name in the body where relevant.`;
+${priorBlock}
+
+Explain the background, why it matters, who is affected, and what to watch next. Cite the outlet by name in the body where relevant. Where the prior-coverage archive above is relevant, use it to show how this story developed over time, citing outlet and date. Never assert details those headlines do not contain.`;
+
 
   const resp = await fetch(GATEWAY_URL, {
     method: "POST",
@@ -162,6 +168,18 @@ export async function generateExplainersFromWire(limit = 15) {
   const cap = Math.max(1, Math.min(limit, 15));
   const wire = await fetchWire(cap);
   if (!wire.length) throw new Error("No wire items available");
+
+  const { storeArchiveItems } = await import("@/lib/news-archive.server");
+  await storeArchiveItems(
+    wire.map((w) => ({
+      url: w.url,
+      title: w.title,
+      summary: w.description,
+      outlet: w.source,
+      publishedAt: w.publishedAt,
+    })),
+  );
+
 
   const { data: existingRows } = await supabaseAdmin.from("articles").select("slug");
   const existing = new Set((existingRows ?? []).map((r) => r.slug));

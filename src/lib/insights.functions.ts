@@ -47,3 +47,17 @@ export const triggerInsightsGeneration = createServerFn({ method: "POST" })
     const { generateInsightsReport } = await import("@/lib/generate-insights.server");
     return generateInsightsReport(data);
   });
+
+export const getArchiveBackfillProgress = createServerFn({ method: "GET" }).handler(async () => {
+  const { backfillProgress } = await import("@/lib/backfill-archive.server");
+  return backfillProgress();
+});
+
+export const triggerArchiveBackfill = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) =>
+    z.object({ maxWindows: z.number().int().min(1).max(8).optional() }).parse(data ?? {}),
+  )
+  .handler(async ({ data }) => {
+    const { runArchiveBackfill } = await import("@/lib/backfill-archive.server");
+    return runArchiveBackfill({ maxWindows: data.maxWindows ?? 3 });
+  });

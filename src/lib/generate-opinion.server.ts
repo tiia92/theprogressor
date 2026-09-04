@@ -243,6 +243,18 @@ interface ColumnResponse {
 export async function generateOpinionEdition() {
   const wire = await fetchOpinionWire(8);
   if (!wire.length) throw new Error("No opinion wire items available");
+
+  const { storeArchiveItems } = await import("@/lib/news-archive.server");
+  await storeArchiveItems(
+    wire.map((w) => ({
+      url: w.url,
+      title: w.title,
+      summary: w.description,
+      outlet: w.source,
+      publishedAt: w.publishedAt,
+    })),
+  );
+
   const date = todayISO();
 
   // ---- Briefing ----

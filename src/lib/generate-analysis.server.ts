@@ -275,6 +275,18 @@ export async function generateAnalysisEdition(options?: { columns?: number }) {
 
   const wire = await fetchAnalysisWire(8);
   if (!wire.length) throw new Error("No analysis wire items available");
+
+  const { storeArchiveItems } = await import("@/lib/news-archive.server");
+  await storeArchiveItems(
+    wire.map((w) => ({
+      url: w.url,
+      title: w.title,
+      summary: w.description,
+      outlet: w.source,
+      publishedAt: w.publishedAt,
+    })),
+  );
+
   const date = todayISO();
 
   // ---- Briefing ----

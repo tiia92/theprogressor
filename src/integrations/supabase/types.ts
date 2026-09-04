@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      archive_backfill_windows: {
+        Row: {
+          attempts: number
+          completed_at: string | null
+          created_at: string
+          error: string | null
+          id: string
+          month_start: string
+          rows_stored: number
+          status: string
+          topic: string
+          updated_at: string
+          window_key: string
+        }
+        Insert: {
+          attempts?: number
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          month_start: string
+          rows_stored?: number
+          status?: string
+          topic: string
+          updated_at?: string
+          window_key: string
+        }
+        Update: {
+          attempts?: number
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          month_start?: string
+          rows_stored?: number
+          status?: string
+          topic?: string
+          updated_at?: string
+          window_key?: string
+        }
+        Relationships: []
+      }
       article_reactions: {
         Row: {
           article_id: string
@@ -256,6 +298,72 @@ export type Database = {
           unknowns?: Json
           week_end?: string
           week_start?: string
+        }
+        Relationships: []
+      }
+      job_leases: {
+        Row: {
+          created_at: string
+          job_name: string
+          locked_until: string
+          pause_reason: string | null
+          paused: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          job_name: string
+          locked_until?: string
+          pause_reason?: string | null
+          paused?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          job_name?: string
+          locked_until?: string
+          pause_reason?: string | null
+          paused?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      news_archive: {
+        Row: {
+          created_at: string
+          id: string
+          outlet: string
+          published_at: string
+          search_vector: unknown
+          source: string
+          summary: string
+          title: string
+          topics: string[]
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          outlet?: string
+          published_at: string
+          search_vector?: unknown
+          source?: string
+          summary?: string
+          title: string
+          topics?: string[]
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          outlet?: string
+          published_at?: string
+          search_vector?: unknown
+          source?: string
+          summary?: string
+          title?: string
+          topics?: string[]
+          url?: string
         }
         Relationships: []
       }

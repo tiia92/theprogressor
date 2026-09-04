@@ -45,6 +45,7 @@ import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/
 import { Route as ApiPublicHooksGenerateBriefImageRouteImport } from './routes/api/public/hooks/generate-brief-image'
 import { Route as ApiPublicHooksGenerateAnalysisRouteImport } from './routes/api/public/hooks/generate-analysis'
 import { Route as ApiPublicHooksBackfillTopicsRouteImport } from './routes/api/public/hooks/backfill-topics'
+import { Route as ApiPublicHooksBackfillArchiveRouteImport } from './routes/api/public/hooks/backfill-archive'
 import { Route as ApiPublicArticleImageSlugRouteImport } from './routes/api/public/article-image.$slug'
 
 const TopicsRoute = TopicsRouteImport.update({
@@ -240,6 +241,12 @@ const ApiPublicHooksBackfillTopicsRoute =
     path: '/api/public/hooks/backfill-topics',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksBackfillArchiveRoute =
+  ApiPublicHooksBackfillArchiveRouteImport.update({
+    id: '/api/public/hooks/backfill-archive',
+    path: '/api/public/hooks/backfill-archive',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicArticleImageSlugRoute =
   ApiPublicArticleImageSlugRouteImport.update({
     id: '/api/public/article-image/$slug',
@@ -270,6 +277,7 @@ export interface FileRoutesByFullPath {
   '/topic/$topic': typeof TopicTopicRoute
   '/podcast/': typeof PodcastIndexRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
+  '/api/public/hooks/backfill-archive': typeof ApiPublicHooksBackfillArchiveRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-brief-image': typeof ApiPublicHooksGenerateBriefImageRoute
@@ -308,6 +316,7 @@ export interface FileRoutesByTo {
   '/topic/$topic': typeof TopicTopicRoute
   '/podcast': typeof PodcastIndexRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
+  '/api/public/hooks/backfill-archive': typeof ApiPublicHooksBackfillArchiveRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-brief-image': typeof ApiPublicHooksGenerateBriefImageRoute
@@ -348,6 +357,7 @@ export interface FileRoutesById {
   '/topic/$topic': typeof TopicTopicRoute
   '/podcast/': typeof PodcastIndexRoute
   '/api/public/article-image/$slug': typeof ApiPublicArticleImageSlugRoute
+  '/api/public/hooks/backfill-archive': typeof ApiPublicHooksBackfillArchiveRoute
   '/api/public/hooks/backfill-topics': typeof ApiPublicHooksBackfillTopicsRoute
   '/api/public/hooks/generate-analysis': typeof ApiPublicHooksGenerateAnalysisRoute
   '/api/public/hooks/generate-brief-image': typeof ApiPublicHooksGenerateBriefImageRoute
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/topic/$topic'
     | '/podcast/'
     | '/api/public/article-image/$slug'
+    | '/api/public/hooks/backfill-archive'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-brief-image'
@@ -426,6 +437,7 @@ export interface FileRouteTypes {
     | '/topic/$topic'
     | '/podcast'
     | '/api/public/article-image/$slug'
+    | '/api/public/hooks/backfill-archive'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-brief-image'
@@ -465,6 +477,7 @@ export interface FileRouteTypes {
     | '/topic/$topic'
     | '/podcast/'
     | '/api/public/article-image/$slug'
+    | '/api/public/hooks/backfill-archive'
     | '/api/public/hooks/backfill-topics'
     | '/api/public/hooks/generate-analysis'
     | '/api/public/hooks/generate-brief-image'
@@ -504,6 +517,7 @@ export interface RootRouteChildren {
   TopicTopicRoute: typeof TopicTopicRoute
   PodcastIndexRoute: typeof PodcastIndexRoute
   ApiPublicArticleImageSlugRoute: typeof ApiPublicArticleImageSlugRoute
+  ApiPublicHooksBackfillArchiveRoute: typeof ApiPublicHooksBackfillArchiveRoute
   ApiPublicHooksBackfillTopicsRoute: typeof ApiPublicHooksBackfillTopicsRoute
   ApiPublicHooksGenerateAnalysisRoute: typeof ApiPublicHooksGenerateAnalysisRoute
   ApiPublicHooksGenerateBriefImageRoute: typeof ApiPublicHooksGenerateBriefImageRoute
@@ -774,6 +788,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksBackfillTopicsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/backfill-archive': {
+      id: '/api/public/hooks/backfill-archive'
+      path: '/api/public/hooks/backfill-archive'
+      fullPath: '/api/public/hooks/backfill-archive'
+      preLoaderRoute: typeof ApiPublicHooksBackfillArchiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/article-image/$slug': {
       id: '/api/public/article-image/$slug'
       path: '/api/public/article-image/$slug'
@@ -818,6 +839,7 @@ const rootRouteChildren: RootRouteChildren = {
   TopicTopicRoute: TopicTopicRoute,
   PodcastIndexRoute: PodcastIndexRoute,
   ApiPublicArticleImageSlugRoute: ApiPublicArticleImageSlugRoute,
+  ApiPublicHooksBackfillArchiveRoute: ApiPublicHooksBackfillArchiveRoute,
   ApiPublicHooksBackfillTopicsRoute: ApiPublicHooksBackfillTopicsRoute,
   ApiPublicHooksGenerateAnalysisRoute: ApiPublicHooksGenerateAnalysisRoute,
   ApiPublicHooksGenerateBriefImageRoute: ApiPublicHooksGenerateBriefImageRoute,

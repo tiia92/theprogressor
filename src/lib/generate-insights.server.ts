@@ -311,6 +311,23 @@ export async function generateInsightsReport(opts: GenerateInsightsOptions = {})
     throw new Error(`No coverage found for ${weekStart} – ${weekEnd}`);
   }
 
+  const { storeArchiveItems, priorContextBlock } = await import("@/lib/news-archive.server");
+  await storeArchiveItems(
+    wire.map((w) => ({
+      url: w.url,
+      title: w.title,
+      summary: w.description,
+      outlet: w.source,
+      publishedAt: w.publishedAt,
+    })),
+  );
+  const priorBlock = await priorContextBlock(
+    [...own.slice(0, 6).map((a) => a.title), ...wire.slice(0, 8).map((w) => w.title)],
+    20,
+    `${weekStart}T00:00:00Z`,
+  );
+
+
   const ownBlock = own
     .map(
       (a) =>
@@ -332,8 +349,11 @@ export async function generateInsightsReport(opts: GenerateInsightsOptions = {})
     `OUTSIDE REPORTING FROM MULTIPLE OUTLETS (${wire.length} items):`,
     wireBlock || "(none)",
     "",
-    "Detect the developing stories, aggregate the reporting across outlets, compare the accounts, and classify every claim. Return the JSON object.",
+    priorBlock || "",
+    "",
+    "Detect the developing stories, aggregate the reporting across outlets, compare the accounts, and classify every claim. Base the prior_context fields on the archived prior coverage above where it applies, citing outlet and date; never invent background. Return the JSON object.",
   ].join("\n");
+
 
   const report = normalize(await callModel(user));
 

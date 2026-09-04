@@ -183,6 +183,22 @@ export async function generateTodaysEdition() {
   const date = todayISO();
   const wire = await fetchWire();
 
+  const { storeArchiveItems, priorContextBlock } = await import("@/lib/news-archive.server");
+  await storeArchiveItems(
+    wire.map((w) => ({
+      url: w.url,
+      title: w.title,
+      summary: w.description,
+      outlet: w.source,
+      publishedAt: w.publishedAt,
+    })),
+  );
+
+  const priorBlock = await priorContextBlock(
+    wire.slice(0, 8).map((w) => w.title),
+    12,
+  );
+
   const wireBlock = wire.length
     ? `Here are real headlines from the U.S. news wire in the last 24 hours (${date}). Ground every article in these items. Cite the outlet names and URLs shown here — do not invent sources.\n\n${wire
         .map(
@@ -196,12 +212,17 @@ export async function generateTodaysEdition() {
 
 ${wireBlock}
 
+${priorBlock}
+
 Produce exactly three articles in this order:
 1) A daily_brief on the single most important U.S. political story from the wire above.
 2) A morning_headlines briefing with 5-7 items drawn from the wire above, covering a mix of politics, labor, climate, healthcare, courts, immigration, civil rights, elections, and economy where represented.
 3) A deep_dive explainer on a policy area that helps readers understand the bigger picture behind one of the wire stories.
 
-Use only the sources listed in the wire above; include their real URLs in the sources array. Mark the daily_brief as featured=true.`;
+Where the prior-coverage archive above is relevant, use it for background and say when something happened before — cite the outlet and date. Never assert details the archive headlines do not contain.
+
+Use only the sources listed above; include their real URLs in the sources array. Mark the daily_brief as featured=true.`;
+
 
 
   const edition = await callGateway(userPrompt);
