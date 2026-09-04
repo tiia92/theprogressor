@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { queryOptions, useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -405,5 +405,58 @@ function GenerateInsightsButton() {
     >
       {m.isPending ? "Auditing the week…" : "Generate insights now"}
     </button>
+  );
+}
+
+function ArchiveBackfillPanel() {
+  const { user, loading } = useAuth();
+  const isAdmin = !loading && user?.email === ADMIN_EMAIL;
+  const progressFn = useServerFn(getArchiveBackfillProgress);
+  const runFn = useServerFn(triggerArchiveBackfill);
+  const qc = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["archive-backfill"],
+    queryFn: () => progressFn({}),
+    enabled: isAdmin,
+    refetchInterval: 30_000,
+  });
+
+  const m = useMutation({
+    mutationFn: () => runFn({ data: { maxWindows: 3 } }),
+    onSuccess: (r) => {
+      if ("skipped" in r && r.skipped) toast.message(`Backfill ${r.skipped}`);
+      else toast.success(`Archived ${r.stored} items · ${r.done}/${r.total} windows done`);
+      qc.invalidateQueries({ queryKey: ["archive-backfill"] });
+    },
+    onError: (e: Error) => toast.error(e.message ?? "Backfill failed"),
+  });
+
+  if (!isAdmin) return null;
+
+  const pct = data && data.total ? Math.round((data.done / data.total) * 100) : 0;
+
+  return (
+    <div className="mb-8 rounded-lg border border-border bg-muted/30 p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-sm text-foreground">News archive (2023 → today)</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {data
+              ? `${data.archived_rows.toLocaleString()} headlines archived · ${data.done}/${data.total} collection windows (${pct}%)${
+                  data.failed ? ` · ${data.failed} failed` : ""
+                }${data.paused ? ` · paused: ${data.pause_reason ?? ""}` : ""}`
+              : "Loading…"}
+          </p>
+        </div>
+        <button
+          onClick={() => m.mutate()}
+          disabled={m.isPending}
+          className="inline-flex items-center rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent disabled:opacity-60"
+        >
+          {m.isPending ? "Collecting…" : "Run archive backfill"}
+        </button>
+      </div>
+    </div>
   );
 }
