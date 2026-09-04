@@ -4,11 +4,14 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
 import {
+  getArchiveBackfillProgress,
   getClaimMix,
   getLatestInsightReport,
   listInsightReports,
+  triggerArchiveBackfill,
   triggerInsightsGeneration,
 } from "@/lib/insights.functions";
+
 import { useAuth } from "@/hooks/use-auth";
 
 const ADMIN_EMAIL = "discussabilityonline@gmail.com";
