@@ -179,10 +179,11 @@ async function fetchGdeltWindow(topic: string, monthStart: string): Promise<Arch
   });
   const text = await resp.text();
 
-  if (!resp.ok) throw new Error(`GDELT ${resp.status}: ${text.slice(0, 200)}`);
-  if (/please limit requests|rate limit/i.test(text.slice(0, 300))) {
+  if (resp.status === 429 || /please limit requests|rate limit/i.test(text.slice(0, 300))) {
     throw new ThrottledError("GDELT is throttling requests");
   }
+  if (!resp.ok) throw new Error(`GDELT ${resp.status}: ${text.slice(0, 200)}`);
+
   if (!text.trim()) return [];
 
   let data: { articles?: { url?: string; title?: string; domain?: string; seendate?: string }[] };
