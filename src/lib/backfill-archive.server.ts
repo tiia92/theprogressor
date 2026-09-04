@@ -247,7 +247,7 @@ export async function runArchiveBackfill(opts: { maxWindows?: number } = {}) {
         .eq("id", next.id);
 
       try {
-        if (i > 0) await sleep(6000); // GDELT asks for >=5s between requests
+        if (i > 0) await sleep(10_000); // GDELT asks for >=5s between requests
         const items = await fetchGdeltWindow(next.topic, next.month_start);
         const n = await storeArchiveItems(items, "gdelt");
         stored += n;
@@ -264,17 +264,24 @@ export async function runArchiveBackfill(opts: { maxWindows?: number } = {}) {
       } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         const attempts = (next.attempts ?? 0) + 1;
-        const failed = !(e instanceof ThrottledError) && attempts >= MAX_ATTEMPTS;
+        if (e instanceof ThrottledError) {
+          // Not the window's fault: give the attempt back and retry it later.
+          await supabaseAdmin
+            .from("archive_backfill_windows")
+            .update({ status: "pending", attempts: next.attempts ?? 0, error: message })
+            .eq("id", next.id);
+          throttled = true;
+          await sleep(12_000);
+          continue;
+        }
+        const failed = attempts >= MAX_ATTEMPTS;
         await supabaseAdmin
           .from("archive_backfill_windows")
-          .update({ status: failed ? "failed" : e instanceof ThrottledError ? "pending" : "error", error: message })
+          .update({ status: failed ? "failed" : "error", error: message })
           .eq("id", next.id);
-        if (e instanceof ThrottledError) {
-          throttled = true;
-          break; // stop this run; the next scheduled run retries
-        }
         console.error("[archive-backfill]", next.window_key, message);
       }
+
     }
   } finally {
     await releaseLease();
