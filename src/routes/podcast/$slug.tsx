@@ -135,14 +135,26 @@ function EpisodePage() {
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <PodcastShareActions slug={e.slug} title={e.title} />
         {e.video_path ? (
-          <a
-            href={`/api/public/podcast-video/${e.slug}.mp4`}
-            download={`${e.slug}.mp4`}
-            className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
-          >
-            Download MP4 (saves to your Downloads folder)
-          </a>
+          <>
+            <a
+              href={`/api/public/podcast-video/${e.slug}.mp4`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
+            >
+              Download MP4
+            </a>
+            <a
+              href={`/api/public/podcast-video/${e.slug}.mp4?inline`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
+            >
+              Watch video
+            </a>
+          </>
         ) : null}
+
         <a
           href="/podcast/rss.xml"
           className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
