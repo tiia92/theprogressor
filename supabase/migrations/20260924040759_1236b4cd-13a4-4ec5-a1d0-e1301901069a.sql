@@ -1,0 +1,13 @@
+UPDATE public.podcast_episodes
+SET
+  title = 'Conflict Without a Name, College Football, and Institutional Strain',
+  summary = 'This episode examines the escalating U.S.–Iran conflict and its impact on oil markets, then turns to the legal upheaval reshaping college athletics and the growing fragility of American institutions. The Progressor connects military escalation, economic pressure, and political uncertainty to what comes next.',
+  chapters = '[{"title":"A Conflict Without a Name","summary":"U.S. and Iranian strikes push the Gulf toward a wider confrontation while officials resist calling it a war."},{"title":"The End of Amateurism","summary":"A Louisiana court ruling challenges the NCAA model and raises new questions about labor, eligibility, and college sports."},{"title":"Pressure at Home","summary":"Institutional failures in public health, immigration, and federal oversight leave communities carrying the risk."},{"title":"The Machinery of Power","summary":"The episode traces how temporary policies and emergency authorities can become durable tools of control."},{"title":"What to Watch","summary":"Congress faces a funding deadline as leadership changes and overseas conflict test the government’s capacity."}]'::jsonb
+WHERE week_start = DATE '2026-08-30';
+
+UPDATE public.podcast_episodes
+SET
+  title = 'Crashing Coasts, Rising Rates, and the Pentagon’s Empty Cupboards',
+  summary = 'This episode follows a week of mounting pressure: coastal homes falling into the Atlantic, borrowing costs climbing, and the Pentagon confronting depleted munitions. The Progressor explains how climate risk, monetary policy, and war powers are converging into one test of government capacity.',
+  chapters = '[{"title":"The Floor Is Looking Wet","summary":"Coastal erosion and outdated federal policy leave homes in North Carolina and Maine exposed to a changing climate."},{"title":"The Pentagon’s Low-Battery Light","summary":"A new watchdog report details depleted U.S. munitions and the material limits of a military-first foreign policy."},{"title":"Congress Reasserts War Powers","summary":"A bipartisan House effort challenges continued military action in Iran and tests legislative oversight."},{"title":"Rates, Yields, and Household Pressure","summary":"The prospect of another Federal Reserve rate increase pushes Treasury yields higher and raises costs across the economy."},{"title":"Capacity Is Policy","summary":"The week’s stories reveal what happens when public systems are asked to absorb crises they were not built to withstand."}]'::jsonb
+WHERE week_start = DATE '2026-09-13';
