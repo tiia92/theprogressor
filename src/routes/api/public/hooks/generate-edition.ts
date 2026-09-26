@@ -13,7 +13,8 @@ export const Route = createFileRoute("/api/public/hooks/generate-edition")({
     handlers: {
       POST: async ({ request }) => {
         const apiKey = request.headers.get("apikey");
-        const expected = process.env.SUPABASE_PUBLISHABLE_KEY;
+        const expected =
+          process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
         if (!expected || apiKey !== expected) {
           return new Response(JSON.stringify({ error: "unauthorized" }), {
             status: 401,
