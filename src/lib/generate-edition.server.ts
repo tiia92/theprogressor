@@ -179,8 +179,8 @@ async function fetchWire(): Promise<WireItem[]> {
   }
 }
 
-export async function generateTodaysEdition() {
-  const date = todayISO();
+export async function generateTodaysEdition(dateOverride?: string) {
+  const date = dateOverride ?? todayISO();
   const wire = await fetchWire();
 
   const { storeArchiveItems, priorContextBlock } = await import("@/lib/news-archive.server");

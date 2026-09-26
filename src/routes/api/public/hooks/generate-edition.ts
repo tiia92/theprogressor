@@ -20,9 +20,16 @@ export const Route = createFileRoute("/api/public/hooks/generate-edition")({
             headers: { "content-type": "application/json" },
           });
         }
+        let date: string | undefined;
+        try {
+          const body = (await request.json()) as { date?: string } | null;
+          if (body?.date && /^\d{4}-\d{2}-\d{2}$/.test(body.date)) date = body.date;
+        } catch {
+          // no body — fine
+        }
         try {
           const { generateTodaysEdition } = await import("@/lib/generate-edition.server");
-          const result = await generateTodaysEdition();
+          const result = await generateTodaysEdition(date);
           return Response.json({ ok: true, ...result });
         } catch (err) {
           const message = err instanceof Error ? err.message : String(err);
