@@ -13,16 +13,24 @@ export const Route = createFileRoute("/api/public/hooks/generate-edition")({
     handlers: {
       POST: async ({ request }) => {
         const apiKey = request.headers.get("apikey");
-        const expected = process.env.SUPABASE_PUBLISHABLE_KEY;
+        const expected =
+          process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
         if (!expected || apiKey !== expected) {
           return new Response(JSON.stringify({ error: "unauthorized" }), {
             status: 401,
             headers: { "content-type": "application/json" },
           });
         }
+        let date: string | undefined;
+        try {
+          const body = (await request.json()) as { date?: string } | null;
+          if (body?.date && /^\d{4}-\d{2}-\d{2}$/.test(body.date)) date = body.date;
+        } catch {
+          // no body — fine
+        }
         try {
           const { generateTodaysEdition } = await import("@/lib/generate-edition.server");
-          const result = await generateTodaysEdition();
+          const result = await generateTodaysEdition(date);
           return Response.json({ ok: true, ...result });
         } catch (err) {
           const message = err instanceof Error ? err.message : String(err);
