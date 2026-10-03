@@ -54,7 +54,7 @@ export const Route = createFileRoute("/topic/$topic")({
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-3xl px-4 py-16 text-center">
       <p className="text-sm text-muted-foreground">Couldn't load this topic.</p>
-      <p className="mt-1 font-mono text-xs text-muted-foreground">{error.message}</p>
+      <p className="mt-1 font-mono text-xs text-muted-foreground">{(error as Error).message}</p>
     </div>
   ),
   notFoundComponent: () => (

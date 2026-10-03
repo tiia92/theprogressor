@@ -42,7 +42,7 @@ export const Route = createFileRoute("/search")({
   },
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-3xl px-4 py-16 text-center text-muted-foreground">
-      Search failed: {error.message}
+      Search failed: {(error as Error).message}
     </div>
   ),
   notFoundComponent: () => (

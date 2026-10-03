@@ -71,7 +71,7 @@ export const Route = createFileRoute("/article/$slug")({
   ),
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-2xl px-4 py-16 text-center text-muted-foreground">
-      Couldn't load this article: {error.message}
+      Couldn't load this article: {(error as Error).message}
     </div>
   ),
 });
