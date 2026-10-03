@@ -9,97 +9,48 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
-import { Route as InsightsRouteImport } from './routes/insights'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TopicsRouteImport } from './routes/topics'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
-import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
-import { Route as KindKindRouteImport } from './routes/kind.$kind'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as CrowdsourceRouteImport } from './routes/crowdsource'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as PodcastIndexRouteImport } from './routes/podcast/index'
-import { Route as PodcastSlugRouteImport } from './routes/podcast/$slug'
-import { Route as PodcastMusicRouteImport } from './routes/podcast/music'
-import { Route as PodcastRssDotxmlRouteImport } from './routes/podcast/rss[.]xml'
 import { Route as TopicTopicRouteImport } from './routes/topic.$topic'
-import { Route as ApiPublicArticleImageSlugRouteImport } from './routes/api/public/article-image.$slug'
-import { Route as ApiPublicHooksBackfillArchiveRouteImport } from './routes/api/public/hooks/backfill-archive'
-import { Route as ApiPublicHooksBackfillTopicsRouteImport } from './routes/api/public/hooks/backfill-topics'
-import { Route as ApiPublicHooksGenerateAnalysisRouteImport } from './routes/api/public/hooks/generate-analysis'
-import { Route as ApiPublicHooksGenerateBriefImageRouteImport } from './routes/api/public/hooks/generate-brief-image'
-import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/api/public/hooks/generate-crowdsource'
-import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
-import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
-import { Route as ApiPublicHooksGenerateInsightsRouteImport } from './routes/api/public/hooks/generate-insights'
-import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
-import { Route as ApiPublicHooksGeneratePodcastRouteImport } from './routes/api/public/hooks/generate-podcast'
-import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
-import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api/public/newsletter/unsubscribe'
-import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
-import { Route as ApiPublicPodcastAudioSlugRouteImport } from './routes/api/public/podcast-audio.$slug'
+import { Route as PodcastRssDotxmlRouteImport } from './routes/podcast/rss[.]xml'
+import { Route as PodcastMusicRouteImport } from './routes/podcast/music'
+import { Route as PodcastSlugRouteImport } from './routes/podcast/$slug'
+import { Route as KindKindRouteImport } from './routes/kind.$kind'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ApiPublicPodcastVideoSlugRouteImport } from './routes/api/public/podcast-video.$slug'
+import { Route as ApiPublicPodcastAudioSlugRouteImport } from './routes/api/public/podcast-audio.$slug'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api/public/newsletter/unsubscribe'
+import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
+import { Route as ApiPublicHooksGeneratePodcastRouteImport } from './routes/api/public/hooks/generate-podcast'
+import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
+import { Route as ApiPublicHooksGenerateInsightsRouteImport } from './routes/api/public/hooks/generate-insights'
+import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/api/public/hooks/generate-explainers'
+import { Route as ApiPublicHooksGenerateEditionRouteImport } from './routes/api/public/hooks/generate-edition'
+import { Route as ApiPublicHooksGenerateCrowdsourceRouteImport } from './routes/api/public/hooks/generate-crowdsource'
+import { Route as ApiPublicHooksGenerateBriefImageRouteImport } from './routes/api/public/hooks/generate-brief-image'
+import { Route as ApiPublicHooksGenerateAnalysisRouteImport } from './routes/api/public/hooks/generate-analysis'
+import { Route as ApiPublicHooksBackfillTopicsRouteImport } from './routes/api/public/hooks/backfill-topics'
+import { Route as ApiPublicHooksBackfillArchiveRouteImport } from './routes/api/public/hooks/backfill-archive'
+import { Route as ApiPublicArticleImageSlugRouteImport } from './routes/api/public/article-image.$slug'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CrowdsourceRoute = CrowdsourceRouteImport.update({
-  id: '/crowdsource',
-  path: '/crowdsource',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InsightsRoute = InsightsRouteImport.update({
-  id: '/insights',
-  path: '/insights',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RssDotxmlRoute = RssDotxmlRouteImport.update({
-  id: '/rss.xml',
-  path: '/rss.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const TopicsRoute = TopicsRouteImport.update({
+  id: '/topics',
+  path: '/topics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -107,29 +58,58 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TopicsRoute = TopicsRouteImport.update({
-  id: '/topics',
-  path: '/topics',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const ArticleSlugRoute = ArticleSlugRouteImport.update({
-  id: '/article/$slug',
-  path: '/article/$slug',
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
-  id: '/checkout/return',
-  path: '/checkout/return',
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KindKindRoute = KindKindRouteImport.update({
-  id: '/kind/$kind',
-  path: '/kind/$kind',
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrowdsourceRoute = CrowdsourceRouteImport.update({
+  id: '/crowdsource',
+  path: '/crowdsource',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PodcastIndexRoute = PodcastIndexRouteImport.update({
@@ -137,14 +117,9 @@ const PodcastIndexRoute = PodcastIndexRouteImport.update({
   path: '/podcast/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PodcastSlugRoute = PodcastSlugRouteImport.update({
-  id: '/podcast/$slug',
-  path: '/podcast/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PodcastMusicRoute = PodcastMusicRouteImport.update({
-  id: '/podcast/music',
-  path: '/podcast/music',
+const TopicTopicRoute = TopicTopicRouteImport.update({
+  id: '/topic/$topic',
+  path: '/topic/$topic',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PodcastRssDotxmlRoute = PodcastRssDotxmlRouteImport.update({
@@ -152,93 +127,40 @@ const PodcastRssDotxmlRoute = PodcastRssDotxmlRouteImport.update({
   path: '/podcast/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TopicTopicRoute = TopicTopicRouteImport.update({
-  id: '/topic/$topic',
-  path: '/topic/$topic',
+const PodcastMusicRoute = PodcastMusicRouteImport.update({
+  id: '/podcast/music',
+  path: '/podcast/music',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicArticleImageSlugRoute =
-  ApiPublicArticleImageSlugRouteImport.update({
-    id: '/api/public/article-image/$slug',
-    path: '/api/public/article-image/$slug',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksBackfillArchiveRoute =
-  ApiPublicHooksBackfillArchiveRouteImport.update({
-    id: '/api/public/hooks/backfill-archive',
-    path: '/api/public/hooks/backfill-archive',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksBackfillTopicsRoute =
-  ApiPublicHooksBackfillTopicsRouteImport.update({
-    id: '/api/public/hooks/backfill-topics',
-    path: '/api/public/hooks/backfill-topics',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGenerateAnalysisRoute =
-  ApiPublicHooksGenerateAnalysisRouteImport.update({
-    id: '/api/public/hooks/generate-analysis',
-    path: '/api/public/hooks/generate-analysis',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGenerateBriefImageRoute =
-  ApiPublicHooksGenerateBriefImageRouteImport.update({
-    id: '/api/public/hooks/generate-brief-image',
-    path: '/api/public/hooks/generate-brief-image',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGenerateCrowdsourceRoute =
-  ApiPublicHooksGenerateCrowdsourceRouteImport.update({
-    id: '/api/public/hooks/generate-crowdsource',
-    path: '/api/public/hooks/generate-crowdsource',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGenerateEditionRoute =
-  ApiPublicHooksGenerateEditionRouteImport.update({
-    id: '/api/public/hooks/generate-edition',
-    path: '/api/public/hooks/generate-edition',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGenerateExplainersRoute =
-  ApiPublicHooksGenerateExplainersRouteImport.update({
-    id: '/api/public/hooks/generate-explainers',
-    path: '/api/public/hooks/generate-explainers',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGenerateInsightsRoute =
-  ApiPublicHooksGenerateInsightsRouteImport.update({
-    id: '/api/public/hooks/generate-insights',
-    path: '/api/public/hooks/generate-insights',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGenerateOpinionRoute =
-  ApiPublicHooksGenerateOpinionRouteImport.update({
-    id: '/api/public/hooks/generate-opinion',
-    path: '/api/public/hooks/generate-opinion',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksGeneratePodcastRoute =
-  ApiPublicHooksGeneratePodcastRouteImport.update({
-    id: '/api/public/hooks/generate-podcast',
-    path: '/api/public/hooks/generate-podcast',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksWeeklyDigestRoute =
-  ApiPublicHooksWeeklyDigestRouteImport.update({
-    id: '/api/public/hooks/weekly-digest',
-    path: '/api/public/hooks/weekly-digest',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicNewsletterUnsubscribeRoute =
-  ApiPublicNewsletterUnsubscribeRouteImport.update({
-    id: '/api/public/newsletter/unsubscribe',
-    path: '/api/public/newsletter/unsubscribe',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicPaymentsWebhookRoute =
-  ApiPublicPaymentsWebhookRouteImport.update({
-    id: '/api/public/payments/webhook',
-    path: '/api/public/payments/webhook',
+const PodcastSlugRoute = PodcastSlugRouteImport.update({
+  id: '/podcast/$slug',
+  path: '/podcast/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KindKindRoute = KindKindRouteImport.update({
+  id: '/kind/$kind',
+  path: '/kind/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/checkout/return',
+  path: '/checkout/return',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiPublicPodcastVideoSlugRoute =
+  ApiPublicPodcastVideoSlugRouteImport.update({
+    id: '/api/public/podcast-video/$slug',
+    path: '/api/public/podcast-video/$slug',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicPodcastAudioSlugRoute =
@@ -247,10 +169,88 @@ const ApiPublicPodcastAudioSlugRoute =
     path: '/api/public/podcast-audio/$slug',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiPublicPodcastVideoSlugRoute =
-  ApiPublicPodcastVideoSlugRouteImport.update({
-    id: '/api/public/podcast-video/$slug',
-    path: '/api/public/podcast-video/$slug',
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicNewsletterUnsubscribeRoute =
+  ApiPublicNewsletterUnsubscribeRouteImport.update({
+    id: '/api/public/newsletter/unsubscribe',
+    path: '/api/public/newsletter/unsubscribe',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksWeeklyDigestRoute =
+  ApiPublicHooksWeeklyDigestRouteImport.update({
+    id: '/api/public/hooks/weekly-digest',
+    path: '/api/public/hooks/weekly-digest',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGeneratePodcastRoute =
+  ApiPublicHooksGeneratePodcastRouteImport.update({
+    id: '/api/public/hooks/generate-podcast',
+    path: '/api/public/hooks/generate-podcast',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateOpinionRoute =
+  ApiPublicHooksGenerateOpinionRouteImport.update({
+    id: '/api/public/hooks/generate-opinion',
+    path: '/api/public/hooks/generate-opinion',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateInsightsRoute =
+  ApiPublicHooksGenerateInsightsRouteImport.update({
+    id: '/api/public/hooks/generate-insights',
+    path: '/api/public/hooks/generate-insights',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateExplainersRoute =
+  ApiPublicHooksGenerateExplainersRouteImport.update({
+    id: '/api/public/hooks/generate-explainers',
+    path: '/api/public/hooks/generate-explainers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateEditionRoute =
+  ApiPublicHooksGenerateEditionRouteImport.update({
+    id: '/api/public/hooks/generate-edition',
+    path: '/api/public/hooks/generate-edition',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateCrowdsourceRoute =
+  ApiPublicHooksGenerateCrowdsourceRouteImport.update({
+    id: '/api/public/hooks/generate-crowdsource',
+    path: '/api/public/hooks/generate-crowdsource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateBriefImageRoute =
+  ApiPublicHooksGenerateBriefImageRouteImport.update({
+    id: '/api/public/hooks/generate-brief-image',
+    path: '/api/public/hooks/generate-brief-image',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksGenerateAnalysisRoute =
+  ApiPublicHooksGenerateAnalysisRouteImport.update({
+    id: '/api/public/hooks/generate-analysis',
+    path: '/api/public/hooks/generate-analysis',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksBackfillTopicsRoute =
+  ApiPublicHooksBackfillTopicsRouteImport.update({
+    id: '/api/public/hooks/backfill-topics',
+    path: '/api/public/hooks/backfill-topics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksBackfillArchiveRoute =
+  ApiPublicHooksBackfillArchiveRouteImport.update({
+    id: '/api/public/hooks/backfill-archive',
+    path: '/api/public/hooks/backfill-archive',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicArticleImageSlugRoute =
+  ApiPublicArticleImageSlugRouteImport.update({
+    id: '/api/public/article-image/$slug',
+    path: '/api/public/article-image/$slug',
     getParentRoute: () => rootRouteImport,
   } as any)
 
@@ -536,81 +536,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/crowdsource': {
-      id: '/crowdsource'
-      path: '/crowdsource'
-      fullPath: '/crowdsource'
-      preLoaderRoute: typeof CrowdsourceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/insights': {
-      id: '/insights'
-      path: '/insights'
-      fullPath: '/insights'
-      preLoaderRoute: typeof InsightsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rss.xml': {
-      id: '/rss.xml'
-      path: '/rss.xml'
-      fullPath: '/rss.xml'
-      preLoaderRoute: typeof RssDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
+    '/topics': {
+      id: '/topics'
+      path: '/topics'
+      fullPath: '/topics'
+      preLoaderRoute: typeof TopicsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -620,39 +550,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/topics': {
-      id: '/topics'
-      path: '/topics'
-      fullPath: '/topics'
-      preLoaderRoute: typeof TopicsRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/article/$slug': {
-      id: '/article/$slug'
-      path: '/article/$slug'
-      fullPath: '/article/$slug'
-      preLoaderRoute: typeof ArticleSlugRouteImport
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/checkout/return': {
-      id: '/checkout/return'
-      path: '/checkout/return'
-      fullPath: '/checkout/return'
-      preLoaderRoute: typeof CheckoutReturnRouteImport
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/kind/$kind': {
-      id: '/kind/$kind'
-      path: '/kind/$kind'
-      fullPath: '/kind/$kind'
-      preLoaderRoute: typeof KindKindRouteImport
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crowdsource': {
+      id: '/crowdsource'
+      path: '/crowdsource'
+      fullPath: '/crowdsource'
+      preLoaderRoute: typeof CrowdsourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/podcast/': {
@@ -662,18 +634,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PodcastIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/podcast/$slug': {
-      id: '/podcast/$slug'
-      path: '/podcast/$slug'
-      fullPath: '/podcast/$slug'
-      preLoaderRoute: typeof PodcastSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/podcast/music': {
-      id: '/podcast/music'
-      path: '/podcast/music'
-      fullPath: '/podcast/music'
-      preLoaderRoute: typeof PodcastMusicRouteImport
+    '/topic/$topic': {
+      id: '/topic/$topic'
+      path: '/topic/$topic'
+      fullPath: '/topic/$topic'
+      preLoaderRoute: typeof TopicTopicRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/podcast/rss.xml': {
@@ -683,109 +648,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PodcastRssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/topic/$topic': {
-      id: '/topic/$topic'
-      path: '/topic/$topic'
-      fullPath: '/topic/$topic'
-      preLoaderRoute: typeof TopicTopicRouteImport
+    '/podcast/music': {
+      id: '/podcast/music'
+      path: '/podcast/music'
+      fullPath: '/podcast/music'
+      preLoaderRoute: typeof PodcastMusicRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/article-image/$slug': {
-      id: '/api/public/article-image/$slug'
-      path: '/api/public/article-image/$slug'
-      fullPath: '/api/public/article-image/$slug'
-      preLoaderRoute: typeof ApiPublicArticleImageSlugRouteImport
+    '/podcast/$slug': {
+      id: '/podcast/$slug'
+      path: '/podcast/$slug'
+      fullPath: '/podcast/$slug'
+      preLoaderRoute: typeof PodcastSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/hooks/backfill-archive': {
-      id: '/api/public/hooks/backfill-archive'
-      path: '/api/public/hooks/backfill-archive'
-      fullPath: '/api/public/hooks/backfill-archive'
-      preLoaderRoute: typeof ApiPublicHooksBackfillArchiveRouteImport
+    '/kind/$kind': {
+      id: '/kind/$kind'
+      path: '/kind/$kind'
+      fullPath: '/kind/$kind'
+      preLoaderRoute: typeof KindKindRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/hooks/backfill-topics': {
-      id: '/api/public/hooks/backfill-topics'
-      path: '/api/public/hooks/backfill-topics'
-      fullPath: '/api/public/hooks/backfill-topics'
-      preLoaderRoute: typeof ApiPublicHooksBackfillTopicsRouteImport
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/checkout/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/hooks/generate-analysis': {
-      id: '/api/public/hooks/generate-analysis'
-      path: '/api/public/hooks/generate-analysis'
-      fullPath: '/api/public/hooks/generate-analysis'
-      preLoaderRoute: typeof ApiPublicHooksGenerateAnalysisRouteImport
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/hooks/generate-brief-image': {
-      id: '/api/public/hooks/generate-brief-image'
-      path: '/api/public/hooks/generate-brief-image'
-      fullPath: '/api/public/hooks/generate-brief-image'
-      preLoaderRoute: typeof ApiPublicHooksGenerateBriefImageRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/api/public/hooks/generate-crowdsource': {
-      id: '/api/public/hooks/generate-crowdsource'
-      path: '/api/public/hooks/generate-crowdsource'
-      fullPath: '/api/public/hooks/generate-crowdsource'
-      preLoaderRoute: typeof ApiPublicHooksGenerateCrowdsourceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/generate-edition': {
-      id: '/api/public/hooks/generate-edition'
-      path: '/api/public/hooks/generate-edition'
-      fullPath: '/api/public/hooks/generate-edition'
-      preLoaderRoute: typeof ApiPublicHooksGenerateEditionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/generate-explainers': {
-      id: '/api/public/hooks/generate-explainers'
-      path: '/api/public/hooks/generate-explainers'
-      fullPath: '/api/public/hooks/generate-explainers'
-      preLoaderRoute: typeof ApiPublicHooksGenerateExplainersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/generate-insights': {
-      id: '/api/public/hooks/generate-insights'
-      path: '/api/public/hooks/generate-insights'
-      fullPath: '/api/public/hooks/generate-insights'
-      preLoaderRoute: typeof ApiPublicHooksGenerateInsightsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/generate-opinion': {
-      id: '/api/public/hooks/generate-opinion'
-      path: '/api/public/hooks/generate-opinion'
-      fullPath: '/api/public/hooks/generate-opinion'
-      preLoaderRoute: typeof ApiPublicHooksGenerateOpinionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/generate-podcast': {
-      id: '/api/public/hooks/generate-podcast'
-      path: '/api/public/hooks/generate-podcast'
-      fullPath: '/api/public/hooks/generate-podcast'
-      preLoaderRoute: typeof ApiPublicHooksGeneratePodcastRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/weekly-digest': {
-      id: '/api/public/hooks/weekly-digest'
-      path: '/api/public/hooks/weekly-digest'
-      fullPath: '/api/public/hooks/weekly-digest'
-      preLoaderRoute: typeof ApiPublicHooksWeeklyDigestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/newsletter/unsubscribe': {
-      id: '/api/public/newsletter/unsubscribe'
-      path: '/api/public/newsletter/unsubscribe'
-      fullPath: '/api/public/newsletter/unsubscribe'
-      preLoaderRoute: typeof ApiPublicNewsletterUnsubscribeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/payments/webhook': {
-      id: '/api/public/payments/webhook'
-      path: '/api/public/payments/webhook'
-      fullPath: '/api/public/payments/webhook'
-      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+    '/api/public/podcast-video/$slug': {
+      id: '/api/public/podcast-video/$slug'
+      path: '/api/public/podcast-video/$slug'
+      fullPath: '/api/public/podcast-video/$slug'
+      preLoaderRoute: typeof ApiPublicPodcastVideoSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/podcast-audio/$slug': {
@@ -795,11 +704,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPodcastAudioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/podcast-video/$slug': {
-      id: '/api/public/podcast-video/$slug'
-      path: '/api/public/podcast-video/$slug'
-      fullPath: '/api/public/podcast-video/$slug'
-      preLoaderRoute: typeof ApiPublicPodcastVideoSlugRouteImport
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/newsletter/unsubscribe': {
+      id: '/api/public/newsletter/unsubscribe'
+      path: '/api/public/newsletter/unsubscribe'
+      fullPath: '/api/public/newsletter/unsubscribe'
+      preLoaderRoute: typeof ApiPublicNewsletterUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/weekly-digest': {
+      id: '/api/public/hooks/weekly-digest'
+      path: '/api/public/hooks/weekly-digest'
+      fullPath: '/api/public/hooks/weekly-digest'
+      preLoaderRoute: typeof ApiPublicHooksWeeklyDigestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-podcast': {
+      id: '/api/public/hooks/generate-podcast'
+      path: '/api/public/hooks/generate-podcast'
+      fullPath: '/api/public/hooks/generate-podcast'
+      preLoaderRoute: typeof ApiPublicHooksGeneratePodcastRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-opinion': {
+      id: '/api/public/hooks/generate-opinion'
+      path: '/api/public/hooks/generate-opinion'
+      fullPath: '/api/public/hooks/generate-opinion'
+      preLoaderRoute: typeof ApiPublicHooksGenerateOpinionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-insights': {
+      id: '/api/public/hooks/generate-insights'
+      path: '/api/public/hooks/generate-insights'
+      fullPath: '/api/public/hooks/generate-insights'
+      preLoaderRoute: typeof ApiPublicHooksGenerateInsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-explainers': {
+      id: '/api/public/hooks/generate-explainers'
+      path: '/api/public/hooks/generate-explainers'
+      fullPath: '/api/public/hooks/generate-explainers'
+      preLoaderRoute: typeof ApiPublicHooksGenerateExplainersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-edition': {
+      id: '/api/public/hooks/generate-edition'
+      path: '/api/public/hooks/generate-edition'
+      fullPath: '/api/public/hooks/generate-edition'
+      preLoaderRoute: typeof ApiPublicHooksGenerateEditionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-crowdsource': {
+      id: '/api/public/hooks/generate-crowdsource'
+      path: '/api/public/hooks/generate-crowdsource'
+      fullPath: '/api/public/hooks/generate-crowdsource'
+      preLoaderRoute: typeof ApiPublicHooksGenerateCrowdsourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-brief-image': {
+      id: '/api/public/hooks/generate-brief-image'
+      path: '/api/public/hooks/generate-brief-image'
+      fullPath: '/api/public/hooks/generate-brief-image'
+      preLoaderRoute: typeof ApiPublicHooksGenerateBriefImageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/generate-analysis': {
+      id: '/api/public/hooks/generate-analysis'
+      path: '/api/public/hooks/generate-analysis'
+      fullPath: '/api/public/hooks/generate-analysis'
+      preLoaderRoute: typeof ApiPublicHooksGenerateAnalysisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/backfill-topics': {
+      id: '/api/public/hooks/backfill-topics'
+      path: '/api/public/hooks/backfill-topics'
+      fullPath: '/api/public/hooks/backfill-topics'
+      preLoaderRoute: typeof ApiPublicHooksBackfillTopicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/backfill-archive': {
+      id: '/api/public/hooks/backfill-archive'
+      path: '/api/public/hooks/backfill-archive'
+      fullPath: '/api/public/hooks/backfill-archive'
+      preLoaderRoute: typeof ApiPublicHooksBackfillArchiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/article-image/$slug': {
+      id: '/api/public/article-image/$slug'
+      path: '/api/public/article-image/$slug'
+      fullPath: '/api/public/article-image/$slug'
+      preLoaderRoute: typeof ApiPublicArticleImageSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
