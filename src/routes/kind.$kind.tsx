@@ -57,7 +57,7 @@ export const Route = createFileRoute("/kind/$kind")({
   },
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-3xl px-4 py-12 text-center text-muted-foreground">
-      Couldn't load this section: {error.message}
+      Couldn't load this section: {(error as Error).message}
     </div>
   ),
   notFoundComponent: () => (
