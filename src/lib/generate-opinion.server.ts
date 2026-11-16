@@ -67,7 +67,7 @@ function ensureUniqueSlug(base: string, existing: Set<string>) {
   return slug;
 }
 
-async function fetchOpinionWire(limit: number): Promise<WireItem[]> {
+async function fetchOpinionWire(limit: number, hours = 36): Promise<WireItem[]> {
   const key = process.env.NEWS_API_KEY;
   if (!key) throw new Error("NEWS_API_KEY not configured");
   const url = new URL("https://newsapi.org/v2/everything");
@@ -79,7 +79,7 @@ async function fetchOpinionWire(limit: number): Promise<WireItem[]> {
   url.searchParams.set("language", "en");
   url.searchParams.set("sortBy", "publishedAt");
   url.searchParams.set("pageSize", String(Math.min(limit * 3, 60)));
-  const since = new Date(Date.now() - 36 * 60 * 60 * 1000)
+  const since = new Date(Date.now() - hours * 60 * 60 * 1000)
     .toISOString()
     .slice(0, 10);
   url.searchParams.set("from", since);
@@ -365,4 +365,37 @@ Make a clear progressive argument about what this story means and what should ha
   if (error) throw new Error(`DB insert failed: ${error.message}`);
 
   return { inserted: rows.length, slugs: rows.map((r) => r.slug) };
+}
+
+
+/** Weekly roundup: a curated listicle of the week's best opinion/editorial pieces from other outlets. */
+export async function generateWeeklyRoundup() {
+  const wire = await fetchOpinionWire(12, 7 * 24);
+  if (!wire.length) throw new Error("No wire items available for weekly roundup");
+  const date = todayISO();
+  const user = `Today is ${date}. This is the WEEKLY roundup (not daily): frame the past seven days. Title it "Weekly Roundup: <theme of the week>". Here are real opinion/editorial pieces published this past week by major U.S. outlets. Build the listicle from these exact items in the order given, preserving their URLs and outlet names verbatim. Keep each one_line under 25 words.
+
+${wire.map((w, i) => `[${i + 1}] ${w.title}\n    Outlet: ${w.source}\n    URL: ${w.url}\n    ${w.description ?? ""}`).join("\n\n")}`;
+  const b = safeJson<BriefingResponse>(await callGateway(BRIEFING_SYSTEM, user));
+  if (!b?.title || !b?.items?.length) throw new Error("AI returned incomplete roundup");
+  b.items = b.items.filter((it) => wire.some((w) => w.url === it.url));
+  if (!b.items.length) b.items = wire.map((w) => ({ url: w.url, outlet: w.source, headline: w.title, one_line: w.description?.slice(0, 160) ?? "" }));
+  const { data: existingRows } = await supabaseAdmin.from("articles").select("slug");
+  const existing = new Set((existingRows ?? []).map((r) => r.slug));
+  const slug = ensureUniqueSlug(`opinion-weekly-roundup-${date}-${slugify(b.title)}`.slice(0, 100), existing);
+  const row = {
+    slug,
+    title: b.title,
+    dek: b.dek,
+    body: briefingToMarkdown(b),
+    article_type: "opinion",
+    category: CATEGORIES.includes(b.category) ? b.category : "politics",
+    tags: normalizeTagsToTopics(b.tags ?? []),
+    sources: b.items.map((it) => ({ title: `${it.outlet}: ${it.headline}`, url: it.url })),
+    hero_gradient: GRADIENTS.includes(b.hero_gradient) ? b.hero_gradient : "dusk",
+    featured: false,
+  };
+  const { error } = await supabaseAdmin.from("articles").insert(row);
+  if (error) throw new Error(`DB insert failed: ${error.message}`);
+  return { inserted: 1, slug };
 }

@@ -43,6 +43,7 @@ import { Route as ApiPublicHooksGenerateExplainersRouteImport } from './routes/a
 import { Route as ApiPublicHooksGenerateInsightsRouteImport } from './routes/api/public/hooks/generate-insights'
 import { Route as ApiPublicHooksGenerateOpinionRouteImport } from './routes/api/public/hooks/generate-opinion'
 import { Route as ApiPublicHooksGeneratePodcastRouteImport } from './routes/api/public/hooks/generate-podcast'
+import { Route as ApiPublicHooksGenerateWeeklyRoundupRouteImport } from './routes/api/public/hooks/generate-weekly-roundup'
 import { Route as ApiPublicHooksWeeklyDigestRouteImport } from './routes/api/public/hooks/weekly-digest'
 import { Route as ApiPublicNewsletterUnsubscribeRouteImport } from './routes/api/public/newsletter/unsubscribe'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -230,6 +231,12 @@ const ApiPublicHooksGeneratePodcastRoute =
     path: '/api/public/hooks/generate-podcast',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksGenerateWeeklyRoundupRoute =
+  ApiPublicHooksGenerateWeeklyRoundupRouteImport.update({
+    id: '/api/public/hooks/generate-weekly-roundup',
+    path: '/api/public/hooks/generate-weekly-roundup',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksWeeklyDigestRoute =
   ApiPublicHooksWeeklyDigestRouteImport.update({
     id: '/api/public/hooks/weekly-digest',
@@ -295,6 +302,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
+  '/api/public/hooks/generate-weekly-roundup': typeof ApiPublicHooksGenerateWeeklyRoundupRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -335,6 +343,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
+  '/api/public/hooks/generate-weekly-roundup': typeof ApiPublicHooksGenerateWeeklyRoundupRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -377,6 +386,7 @@ export interface FileRoutesById {
   '/api/public/hooks/generate-insights': typeof ApiPublicHooksGenerateInsightsRoute
   '/api/public/hooks/generate-opinion': typeof ApiPublicHooksGenerateOpinionRoute
   '/api/public/hooks/generate-podcast': typeof ApiPublicHooksGeneratePodcastRoute
+  '/api/public/hooks/generate-weekly-roundup': typeof ApiPublicHooksGenerateWeeklyRoundupRoute
   '/api/public/hooks/weekly-digest': typeof ApiPublicHooksWeeklyDigestRoute
   '/api/public/newsletter/unsubscribe': typeof ApiPublicNewsletterUnsubscribeRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
+    | '/api/public/hooks/generate-weekly-roundup'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
@@ -459,6 +470,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
+    | '/api/public/hooks/generate-weekly-roundup'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
@@ -500,6 +512,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/generate-insights'
     | '/api/public/hooks/generate-opinion'
     | '/api/public/hooks/generate-podcast'
+    | '/api/public/hooks/generate-weekly-roundup'
     | '/api/public/hooks/weekly-digest'
     | '/api/public/newsletter/unsubscribe'
     | '/api/public/payments/webhook'
@@ -541,6 +554,7 @@ export interface RootRouteChildren {
   ApiPublicHooksGenerateInsightsRoute: typeof ApiPublicHooksGenerateInsightsRoute
   ApiPublicHooksGenerateOpinionRoute: typeof ApiPublicHooksGenerateOpinionRoute
   ApiPublicHooksGeneratePodcastRoute: typeof ApiPublicHooksGeneratePodcastRoute
+  ApiPublicHooksGenerateWeeklyRoundupRoute: typeof ApiPublicHooksGenerateWeeklyRoundupRoute
   ApiPublicHooksWeeklyDigestRoute: typeof ApiPublicHooksWeeklyDigestRoute
   ApiPublicNewsletterUnsubscribeRoute: typeof ApiPublicNewsletterUnsubscribeRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -788,6 +802,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGeneratePodcastRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/generate-weekly-roundup': {
+      id: '/api/public/hooks/generate-weekly-roundup'
+      path: '/api/public/hooks/generate-weekly-roundup'
+      fullPath: '/api/public/hooks/generate-weekly-roundup'
+      preLoaderRoute: typeof ApiPublicHooksGenerateWeeklyRoundupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/weekly-digest': {
       id: '/api/public/hooks/weekly-digest'
       path: '/api/public/hooks/weekly-digest'
@@ -873,6 +894,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksGenerateInsightsRoute: ApiPublicHooksGenerateInsightsRoute,
   ApiPublicHooksGenerateOpinionRoute: ApiPublicHooksGenerateOpinionRoute,
   ApiPublicHooksGeneratePodcastRoute: ApiPublicHooksGeneratePodcastRoute,
+  ApiPublicHooksGenerateWeeklyRoundupRoute:
+    ApiPublicHooksGenerateWeeklyRoundupRoute,
   ApiPublicHooksWeeklyDigestRoute: ApiPublicHooksWeeklyDigestRoute,
   ApiPublicNewsletterUnsubscribeRoute: ApiPublicNewsletterUnsubscribeRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
