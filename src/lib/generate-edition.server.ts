@@ -51,7 +51,6 @@ Editorial principles:
 Article types you write:
 - daily_brief: 350-500 word narrative recap of the day's most important U.S. political story or thread
 - morning_headlines: a briefing of 5-7 short items. Format body as markdown with an H2 per headline followed by a 2-3 sentence summary.
-- weekly_roundup: a Sunday roundup of the week's 7-10 most important U.S. political stories. Format body as markdown with an H2 per story followed by a 2-4 sentence summary, ending with a "What to watch next week" section.
 - deep_dive: 700-1000 word explainer on a policy area (voting rights, healthcare, labor, housing, immigration, climate, civil rights, Supreme Court, federal legislation, elections). Use H2 subheads. Include a "What to watch next" section.
 
 Categories: politics, labor, climate, healthcare, housing, immigration, civil_rights, courts, elections, economy.
@@ -61,7 +60,7 @@ Return ONLY valid JSON matching this exact shape (no prose before or after, no c
 {
   "articles": [
     {
-      "type": "daily_brief" | "morning_headlines" | "weekly_roundup" | "deep_dive",
+      "type": "daily_brief" | "morning_headlines" | "deep_dive",
       "title": string,
       "dek": string,   // one-sentence deck under the headline
       "body": string,  // markdown; use ## for subheads, **bold**, *italics*, - lists, > blockquotes
@@ -120,12 +119,7 @@ async function callGateway(userPrompt: string): Promise<GeneratedEdition> {
   return parsed;
 }
 
-const CANONICAL_TYPES: ArticleType[] = ["daily_brief", "weekly_roundup", "deep_dive"];
-
-/** Weekly roundup replaces the old daily headlines; published on Sundays (UTC). */
-export function isRoundupDay(date: string) {
-  return new Date(`${date}T12:00:00Z`).getUTCDay() === 0;
-}
+const CANONICAL_TYPES: ArticleType[] = ["daily_brief", "morning_headlines", "deep_dive"];
 
 function ensureUniqueSlug(base: string, existing: Set<string>) {
   let slug = base;
@@ -214,40 +208,21 @@ export async function generateTodaysEdition(dateOverride?: string) {
         .join("\n\n")}`
     : `No live wire is available for ${date}. Write general explainers and be careful not to assert specific current events you cannot verify.`;
 
-  const roundup = isRoundupDay(date);
-  let weekBlock = "";
-  if (roundup) {
-    const since = new Date(new Date(`${date}T00:00:00Z`).getTime() - 7 * 864e5).toISOString();
-    const { data: week } = await supabaseAdmin
-      .from("articles")
-      .select("title, dek, published_at")
-      .gte("published_at", since)
-      .order("published_at", { ascending: true })
-      .limit(40);
-    weekBlock = `This week's Progressor coverage (use it to pick the week's biggest stories):\n${(week ?? [])
-      .map((a) => `- ${a.published_at?.slice(0, 10)}: ${a.title} — ${a.dek}`)
-      .join("\n")}`;
-  }
-
-  const task = roundup
-    ? `Produce exactly two articles in this order:
-1) A daily_brief on the single most important U.S. political story from the wire above.
-2) A weekly_roundup covering the 7-10 most important U.S. political stories of the past seven days, drawing on this week's coverage and the wire.`
-    : `Produce exactly one article: a daily_brief on the single most important U.S. political story from the wire above.`;
-
   const userPrompt = `Today is ${date}.
 
 ${wireBlock}
 
-${weekBlock}
-
 ${priorBlock}
 
-${task}
+Produce exactly two articles in this order:
+1) A daily_brief on the single most important U.S. political story from the wire above.
+2) A morning_headlines briefing with 5-7 items drawn from the wire above, covering a mix of politics, labor, climate, healthcare, courts, immigration, civil rights, elections, and economy where represented.
 
 Where the prior-coverage archive above is relevant, use it for background and say when something happened before — cite the outlet and date. Never assert details the archive headlines do not contain.
 
 Use only the sources listed above; include their real URLs in the sources array. Mark the daily_brief as featured=true.`;
+
+
 
   const edition = await callGateway(userPrompt);
 

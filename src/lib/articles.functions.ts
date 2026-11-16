@@ -189,8 +189,7 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async () =>
   if (error) throw new Error(error.message);
   const all = rows ?? [];
   const brief = all.find((a) => a.article_type === "daily_brief") ?? null;
-  const headlines =
-    all.find((a) => a.article_type === "weekly_roundup" || a.article_type === "morning_headlines") ?? null;
+  const headlines = all.find((a) => a.article_type === "morning_headlines") ?? null;
   const deepDives = all.filter((a) => a.article_type === "deep_dive").slice(0, 4);
   const latest = all.filter((a) => a.id !== brief?.id && a.id !== headlines?.id).slice(0, 12);
   return { brief, headlines, deepDives, latest, totalCount: all.length };

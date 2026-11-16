@@ -49,7 +49,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "A daily brief, a weekly roundup, and deep-dive explainers on U.S. politics from an AI editor with a progressive lens.",
+          "A daily brief, morning headlines, and deep-dive explainers on U.S. politics from an AI editor with a progressive lens.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://theprogressor.lovable.app/" },
@@ -115,7 +115,7 @@ function Home() {
           {data.headlines && (
             <div className="rounded-lg border border-border bg-card p-6">
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
-                {data.headlines.article_type === "weekly_roundup" ? "Weekly Roundup" : "Morning Headlines"}
+                Morning Headlines
               </p>
               <Link
                 to="/article/$slug"
