@@ -270,7 +270,8 @@ interface AnalysisResponse {
 
 // ---------- orchestration ----------
 
-export async function generateAnalysisEdition(options?: { columns?: number }) {
+export async function generateAnalysisEdition(options?: { columns?: number; skipBriefing?: boolean }) {
+  const skipBriefing = options?.skipBriefing ?? false;
   const columns = Math.max(1, Math.min(options?.columns ?? 2, 3));
 
   const wire = await fetchAnalysisWire(8);
@@ -299,7 +300,9 @@ ${wire
   )
   .join("\n\n")}`;
 
-  const briefingRaw = await callGateway(BRIEFING_SYSTEM, briefingUser);
+  const briefingRaw = skipBriefing
+    ? JSON.stringify({ title: "skip", dek: "", category: "politics", tags: [], hero_gradient: "dusk", intro: "", items: wire.map((w) => ({ url: w.url, outlet: w.source, headline: w.title, one_line: "" })) })
+    : await callGateway(BRIEFING_SYSTEM, briefingUser);
   const briefing = safeJson<BriefingResponse>(briefingRaw);
   if (!briefing?.title || !briefing?.items?.length) {
     throw new Error("AI returned incomplete briefing");
@@ -412,6 +415,8 @@ Explain what this story actually means, who benefits, who is harmed, and what to
     });
   }
 
+  // In rotation mode, publish only the AI-authored piece (drop the listicle).
+  if (skipBriefing) rows.shift();
   const { error } = await supabaseAdmin.from("articles").insert(rows);
   if (error) throw new Error(`DB insert failed: ${error.message}`);
 

@@ -240,7 +240,8 @@ interface ColumnResponse {
 
 // ---------- orchestration ----------
 
-export async function generateOpinionEdition() {
+export async function generateOpinionEdition(options?: { skipBriefing?: boolean }) {
+  const skipBriefing = options?.skipBriefing ?? false;
   const wire = await fetchOpinionWire(8);
   if (!wire.length) throw new Error("No opinion wire items available");
 
@@ -267,7 +268,9 @@ ${wire
   )
   .join("\n\n")}`;
 
-  const briefingRaw = await callGateway(BRIEFING_SYSTEM, briefingUser);
+  const briefingRaw = skipBriefing
+    ? JSON.stringify({ title: "skip", dek: "", category: "politics", tags: [], hero_gradient: "dusk", intro: "", items: wire.map((w) => ({ url: w.url, outlet: w.source, headline: w.title, one_line: "" })) })
+    : await callGateway(BRIEFING_SYSTEM, briefingUser);
   const briefing = safeJson<BriefingResponse>(briefingRaw);
   if (!briefing?.title || !briefing?.items?.length) {
     throw new Error("AI returned incomplete briefing");
@@ -356,6 +359,8 @@ Make a clear progressive argument about what this story means and what should ha
     },
   ];
 
+  // In rotation mode, publish only the AI-authored piece (drop the listicle).
+  if (skipBriefing) rows.shift();
   const { error } = await supabaseAdmin.from("articles").insert(rows);
   if (error) throw new Error(`DB insert failed: ${error.message}`);
 

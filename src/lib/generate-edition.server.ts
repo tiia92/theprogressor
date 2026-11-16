@@ -214,10 +214,9 @@ ${wireBlock}
 
 ${priorBlock}
 
-Produce exactly three articles in this order:
+Produce exactly two articles in this order:
 1) A daily_brief on the single most important U.S. political story from the wire above.
 2) A morning_headlines briefing with 5-7 items drawn from the wire above, covering a mix of politics, labor, climate, healthcare, courts, immigration, civil rights, elections, and economy where represented.
-3) A deep_dive explainer on a policy area that helps readers understand the bigger picture behind one of the wire stories.
 
 Where the prior-coverage archive above is relevant, use it for background and say when something happened before — cite the outlet and date. Never assert details the archive headlines do not contain.
 
