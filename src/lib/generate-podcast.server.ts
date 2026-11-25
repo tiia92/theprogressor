@@ -2,6 +2,13 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { chunkForNarration, plainTextForNarration } from "@/lib/narration-text";
 import {
+  hasShowSponsorship,
+  podcastSponsorRead,
+  sponsorTextForSpeech,
+  withSingleSponsorSection,
+  type PodcastSection,
+} from "@/lib/podcast-sponsorship";
+import {
   CUE_SECONDS,
   concatAudio,
   loadCue,
@@ -129,18 +136,14 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
     )
     .join("\n\n---\n\n");
 
-  const sponsorBlock = activeSponsors.length
-    ? activeSponsors
-        .map((s) => `- ${s.name}: ${s.copy}${s.link ? ` (${s.link})` : ""}`)
-        .join("\n")
-    : "(no sponsors this week)";
+  const sponsorRead = podcastSponsorRead(activeSponsors);
 
   const todayYear = new Date().getUTCFullYear();
   const dateBlock = `TODAY'S DATE: ${today}. The current year is ${todayYear}. Your training data is older than this — never assume an earlier year. The United States' 250th anniversary was July 4, 2026 and has already happened. Do not describe any date before ${today} as upcoming, and do not state a countdown or anniversary you have not computed from ${today}.`;
 
   const context = `${dateBlock}\n\n${
     options.extraDirection ? `EXTRA DIRECTION:\n${options.extraDirection}\n\n` : ""
-  }SPONSORS TO READ:\n${sponsorBlock}\n\nTHIS WEEK'S COVERAGE (${week} to ${
+  }SPONSORSHIP RULE: A fixed sponsor read is inserted separately. Do not write or discuss show sponsorship, sponsor thanks, funding status, or referral links in any editorial section. Never describe the show as unsponsored.\n\nTHIS WEEK'S COVERAGE (${week} to ${
     options.weekEnd ?? "end of week"
   }):\n${digest}`;
 
@@ -158,20 +161,16 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
     true,
   );
 
-  interface Section {
-    kind: string;
-    title: string;
-    beats: string;
-  }
-  let sections: Section[] = [];
+  let sections: PodcastSection[] = [];
   try {
-    sections = (JSON.parse(outlineRaw) as { sections?: Section[] }).sections ?? [];
+    sections = (JSON.parse(outlineRaw) as { sections?: PodcastSection[] }).sections ?? [];
   } catch {
     console.error("[podcast] outline parse failed");
   }
   if (!sections.length) {
     sections = [{ kind: "segment", title: "This week", beats: "The week's biggest stories." }];
   }
+  sections = withSingleSponsorSection(sections);
 
   const targets: Record<string, number> = {
     cold_open: 150,
@@ -184,16 +183,29 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
 
   const written: { kind: string; text: string }[] = [];
   for (const section of sections.slice(0, 10)) {
+    if (section.kind === "sponsors") {
+      written.push({ kind: "sponsors", text: sponsorRead });
+      continue;
+    }
     const target = targets[section.kind] ?? 600;
     const previous =
       written.slice(-1)[0]?.text.slice(-1200) ?? "(this is the opening of the episode)";
-    const part = await chat([
+    let part = await chat([
       { role: "system", content: HOST_SYSTEM_PROMPT },
       {
         role: "user",
         content: `${context}\n\nYou are writing ONE section of this week's episode, in order.\n\nSECTION: ${section.kind} — ${section.title}\nMUST COVER: ${section.beats}\n\nThe previous section ended with:\n"""${previous}"""\n\nWrite roughly ${target} words of spoken script for this section only. No headings, no stage directions, no section labels — only the words the host says. Do not re-introduce the show unless this is the intro, and do not sign off unless this is the close.`,
       },
     ]);
+    if (hasShowSponsorship(part)) {
+      part = await chat([
+        { role: "system", content: HOST_SYSTEM_PROMPT },
+        { role: "user", content: `Rewrite this section, keeping its reporting and length but deleting every reference to the show's sponsorship, funding status, sponsor thanks, Lovable, and referral links. A single sponsor read is already handled separately. Return spoken script only:\n\n${part}` },
+      ]);
+      if (hasShowSponsorship(part)) {
+        throw new Error("Podcast section repeated sponsorship after correction; stopped before narration or publishing.");
+      }
+    }
     written.push({ kind: section.kind, text: part.trim() });
   }
 
@@ -252,7 +264,7 @@ export async function generateWeeklyEpisode(options: GenerateEpisodeOptions = {}
         musicSeconds += CUE_SECONDS[cueName];
       }
     }
-    const spokenSection = plainTextForNarration(section.text, null, null);
+    const spokenSection = plainTextForNarration(sponsorTextForSpeech(section.text), null, null);
     for (const chunk of chunkForNarration(spokenSection, 300)) {
       parts.push(await speak(chunk));
       chunkCount++;
