@@ -6,7 +6,7 @@
 
 @theme inline {
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-heading: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-heading: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
@@ -132,9 +132,12 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
-    font-weight: 400;
-    font-optical-sizing: auto;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+  }
+  h3, h4 {
+    font-weight: 500;
   }
 }
 
@@ -168,15 +171,15 @@
   & h2 {
     font-family: var(--font-heading);
     font-size: 1.65rem;
-    font-weight: 400;
+    font-weight: 600;
     margin-top: 2.25rem;
     margin-bottom: 0.75rem;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.025em;
   }
   & h3 {
     font-family: var(--font-heading);
     font-size: 1.3rem;
-    font-weight: 400;
+    font-weight: 500;
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
   }
