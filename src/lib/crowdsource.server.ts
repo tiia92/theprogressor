@@ -1,9 +1,7 @@
 // Server-only: the Crowdsource desk editor bot + the daily Crowdsource edition.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { chatCompletion, parseJsonContent } from "@/lib/ai-client.server";
 import { normalizeTagsToTopics } from "@/lib/content-types";
-
-const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const MODEL = "google/gemini-3-flash-preview";
 
 export interface ChatMessage {
   role: "user" | "assistant";
@@ -71,31 +69,17 @@ Return ONLY valid JSON, no prose, no code fences:
   } | null
 }`;
 
-async function callGateway(messages: { role: string; content: string }[]) {
-  const apiKey = process.env.LOVABLE_API_KEY;
-  if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
-
-  const resp = await fetch(GATEWAY_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey },
-    body: JSON.stringify({ model: MODEL, messages, response_format: { type: "json_object" } }),
-  });
-
-  if (!resp.ok) {
-    const text = await resp.text();
-    if (resp.status === 429) throw new Error("The desk is busy — try again in a minute.");
-    if (resp.status === 402) throw new Error("AI credits exhausted. Add credits in workspace settings.");
-    throw new Error(`AI gateway ${resp.status}: ${text}`);
-  }
-
-  const data = (await resp.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content ?? "";
-  if (!content) throw new Error("Empty AI response");
+async function callGateway(messages: { role: string; content: string }[], preferGroq: boolean) {
   try {
-    return JSON.parse(content);
-  } catch {
-    const cleaned = content.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
-    return JSON.parse(cleaned);
+    const { content } = await chatCompletion({ messages, json: true, preferGroq });
+    return parseJsonContent(content);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg === "AI rate limit") throw new Error("The desk is busy — try again in a minute.");
+    if (msg === "AI credits exhausted") {
+      throw new Error("AI credits exhausted. Add credits in workspace settings.");
+    }
+    throw err;
   }
 }
 
@@ -123,11 +107,14 @@ export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn
         },
       ];
 
-  const parsed = (await callGateway([
-    { role: "system", content: CHAT_SYSTEM },
-    ...messages.slice(-16).map((m) => ({ role: m.role, content: m.content })),
-    ...context,
-  ])) as Partial<EditorTurn>;
+  const parsed = (await callGateway(
+    [
+      { role: "system", content: CHAT_SYSTEM },
+      ...messages.slice(-16).map((m) => ({ role: m.role, content: m.content })),
+      ...context,
+    ],
+    true,
+  )) as Partial<EditorTurn>;
 
   // Hard gates: verified link, plus at least two reader answers to the desk's questions.
   const answers = messages.filter((m) => m.role === "user").length;
@@ -197,10 +184,13 @@ export async function generateCrowdsourceEdition() {
     )
     .join("\n\n");
 
-  const parsed = (await callGateway([
-    { role: "system", content: EDITION_SYSTEM },
-    { role: "user", content: `Today is ${date}. The five pitches that made the cut:\n\n${list}` },
-  ])) as {
+  const parsed = (await callGateway(
+    [
+      { role: "system", content: EDITION_SYSTEM },
+      { role: "user", content: `Today is ${date}. The five pitches that made the cut:\n\n${list}` },
+    ],
+    false,
+  )) as {
     title?: string;
     dek?: string;
     body?: string;

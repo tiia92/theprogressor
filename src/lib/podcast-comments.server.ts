@@ -1,6 +1,5 @@
 // Server-only: screens listener feedback before it becomes public.
-const CHAT_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const MODEL = "google/gemini-3-flash-preview";
+import { chatCompletion, parseJsonContent } from "@/lib/ai-client.server";
 
 export interface Moderation {
   allowed: boolean;
@@ -17,29 +16,15 @@ score = 0-100 for how worth featuring the comment is: specific, substantive, add
 reason = one short sentence.`;
 
 export async function moderateComment(body: string): Promise<Moderation> {
-  const key = process.env["LOVABLE_API_KEY"];
-  if (!key) throw new Error("LOVABLE_API_KEY is not configured");
-
-  const res = await fetch(CHAT_URL, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: MODEL,
-      response_format: { type: "json_object" },
-      messages: [
-        { role: "system", content: SYSTEM },
-        { role: "user", content: body.slice(0, 4000) },
-      ],
-    }),
+  const { content } = await chatCompletion({
+    messages: [
+      { role: "system", content: SYSTEM },
+      { role: "user", content: body.slice(0, 4000) },
+    ],
+    json: true,
   });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(`Moderation failed (${res.status}): ${detail.slice(0, 200)}`);
-  }
-  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content ?? "";
   try {
-    const parsed = JSON.parse(content) as Partial<Moderation>;
+    const parsed = parseJsonContent<Partial<Moderation>>(content);
     return {
       allowed: parsed.allowed !== false,
       score: Math.max(0, Math.min(100, Math.round(Number(parsed.score ?? 50)))),

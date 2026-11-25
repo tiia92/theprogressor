@@ -1,10 +1,8 @@
 // Server-only: classify every article's title+dek into canonical topic slugs
-// using the Lovable AI Gateway, and write them back into `articles.tags`.
+// using Groq (with Lovable AI Gateway fallback), and write them back into `articles.tags`.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { chatCompletion, parseJsonContent } from "@/lib/ai-client.server";
 import { TOPICS, TOPIC_SLUGS, normalizeTagsToTopics } from "@/lib/content-types";
-
-const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const MODEL = "google/gemini-3-flash-preview";
 
 const TAXONOMY_LIST = TOPICS.map((t) => `- ${t.slug}: ${t.label} — ${t.description}`).join("\n");
 
@@ -22,9 +20,6 @@ Rules:
 Return ONLY valid JSON: {"topics": string[]}`;
 
 async function classifyOne(title: string, dek: string, category: string): Promise<string[]> {
-  const apiKey = process.env.LOVABLE_API_KEY;
-  if (!apiKey) throw new Error("LOVABLE_API_KEY not configured");
-
   const userPrompt = `Article:
 Title: ${title}
 Dek: ${dek}
@@ -32,34 +27,14 @@ Section hint: ${category}
 
 Return the best 1–4 topic slugs.`;
 
-  const resp = await fetch(GATEWAY_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-    }),
+  const { content } = await chatCompletion({
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userPrompt },
+    ],
+    json: true,
   });
-
-  if (!resp.ok) {
-    const text = await resp.text();
-    if (resp.status === 429) throw new Error("AI rate limit");
-    if (resp.status === 402) throw new Error("AI credits exhausted");
-    throw new Error(`AI gateway ${resp.status}: ${text}`);
-  }
-  const data = (await resp.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content ?? "";
-  let parsed: { topics?: unknown };
-  try {
-    parsed = JSON.parse(content);
-  } catch {
-    const cleaned = content.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
-    parsed = JSON.parse(cleaned);
-  }
+  const parsed = parseJsonContent<{ topics?: unknown }>(content);
   const list = Array.isArray(parsed?.topics) ? (parsed.topics as unknown[]) : [];
   const valid = list
     .filter((s): s is string => typeof s === "string")
