@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { SiteSearchBar } from "@/components/site-search-bar";
 import { TOPICS } from "@/lib/content-types";
 
 export const Route = createFileRoute("/topics")({
@@ -41,6 +42,7 @@ function TopicsIndex() {
         Every article is tagged with one or more of these topics. Pick one to
         see everything we've written about it.
       </p>
+      <SiteSearchBar />
 
       <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {TOPICS.map((t) => (

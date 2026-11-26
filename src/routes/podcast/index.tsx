@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { PodcastPlayer } from "@/components/podcast-player";
+import { SiteSearchBar } from "@/components/site-search-bar";
 import { PODCAST_COVER_ABSOLUTE, PODCAST_COVER_ALT, PODCAST_COVER_URL } from "@/lib/podcast-cover";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -118,6 +119,7 @@ function PodcastPage() {
         The Progressor Podcast
       </h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">{DESCRIPTION}</p>
+      <SiteSearchBar />
 
       <div className="mt-4 flex flex-wrap items-center gap-4">
         <a

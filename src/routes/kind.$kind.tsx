@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { listArticles } from "@/lib/articles.functions";
 import { ArticleCard } from "@/components/article-card";
+import { SiteSearchBar } from "@/components/site-search-bar";
 import { KIND_DESCRIPTION, KIND_LABEL } from "@/lib/content-types";
 
 const VALID = ["news", "analysis", "explainer", "opinion"] as const;
@@ -79,6 +80,7 @@ function KindPage() {
           {KIND_LABEL[kind]}
         </h1>
         <p className="mt-2 max-w-2xl text-muted-foreground">{KIND_DESCRIPTION[kind]}</p>
+        <SiteSearchBar />
       </div>
 
       {data.length === 0 ? (
