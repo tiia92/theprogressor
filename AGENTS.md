@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Podcast sponsorship uses a deterministic read in one normalized outline section, with duplicate-mention validation before narration; this prevents independently generated sections from repeating or contradicting the read.
+- All editorial and podcast text generation routes through the shared Groq-first completion client with Lovable AI fallback, while images and narration keep their existing media providers; this controls text cost without rewriting editorial prompts or changing media pipelines.

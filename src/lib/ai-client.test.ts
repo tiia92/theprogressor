@@ -1,5 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { chatCompletion, GROQ_UTILITY_MODEL, LOVABLE_FALLBACK_MODEL } from "./ai-client.server";
+import {
+  chatCompletion,
+  GROQ_LONG_FORM_MODEL,
+  GROQ_UTILITY_MODEL,
+  longFormCompletion,
+  LOVABLE_FALLBACK_MODEL,
+} from "./ai-client.server";
 
 describe("chatCompletion Groq-first with Lovable fallback", () => {
   const origGroq = process.env["GROQ_API_KEY"];
@@ -75,5 +81,48 @@ describe("chatCompletion Groq-first with Lovable fallback", () => {
     expect(res.provider).toBe("lovable");
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(String(fetchMock.mock.calls[0]?.[0])).toContain("ai.gateway.lovable.dev");
+  });
+
+  it("uses Groq's larger model for long-form writing without changing messages or adding output caps", async () => {
+    const messages = [
+      { role: "system", content: "Write the requested article." },
+      { role: "user", content: "Use the supplied source." },
+    ];
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValueOnce(
+      new Response(JSON.stringify({ choices: [{ message: { content: "Article text" } }] }), {
+        status: 200,
+      }),
+    );
+
+    const res = await longFormCompletion({ messages, json: false, fetchImpl: fetchMock });
+
+    expect(res).toEqual({ content: "Article text", provider: "groq", model: GROQ_LONG_FORM_MODEL });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const request = JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body)) as Record<string, unknown>;
+    expect(request).toEqual({ model: "openai/gpt-oss-120b", messages });
+  });
+
+  it("falls back instead of accepting malformed JSON from Groq", async () => {
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ choices: [{ message: { content: "not json" } }] }), {
+          status: 200,
+        }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ choices: [{ message: { content: '{"ok":true}' } }] }), {
+          status: 200,
+        }),
+      );
+
+    const res = await longFormCompletion({
+      messages: [{ role: "user", content: "Return JSON." }],
+      fetchImpl: fetchMock,
+    });
+
+    expect(res.provider).toBe("lovable");
+    expect(res.content).toBe('{"ok":true}');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });

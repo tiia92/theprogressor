@@ -1,5 +1,6 @@
 // Server-only: writes, voices, and publishes the weekly Progressor podcast.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { longFormCompletion } from "@/lib/ai-client.server";
 import { chunkForNarration, plainTextForNarration } from "@/lib/narration-text";
 import {
   hasShowSponsorship,
@@ -20,9 +21,7 @@ import {
   HOST_VOICE_INSTRUCTIONS,
 } from "@/lib/podcast-persona";
 
-const CHAT_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const TTS_URL = "https://ai.gateway.lovable.dev/v1/audio/speech";
-const MODEL = "google/gemini-3-flash-preview";
 const BUCKET = "podcast";
 
 export interface Chapter {
@@ -50,22 +49,7 @@ function apiKey() {
 }
 
 async function chat(messages: { role: string; content: string }[], json = false) {
-  const res = await fetch(CHAT_URL, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: MODEL,
-      messages,
-      ...(json ? { response_format: { type: "json_object" } } : {}),
-    }),
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`AI gateway failed (${res.status}): ${body.slice(0, 300)}`);
-  }
-  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error("AI gateway returned no content");
+  const { content } = await longFormCompletion({ messages, json });
   return content;
 }
 

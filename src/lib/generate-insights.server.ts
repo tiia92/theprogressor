@@ -10,10 +10,8 @@
 //                  (analytics store).
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { longFormCompletion } from "@/lib/ai-client.server";
 import { recordClaims, type ClaimRow } from "@/lib/clickhouse.server";
-
-const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const MODEL = "google/gemini-3-flash-preview";
 
 const WIRE_DOMAINS = [
   "reuters.com",
@@ -220,29 +218,12 @@ Pick 3 to 6 developing stories. Return ONLY valid JSON (no prose, no code fences
 }`;
 
 async function callModel(user: string): Promise<ModelResponse> {
-  const apiKey = process.env['LOVABLE_API_KEY'];
-  if (!apiKey) throw new Error("LOVABLE_API_KEY not configured");
-  const resp = await fetch(GATEWAY_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [
-        { role: "system", content: SYSTEM },
-        { role: "user", content: user },
-      ],
-      response_format: { type: "json_object" },
-    }),
+  const { content } = await longFormCompletion({
+    messages: [
+      { role: "system", content: SYSTEM },
+      { role: "user", content: user },
+    ],
   });
-  if (!resp.ok) {
-    const text = await resp.text();
-    if (resp.status === 429) throw new Error("AI rate limit — try again shortly");
-    if (resp.status === 402) throw new Error("AI credits exhausted");
-    throw new Error(`AI gateway ${resp.status}: ${text}`);
-  }
-  const data = (await resp.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content ?? "";
-  if (!content) throw new Error("Empty AI response");
   try {
     return JSON.parse(content) as ModelResponse;
   } catch {

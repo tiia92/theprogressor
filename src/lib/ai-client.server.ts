@@ -1,11 +1,13 @@
-// Server-only: shared chat completion helper that prefers Groq for utility tasks
-// and automatically falls back to Lovable AI Gateway on rate limits, 5xx, or timeouts.
+// Server-only: shared chat completion helpers that prefer Groq and automatically
+// fall back to Lovable AI Gateway on rate limits, errors, or unusable responses.
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 const LOVABLE_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 
 export const GROQ_UTILITY_MODEL = "openai/gpt-oss-20b";
+export const GROQ_LONG_FORM_MODEL = "openai/gpt-oss-120b";
 export const LOVABLE_FALLBACK_MODEL = "google/gemini-3-flash-preview";
+export const LONG_FORM_TIMEOUT_MS = 90_000;
 
 export interface ChatMessageInput {
   role: string;
@@ -41,6 +43,15 @@ export function parseJsonContent<T = unknown>(content: string): T {
   }
 }
 
+function hasParseableJson(content: string): boolean {
+  try {
+    parseJsonContent(content);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function chatCompletion(opts: ChatCompletionOptions): Promise<ChatCompletionResult> {
   const {
     messages,
@@ -71,10 +82,14 @@ export async function chatCompletion(opts: ChatCompletionOptions): Promise<ChatC
       if (resp.ok) {
         const data = (await resp.json()) as OpenAICompatResponse;
         const content = data.choices?.[0]?.message?.content ?? "";
-        if (content) {
+        if (content && (!json || hasParseableJson(content))) {
           return { content, provider: "groq", model: groqModel };
         }
-        console.warn("[ai-client] Groq returned empty content; falling back to Lovable AI Gateway");
+        console.warn(
+          content
+            ? "[ai-client] Groq returned malformed JSON; falling back to Lovable AI Gateway"
+            : "[ai-client] Groq returned empty content; falling back to Lovable AI Gateway",
+        );
       } else {
         const detail = await resp.text().catch(() => "");
         console.warn(
@@ -113,4 +128,16 @@ export async function chatCompletion(opts: ChatCompletionOptions): Promise<ChatC
   const content = data.choices?.[0]?.message?.content ?? "";
   if (!content) throw new Error("Empty AI response");
   return { content, provider: "lovable", model: fallbackModel };
+}
+
+/** Long-form writing uses Groq's larger model; prompts and output contracts stay caller-owned. */
+export function longFormCompletion(
+  opts: Pick<ChatCompletionOptions, "messages" | "json" | "fetchImpl">,
+): Promise<ChatCompletionResult> {
+  return chatCompletion({
+    ...opts,
+    groqModel: GROQ_LONG_FORM_MODEL,
+    fallbackModel: LOVABLE_FALLBACK_MODEL,
+    timeoutMs: LONG_FORM_TIMEOUT_MS,
+  });
 }

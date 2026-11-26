@@ -1,12 +1,10 @@
 import { normalizeTagsToTopics } from "@/lib/content-types";
-// Server-only: talks to Lovable AI Gateway and inserts today's edition into the DB.
+// Server-only: writes with Groq first, falls back to Lovable AI, and inserts today's edition.
 // Do NOT import this from client/route code. Load inside handlers via dynamic import.
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { longFormCompletion } from "@/lib/ai-client.server";
 import type { ArticleType } from "@/lib/content-types";
-
-const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const MODEL = "google/gemini-3-flash-preview";
 
 interface GeneratedArticle {
   type: ArticleType;
@@ -74,37 +72,12 @@ Return ONLY valid JSON matching this exact shape (no prose before or after, no c
 }`;
 
 async function callGateway(userPrompt: string): Promise<GeneratedEdition> {
-  const apiKey = process.env.LOVABLE_API_KEY;
-  if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
-
-  const resp = await fetch(GATEWAY_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Lovable-API-Key": apiKey,
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-    }),
+  const { content } = await longFormCompletion({
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userPrompt },
+    ],
   });
-
-  if (!resp.ok) {
-    const text = await resp.text();
-    if (resp.status === 429) throw new Error("AI rate limit — try again in a minute.");
-    if (resp.status === 402) throw new Error("AI credits exhausted. Add credits in workspace settings.");
-    throw new Error(`AI gateway ${resp.status}: ${text}`);
-  }
-
-  const data = (await resp.json()) as {
-    choices?: { message?: { content?: string } }[];
-  };
-  const content = data.choices?.[0]?.message?.content ?? "";
-  if (!content) throw new Error("Empty AI response");
 
   let parsed: GeneratedEdition;
   try {

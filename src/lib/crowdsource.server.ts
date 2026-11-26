@@ -1,6 +1,6 @@
 // Server-only: the Crowdsource desk editor bot + the daily Crowdsource edition.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { chatCompletion, parseJsonContent } from "@/lib/ai-client.server";
+import { chatCompletion, longFormCompletion, parseJsonContent } from "@/lib/ai-client.server";
 import { normalizeTagsToTopics } from "@/lib/content-types";
 
 export interface ChatMessage {
@@ -69,9 +69,11 @@ Return ONLY valid JSON, no prose, no code fences:
   } | null
 }`;
 
-async function callGateway(messages: { role: string; content: string }[], preferGroq: boolean) {
+async function callGateway(messages: { role: string; content: string }[], useLongFormModel = false) {
   try {
-    const { content } = await chatCompletion({ messages, json: true, preferGroq });
+    const { content } = useLongFormModel
+      ? await longFormCompletion({ messages, json: true })
+      : await chatCompletion({ messages, json: true });
     return parseJsonContent(content);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
@@ -113,7 +115,6 @@ export async function runEditorTurn(messages: ChatMessage[]): Promise<EditorTurn
       ...messages.slice(-16).map((m) => ({ role: m.role, content: m.content })),
       ...context,
     ],
-    true,
   )) as Partial<EditorTurn>;
 
   // Hard gates: verified link, plus at least two reader answers to the desk's questions.
@@ -189,7 +190,7 @@ export async function generateCrowdsourceEdition() {
       { role: "system", content: EDITION_SYSTEM },
       { role: "user", content: `Today is ${date}. The five pitches that made the cut:\n\n${list}` },
     ],
-    false,
+    true,
   )) as {
     title?: string;
     dek?: string;

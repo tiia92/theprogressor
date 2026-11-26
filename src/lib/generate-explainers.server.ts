@@ -1,9 +1,7 @@
 import { normalizeTagsToTopics } from "@/lib/content-types";
 // Server-only: generates one explainer article per NewsAPI wire item.
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-
-const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const MODEL = "google/gemini-3-flash-preview";
+import { longFormCompletion } from "@/lib/ai-client.server";
 
 const GRADIENTS = ["sunrise", "dusk", "civic", "labor", "forest", "court"];
 const CATEGORIES = [
@@ -112,9 +110,6 @@ Return ONLY valid JSON (no prose, no code fences) matching:
 }`;
 
 async function generateOne(item: WireItem): Promise<GeneratedExplainer> {
-  const apiKey = process.env.LOVABLE_API_KEY;
-  if (!apiKey) throw new Error("LOVABLE_API_KEY not configured");
-
   const { priorContextBlock } = await import("@/lib/news-archive.server");
   const priorBlock = await priorContextBlock([item.title], 10, item.publishedAt || undefined);
 
@@ -131,28 +126,12 @@ ${priorBlock}
 Explain the background, why it matters, who is affected, and what to watch next. Cite the outlet by name in the body where relevant. Where the prior-coverage archive above is relevant, use it to show how this story developed over time, citing outlet and date. Never assert details those headlines do not contain.`;
 
 
-  const resp = await fetch(GATEWAY_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-    }),
+  const { content } = await longFormCompletion({
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userPrompt },
+    ],
   });
-
-  if (!resp.ok) {
-    const text = await resp.text();
-    if (resp.status === 429) throw new Error("AI rate limit");
-    if (resp.status === 402) throw new Error("AI credits exhausted");
-    throw new Error(`AI gateway ${resp.status}: ${text}`);
-  }
-  const data = (await resp.json()) as { choices?: { message?: { content?: string } }[] };
-  const content = data.choices?.[0]?.message?.content ?? "";
-  if (!content) throw new Error("Empty AI response");
   let parsed: GeneratedExplainer;
   try {
     parsed = JSON.parse(content);
